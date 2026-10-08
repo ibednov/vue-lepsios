@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { Icon } from '@iconify/vue'
 import { useRevealSecret } from '../composables/useRevealSecret'
 
 const props = defineProps<{
@@ -34,7 +35,11 @@ const display = computed(() => {
       :aria-label="revealed ? hideLabel : showLabel"
       @click.stop="toggle"
     >
-      <span aria-hidden="true">{{ revealed ? '🙈' : '👁' }}</span>
+      <Icon
+        :icon="revealed ? 'ph:eye-slash' : 'ph:eye'"
+        class="size-4"
+        aria-hidden="true"
+      />
     </button>
   </span>
 </template>
