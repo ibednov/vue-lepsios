@@ -2,7 +2,7 @@ import type { VariantProps } from 'class-variance-authority'
 import { cva } from 'class-variance-authority'
 
 export { default as ButtonGroup } from './button-group.vue'
-export { default as ButtonGroupSeparator } from './ButtonGroupseparator.vue'
+export { default as ButtonGroupSeparator } from './button-group-separator.vue'
 export { default as ButtonGroupText } from './button-group-text.vue'
 
 export const buttonGroupVariants = cva(

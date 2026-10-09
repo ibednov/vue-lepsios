@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue'
 import { Button } from '../button'
 import type { WithClassAsProps } from './interface'
-import { useCarousel } from './useCarousel'
+import { useCarousel } from './use-carousel'
 
 const props = defineProps<WithClassAsProps>()
 

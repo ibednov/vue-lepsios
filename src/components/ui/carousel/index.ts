@@ -5,4 +5,4 @@ export { default as CarouselNext } from './carousel-next.vue'
 export { default as CarouselPrevious } from './carousel-previous.vue'
 export type { UnwrapRefCarouselApi as CarouselApi } from './interface'
 
-export { useCarousel } from './useCarousel'
+export { useCarousel } from './use-carousel'

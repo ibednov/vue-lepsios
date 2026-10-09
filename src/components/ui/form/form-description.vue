@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { HTMLAttributes } from 'vue'
 import { cn } from '../../../lib/cn'
-import { useFormField } from './useFormField'
+import { useFormField } from './use-form-field'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
