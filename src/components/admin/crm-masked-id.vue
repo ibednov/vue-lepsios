@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
-import { useRevealSecret } from '../composables/useRevealSecret'
+import { useRevealSecret } from '../../composables/admin/use-reveal-secret'
 
 const props = defineProps<{
   value: string

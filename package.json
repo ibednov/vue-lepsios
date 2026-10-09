@@ -7,9 +7,10 @@
   "files": ["src"],
   "exports": {
     ".": { "types": "./src/index.ts", "import": "./src/index.ts" },
+    "./components/ui/*": "./src/components/ui/*",
     "./components/*": "./src/components/*",
-    "./components/number-field": "./src/components/number-field/index.ts",
-    "./composables/*": "./src/composables/*"
+    "./composables/*": "./src/composables/*",
+    "./lib/*": "./src/lib/*"
   },
   "peerDependencies": {
     "vue": "^3.5.0",
