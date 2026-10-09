@@ -1,0 +1,24 @@
+<script setup lang="ts">
+import { Icon } from '@iconify/vue'
+import type { TagsInputItemDeleteProps } from 'reka-ui'
+import type { HTMLAttributes } from 'vue'
+import { TagsInputItemDelete, useForwardProps } from 'reka-ui'
+import { cn } from '@lepsios/vue/lib/cn'
+
+const props = defineProps<TagsInputItemDeleteProps & { class?: HTMLAttributes['class'] }>()
+
+const delegatedProps = reactiveOmit(props, 'class')
+
+const forwardedProps = useForwardProps(delegatedProps)
+</script>
+
+<template>
+    <TagsInputItemDelete
+        v-bind="forwardedProps"
+        :class="cn('flex rounded bg-transparent mr-1', props.class)"
+    >
+        <slot>
+            <Icon icon="lucide:x" class="w-4 h-4" />
+        </slot>
+    </TagsInputItemDelete>
+</template>
