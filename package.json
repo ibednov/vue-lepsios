@@ -1,0 +1,23 @@
+{
+  "name": "@lepsios/vue",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Shared Vue 3 components and composables for Vite and Nuxt applications",
+  "license": "UNLICENSED",
+  "files": ["src"],
+  "exports": {
+    ".": { "types": "./src/index.ts", "import": "./src/index.ts" },
+    "./components/*": "./src/components/*",
+    "./components/number-field": "./src/components/number-field/index.ts",
+    "./composables/*": "./src/composables/*"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0",
+    "@vueuse/core": "^13.9.0",
+    "@vueuse/integrations": "^13.9.0",
+    "reka-ui": "^2.5.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1",
+    "sortablejs": "^1.15.0"
+  }
+}
