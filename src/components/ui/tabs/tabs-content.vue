@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TabsContent, type TabsContentProps } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<TabsContentProps & { class?: HTMLAttributes['class'] }>()
 

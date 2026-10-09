@@ -3,7 +3,7 @@ import { Icon } from '@iconify/vue'
 import type { TagsInputItemDeleteProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { TagsInputItemDelete, useForwardProps } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<TagsInputItemDeleteProps & { class?: HTMLAttributes['class'] }>()
 

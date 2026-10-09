@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<{
   defaultValue?: string | number
@@ -9,7 +9,9 @@ const props = defineProps<{
   variant?: 'default' | 'cosy'
 }>()
 
-const modelValue = defineModel<string | number>({ default: props.defaultValue })
+const modelValue = defineModel<string | number>({ default: undefined })
+if (modelValue.value === undefined && props.defaultValue !== undefined)
+  modelValue.value = props.defaultValue
 </script>
 
 <template>

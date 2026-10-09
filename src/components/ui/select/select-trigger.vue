@@ -3,7 +3,7 @@ import { Icon } from '@iconify/vue'
 import type { SelectTriggerProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { SelectIcon, SelectTrigger, useForwardProps } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<SelectTriggerProps & { class?: HTMLAttributes['class'] }>()
 

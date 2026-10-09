@@ -8,7 +8,7 @@ import {
   SelectItemText,
   useForwardProps,
 } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<SelectItemProps & { class?: HTMLAttributes['class'] }>()
 

@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
   defaultValue?: string | number
 }>()
 
-const modelValue = defineModel<string | number>({ default: props.defaultValue })
+const modelValue = defineModel<string | number>({ default: undefined })
+if (modelValue.value === undefined && props.defaultValue !== undefined)
+  modelValue.value = props.defaultValue
 </script>
 
 <template>

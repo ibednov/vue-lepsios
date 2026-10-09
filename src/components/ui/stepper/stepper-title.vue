@@ -2,7 +2,7 @@
 import type { StepperTitleProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { StepperTitle, useForwardProps } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<StepperTitleProps & { class?: HTMLAttributes['class'] }>()
 

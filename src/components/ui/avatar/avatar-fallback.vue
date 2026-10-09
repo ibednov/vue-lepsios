@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvatarFallback, type AvatarFallbackProps } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<AvatarFallbackProps & { class?: HTMLAttributes['class'] }>()
 

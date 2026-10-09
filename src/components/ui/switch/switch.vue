@@ -6,7 +6,7 @@ import {
   SwitchThumb,
   useForwardPropsEmits,
 } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<SwitchRootProps & { class?: HTMLAttributes['class'] }>()
 

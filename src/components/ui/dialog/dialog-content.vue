@@ -9,7 +9,7 @@ import {
   useForwardPropsEmits,
 } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 import DialogOverlay from './dialog-overlay.vue'
 
 const props = defineProps<DialogContentProps & { class?: HTMLAttributes['class'] }>()

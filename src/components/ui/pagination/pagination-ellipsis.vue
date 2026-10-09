@@ -4,7 +4,7 @@ import type { PaginationEllipsisProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
 import { reactiveOmit } from "@vueuse/core"
 import { PaginationEllipsis } from "reka-ui"
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<PaginationEllipsisProps & { class?: HTMLAttributes["class"], label?: string }>()
 

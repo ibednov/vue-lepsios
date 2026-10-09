@@ -4,7 +4,7 @@ import { Icon } from '@iconify/vue'
 import type { NumberFieldDecrementProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { NumberFieldDecrement, useForwardProps } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<NumberFieldDecrementProps & { class?: HTMLAttributes['class'] }>()
 

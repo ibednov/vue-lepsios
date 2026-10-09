@@ -9,7 +9,7 @@ import {
   DialogPortal,
   useForwardPropsEmits,
 } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 import SheetOverlay from './sheet-overlay.vue'
 
 interface SheetContentProps extends DialogContentProps {

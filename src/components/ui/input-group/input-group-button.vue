@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { InputGroupButtonProps } from '.'
 import { Button } from '../button'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 import { inputGroupButtonVariants } from '.'
 
 const props = withDefaults(defineProps<InputGroupButtonProps>(), {

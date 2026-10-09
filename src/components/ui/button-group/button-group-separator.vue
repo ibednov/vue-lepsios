@@ -2,7 +2,7 @@
 import type { SeparatorProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { Separator } from '../separator'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = withDefaults(defineProps<SeparatorProps & { class?: HTMLAttributes['class'] }>(), {
   orientation: 'vertical',

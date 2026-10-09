@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'vue'
 import { TabsTrigger, useForwardProps } from 'reka-ui'
 import { computed, inject } from 'vue'
 import { tabsTriggerVariants } from './variants'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 type TabsTriggerVariants = VariantProps<typeof tabsTriggerVariants>
 

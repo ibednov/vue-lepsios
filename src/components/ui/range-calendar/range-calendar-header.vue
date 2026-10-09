@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { RangeCalendarHeader, type RangeCalendarHeaderProps, useForwardProps } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<RangeCalendarHeaderProps & { class?: HTMLAttributes['class'] }>()
 

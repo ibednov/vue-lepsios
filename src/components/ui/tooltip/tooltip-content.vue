@@ -3,7 +3,7 @@ import { reactiveOmit } from '@vueuse/core'
 import type { TooltipContentEmits, TooltipContentProps } from 'reka-ui'
 import { TooltipContent as RekaTooltipContent, TooltipPortal, useForwardPropsEmits } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 defineOptions({
     inheritAttrs: false,

@@ -2,7 +2,7 @@
 import type { AccordionContentProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { AccordionContent } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<AccordionContentProps & { class?: HTMLAttributes['class'] }>()
 

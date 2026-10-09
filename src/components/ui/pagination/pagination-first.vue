@@ -5,7 +5,7 @@ import type { HTMLAttributes } from "vue"
 import type { ButtonVariants } from '../button'
 import { reactiveOmit } from "@vueuse/core"
 import { PaginationFirst, useForwardProps } from "reka-ui"
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 import { buttonVariants } from '../button'
 
 const props = withDefaults(defineProps<PaginationFirstProps & {

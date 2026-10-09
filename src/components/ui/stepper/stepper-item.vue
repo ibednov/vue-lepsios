@@ -2,7 +2,7 @@
 import type { StepperItemProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { StepperItem, useForwardProps } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<StepperItemProps & { class?: HTMLAttributes['class'] }>()
 

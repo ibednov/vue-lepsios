@@ -5,7 +5,7 @@ import type { HTMLAttributes } from 'vue'
 import { TabsList } from 'reka-ui'
 import { nextTick, onMounted, onUnmounted, provide } from 'vue'
 import { tabsListVariants } from './variants'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 type TabsListVariants = VariantProps<typeof tabsListVariants>
 

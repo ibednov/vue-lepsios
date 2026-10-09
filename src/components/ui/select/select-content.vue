@@ -7,7 +7,7 @@ import {
   SelectViewport,
   useForwardPropsEmits,
 } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 import { SelectScrollDownButton, SelectScrollUpButton } from '.'
 
 defineOptions({

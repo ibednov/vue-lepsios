@@ -2,7 +2,7 @@
 import type { TabsRootEmits, TabsRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { TabsRoot, useForwardPropsEmits } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<TabsRootProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<TabsRootEmits>()

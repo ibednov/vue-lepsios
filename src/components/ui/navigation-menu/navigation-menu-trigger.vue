@@ -6,7 +6,7 @@ import {
   useForwardProps,
 } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 import { navigationMenuTriggerStyle } from '.'
 
 const props = defineProps<NavigationMenuTriggerProps & { class?: HTMLAttributes['class'] }>()

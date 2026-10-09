@@ -2,7 +2,7 @@
 import type { AccordionItemProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { AccordionItem, useForwardProps } from 'reka-ui'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<AccordionItemProps & { class?: HTMLAttributes['class'] }>()
 

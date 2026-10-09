@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue'
 import type { HTMLAttributes } from 'vue'
 import { Button } from '../button'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 import { useSidebar } from './utils'
 
 const props = defineProps<{

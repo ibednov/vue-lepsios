@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { Skeleton } from '../skeleton'
-import { cn } from '@lepsios/vue/lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<{
   showIcon?: boolean
