@@ -3,7 +3,7 @@ import type { NumberFieldIncrementProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
 import { NumberFieldIncrement, useForwardProps } from 'reka-ui'
-import { cn } from '../../lib/cn'
+import { cn } from '../../../lib/cn'
 
 const props = defineProps<NumberFieldIncrementProps & { class?: HTMLAttributes['class'] }>()
 const forwarded = useForwardProps(reactiveOmit(props, 'class'))
