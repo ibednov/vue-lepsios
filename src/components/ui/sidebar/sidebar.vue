@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SidebarProps } from '.'
-import { Sheet, SheetContent } from '@lepsios/vue/components/ui/sheet'
+import { Sheet, SheetContent } from '../sheet'
 import { cn } from '@lepsios/vue/lib/cn'
 import { SIDEBAR_WIDTH_MOBILE, useSidebar } from './utils'
 

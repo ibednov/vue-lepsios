@@ -2,11 +2,11 @@
 import { Icon } from '@iconify/vue'
 import type { PaginationNextProps } from "reka-ui"
 import type { HTMLAttributes } from "vue"
-import type { ButtonVariants } from '@lepsios/vue/components/ui/button'
+import type { ButtonVariants } from '../button'
 import { reactiveOmit } from "@vueuse/core"
 import { PaginationNext, useForwardProps } from "reka-ui"
 import { cn } from '@lepsios/vue/lib/cn'
-import { buttonVariants } from '@lepsios/vue/components/ui/button'
+import { buttonVariants } from '../button'
 
 const props = withDefaults(defineProps<PaginationNextProps & {
   size?: ButtonVariants["size"]

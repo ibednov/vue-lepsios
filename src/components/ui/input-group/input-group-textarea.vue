@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { Textarea } from '@lepsios/vue/components/ui/textarea'
+import { Textarea } from '../textarea'
 import { cn } from '@lepsios/vue/lib/cn'
 
 const props = defineProps<{

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import type { HTMLAttributes } from 'vue'
-import { Button } from '@lepsios/vue/components/ui/button'
+import { Button } from '../button'
 import { cn } from '@lepsios/vue/lib/cn'
 import { useSidebar } from './utils'
 

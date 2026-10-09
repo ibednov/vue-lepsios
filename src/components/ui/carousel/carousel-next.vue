@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import { Button } from '@lepsios/vue/components/ui/button'
+import { Button } from '../button'
 import type { WithClassAsProps } from './interface'
 import { useCarousel } from './useCarousel'
 

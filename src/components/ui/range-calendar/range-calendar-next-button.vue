@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { RangeCalendarNext, type RangeCalendarNextProps, useForwardProps } from 'reka-ui'
 import { computed, type HTMLAttributes } from 'vue'
-import { buttonVariants } from '@lepsios/vue/components/ui/button'
+import { buttonVariants } from '../button'
 import { cn } from '@lepsios/vue/lib/cn'
 
 const props = defineProps<RangeCalendarNextProps & { class?: HTMLAttributes['class'] }>()

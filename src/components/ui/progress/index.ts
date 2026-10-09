@@ -1,1 +1,1 @@
-export { default as Progress } from '@lepsios/vue/components/ui/progress/progress.vue'
+export { default as Progress } from './progress.vue'

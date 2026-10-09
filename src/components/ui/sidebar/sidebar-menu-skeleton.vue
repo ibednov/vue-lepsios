@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { computed } from 'vue'
-import { Skeleton } from '@lepsios/vue/components/ui/skeleton'
+import { Skeleton } from '../skeleton'
 import { cn } from '@lepsios/vue/lib/cn'
 
 const props = defineProps<{
