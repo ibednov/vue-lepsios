@@ -1,0 +1,5 @@
+export { default as Chart } from './chart.vue'
+export { default as ChartStrategy } from './chart-strategy.vue'
+export { default as ChartCrosshair } from './chart-crosshair.vue'
+export { default as ChartTooltip } from './chart-tooltip.vue'
+export type { ChartDatum, ChartLegendEntry, ChartStrategy as ChartStrategyType, ChartStrategyProps } from './chart-types'

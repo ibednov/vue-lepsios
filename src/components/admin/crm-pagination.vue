@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Icon } from '@iconify/vue'
-import type { PaginationMeta } from '../types/pagination'
+import type { PaginationMeta } from '../../types/pagination'
 
 const props = withDefaults(defineProps<{
   meta: PaginationMeta

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PaginationMeta } from '../types/pagination'
+import type { PaginationMeta } from '../../types/pagination'
 import CrmPagination from './crm-pagination.vue'
 import AdminTableFrame from './admin-table-frame.vue'
 

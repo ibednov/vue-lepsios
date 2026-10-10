@@ -7,7 +7,7 @@ const props = defineProps<{
   defaultValue?: string | number
 }>()
 
-const modelValue = defineModel<string | number>({ default: undefined })
+const modelValue = defineModel<string | number | undefined>()
 if (modelValue.value === undefined && props.defaultValue !== undefined)
   modelValue.value = props.defaultValue
 </script>
