@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { cn } from '../../../lib/cn'
 import { computed, type HTMLAttributes } from 'vue'
 import TableCell from './table-cell.vue'
 import TableRow from './table-row.vue'

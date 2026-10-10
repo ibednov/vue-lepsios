@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import { reactiveOmit } from '@vueuse/core'
 import type { SelectTriggerProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { SelectIcon, SelectTrigger, useForwardProps } from 'reka-ui'
