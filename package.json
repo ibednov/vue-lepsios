@@ -37,6 +37,7 @@
     "@internationalized/date": "^3.12.0",
     "vue-sonner": "^2.0.0",
     "dayjs": "^1.11.0",
-    "qrcode.vue": "^3.10.0"
+    "qrcode.vue": "^3.10.0",
+    "typed.js": "^2.1.0 || ^3.0.0"
   }
 }
