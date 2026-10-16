@@ -46,8 +46,23 @@
     "vue-sonner": "^2.0.0"
   },
   "peerDependenciesMeta": {
-    "@shikijs/markdown-it": { "optional": true },
-    "markdown-it": { "optional": true },
-    "shiki": { "optional": true }
+    "@shikijs/markdown-it": {
+      "optional": true
+    },
+    "markdown-it": {
+      "optional": true
+    },
+    "shiki": {
+      "optional": true
+    },
+    "typed.js": {
+      "optional": true
+    },
+    "qrcode.vue": {
+      "optional": true
+    },
+    "dayjs": {
+      "optional": true
+    }
   }
 }
