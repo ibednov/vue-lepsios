@@ -108,9 +108,10 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 }
 
 /* PhoneSelect root is a flex row — keep country compact, number grows */
-.auth-phone-input :deep(.auth-phone-input__select),
+.auth-phone-input :deep(.relative.flex.items-center),
 .auth-phone-input :deep([data-testid]) {
   width: 100%;
+  gap: 0.75rem !important; /* country vs number — not one fused pill */
 }
 
 .auth-phone-input :deep(.auth-phone-input__country) {
