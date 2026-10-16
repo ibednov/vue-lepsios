@@ -19,7 +19,19 @@ export { default as AdminMetricGrid } from './components/admin/admin-metric-grid
 export { default as AdminFormDrawer } from './components/admin/admin-form-drawer.vue'
 export { default as AdminEmptyState } from './components/admin/admin-empty-state.vue'
 export { default as AdminRowActions } from './components/admin/admin-row-actions.vue'
-export { default as PhoneInput } from './components/field/phone-input.vue'
+/** @deprecated Prefer AuthPhoneInput (auth/phone/input) */
+export { default as PhoneInput } from './components/auth/phone/input/index.vue'
+export { default as AuthPhoneInput } from './components/auth/phone/input/index.vue'
+export { default as AuthPhoneOtpInput } from './components/auth/phone/otp/input/index.vue'
+export { default as AuthPhoneOtpCode } from './components/auth/phone/otp/code/index.vue'
+export { default as AuthPhoneOtpGenerate } from './components/auth/phone/otp/generate/index.vue'
+export { default as AuthPhonePassInput } from './components/auth/phone/pass/input/index.vue'
+export { default as AuthPhonePassPassword } from './components/auth/phone/pass/password/index.vue'
+export {
+  normalizeAuthPhone,
+  getAuthPhoneCountry,
+  isAuthPhoneFilled,
+} from './utils/auth/phone'
 export { NumberField, NumberFieldContent, NumberFieldDecrement, NumberFieldIncrement, NumberFieldInput } from './components/ui/number-field'
 
 
