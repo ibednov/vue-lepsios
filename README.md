@@ -7,9 +7,27 @@ The initial UI slice targets CRM screens: table framing and pagination, number f
 The package exports Vue SFC and TypeScript source for host bundlers to compile. Consumers provide the peer dependencies listed in `package.json` and their own Tailwind theme tokens.
 
 ```ts
-import { CrmDataTable, CrmNumberField } from '@lepsios/vue'
-import { useSortable, moveArrayElement } from '@lepsios/vue/composables/useSortable'
+import { CrmDataTable, CrmNumberField, useNotify, useConfirmDialog } from '@lepsios/vue'
+import { useSortable, moveArrayElement } from '@lepsios/vue'
 ```
+
+## Optional CSS tokens
+
+Copied from `nuxt-lepsios` (Nuxt layer still ships its own copies for `#layers/lepsios/...` imports). Vite consumers import via package exports:
+
+```ts
+import '@lepsios/vue/assets/css/term.css'
+import '@lepsios/vue/assets/css/cosy.css'
+import '@lepsios/vue/assets/css/landing.css'
+import '@lepsios/vue/assets/css/landing-brutal.css'
+```
+
+| File | Role |
+| --- | --- |
+| `term.css` | MacosWindow / terminal chrome (`--lepsios-term-*`) |
+| `cosy.css` | Warm editorial (`waify-*`) theme override |
+| `landing.css` | Dark marketing palette (`--gp-*`) |
+| `landing-brutal.css` | Light brutal marketing palette |
 
 ## Local development
 
