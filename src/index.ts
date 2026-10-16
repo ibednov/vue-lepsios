@@ -121,3 +121,6 @@ export { default as BrutalChip } from './components/shared/brutal-chip/index.vue
 export { default as TagCloud } from './components/shared/tag-cloud/index.vue'
 export type { TagCloudItem } from './components/shared/tag-cloud/index.vue'
 export { default as TextReveal } from './components/shared/TextReveal.vue'
+export { default as SharedToc } from './components/shared/toc/index.vue'
+export { default as SharedTocItem } from './components/shared/toc/item.vue'
+export type { TocDocument, TocLinkItem, TocTree, TocItem } from './components/shared/toc/types'
