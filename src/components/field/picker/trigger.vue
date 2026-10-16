@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
+import ContainerModalDrawer from '../../shared/container-modal-drawer.vue'
 
 defineProps<{
   value?: string
@@ -9,7 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <container-modal-drawer :title="drawerTitle">
+  <ContainerModalDrawer :title="drawerTitle">
     <template #trigger>
       <button
         type="button"
@@ -32,5 +33,5 @@ defineProps<{
     <template #default="{ close }">
       <slot :close="close" />
     </template>
-  </container-modal-drawer>
+  </ContainerModalDrawer>
 </template>

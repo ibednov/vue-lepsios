@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
 import { Label } from '../../ui/label'
+import ContainerModalDrawer from '../../shared/container-modal-drawer.vue'
 
 defineProps<{
   label: string
@@ -11,7 +12,7 @@ defineProps<{
 </script>
 
 <template>
-  <container-modal-drawer
+  <ContainerModalDrawer
     :title="drawerTitle || label"
     drawer-content-slot-class="w-full"
   >
@@ -42,5 +43,5 @@ defineProps<{
     <template #default="{ close }">
       <slot :close="close" />
     </template>
-  </container-modal-drawer>
+  </ContainerModalDrawer>
 </template>

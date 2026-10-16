@@ -12,6 +12,7 @@ import {
   fieldPickerSelectTriggerVariants,
 } from './variants'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select'
+import SharedCalendar from '../../shared/calendar/index.vue'
 
 interface Props {
   modelValue?: string
@@ -141,8 +142,7 @@ syncFromModel()
       </Select>
     </div>
 
-    <!-- Host app must register SharedUiCalendar (Nuxt layer) or provide equivalent -->
-    <shared-ui-calendar
+    <SharedCalendar
       v-model="calendarValue"
       v-model:placeholder="placeholder"
       :variant="variant"
