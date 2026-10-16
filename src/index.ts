@@ -42,6 +42,38 @@ export {
 } from './utils/params/currency'
 
 export { getCalendarRangeBounds, getCalendarYearOptions } from './utils/calendar/range'
+export {
+  processFieldsToFieldsData,
+  extractValueFromField,
+  extractDataFromFields,
+} from './utils/fields'
+export { sortArray } from './utils/arrays'
+export { handleErrorFromResponse } from './utils/error'
+export { scrollToTop, lockPageScroll, unlockPageScroll } from './utils/scroll'
+export { shareContent } from './utils/share'
+export {
+  validateEmail,
+  clipboardCopy,
+  extractUrl,
+  extractShareProductTitle,
+  withShareProductTitle,
+  isMoreThanCharacters,
+  isUrl,
+} from './utils/text'
+export type { ClipboardCopyOptions } from './utils/text'
+export {
+  formatDate,
+  convertDate,
+  convertDateToUTC,
+  formatDateOnly,
+  formatDateOnlyBasedOnLocale,
+  formatToISO,
+  getDate,
+  getTenMinutesFromDate,
+  timestamp,
+  formatDateToISO,
+  formatSecondToHours,
+} from './utils/date'
 export { useCalendarLocale } from './composables/ui/use-calendar-locale'
 export { useConfirmDialog } from './composables/ui/confirm-dialog'
 export type { ConfirmDialogVariant } from './composables/ui/confirm-dialog'
