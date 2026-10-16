@@ -43,6 +43,13 @@ export {
 
 export { getCalendarRangeBounds, getCalendarYearOptions } from './utils/calendar/range'
 export { useCalendarLocale } from './composables/ui/use-calendar-locale'
+export { useConfirmDialog } from './composables/ui/confirm-dialog'
+export type { ConfirmDialogVariant } from './composables/ui/confirm-dialog'
+export { useNotify } from './composables/ui/notify'
+export type { NotifyOptions, NotifyFromApiErrorOptions } from './types/notify'
+export { useScrollReveal } from './composables/ui/scroll-reveal'
+export { useTermWindow } from './composables/ui/use-term-window'
+export { useMarkdown } from './composables/use-markdown'
 
 export { default as Field } from './components/field/field.vue'
 export { default as FieldGroup } from './components/field/group.vue'

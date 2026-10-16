@@ -18,10 +18,14 @@
     },
     "./components/*": "./src/components/*",
     "./composables/*": "./src/composables/*",
-    "./lib/*": "./src/lib/*"
+    "./lib/*": "./src/lib/*",
+    "./utils/*": "./src/utils/*",
+    "./assets/css/*": "./src/assets/css/*"
   },
   "peerDependencies": {
     "@iconify/vue": "^5.0.0",
+    "@internationalized/date": "^3.12.0",
+    "@shikijs/markdown-it": "^4.0.0",
     "@unovis/ts": "^1.7.1",
     "@unovis/vue": "^1.7.1",
     "@vueuse/core": "^13.9.0",
@@ -29,15 +33,21 @@
     "alexbednov-phone-select": "^0.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.0",
+    "markdown-it": "^14.0.0",
+    "qrcode.vue": "^3.10.0",
     "reka-ui": "^2.5.0",
+    "shiki": "^4.0.0",
     "sortablejs": "^1.15.0",
     "tailwind-merge": "^3.3.1",
+    "typed.js": "^2.1.0 || ^3.0.0",
     "vue": "^3.5.0",
     "vue-i18n": "^11.0.0",
-    "@internationalized/date": "^3.12.0",
-    "vue-sonner": "^2.0.0",
-    "dayjs": "^1.11.0",
-    "qrcode.vue": "^3.10.0",
-    "typed.js": "^2.1.0 || ^3.0.0"
+    "vue-sonner": "^2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@shikijs/markdown-it": { "optional": true },
+    "markdown-it": { "optional": true },
+    "shiki": { "optional": true }
   }
 }
