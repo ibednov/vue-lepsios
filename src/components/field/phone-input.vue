@@ -62,7 +62,10 @@ const phoneLang = computed((): PhoneLang => {
 const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 
 const resolvedSelectPlaceholder = computed(() =>
-  props.selectPlaceholder ?? t('ui.input.phone.select_placeholder'),
+  props.selectPlaceholder
+  ?? (t('ui.input.phone.select_placeholder') === 'ui.input.phone.select_placeholder'
+    ? undefined
+    : t('ui.input.phone.select_placeholder')),
 )
 
 const softSelectClass = 'h-12 w-[7.5rem] shrink-0 border-0 bg-[var(--lepsios-field,#E8E8E8)]'
