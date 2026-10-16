@@ -1,23 +1,17 @@
-<!-- TODO(vue-lepsios): Extracted to @lepsios/vue/components/number-field. Remove after Nuxt consumers migrate; keep behavior unchanged until then. -->
 <script setup lang="ts">
 import type { NumberFieldRootEmits, NumberFieldRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
+import { reactiveOmit } from '@vueuse/core'
 import { NumberFieldRoot, useForwardPropsEmits } from 'reka-ui'
 import { cn } from '../../../lib/cn'
 
 const props = defineProps<NumberFieldRootProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<NumberFieldRootEmits>()
-
-const delegatedProps = reactiveOmit(props, 'class')
-
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
+const forwarded = useForwardPropsEmits(reactiveOmit(props, 'class'), emits)
 </script>
 
 <template>
-    <NumberFieldRoot
-        v-bind="forwarded"
-        :class="cn('grid gap-1.5', props.class)"
-    >
-        <slot />
-    </NumberFieldRoot>
+  <NumberFieldRoot v-bind="forwarded" :class="cn('grid gap-1.5', props.class)">
+    <slot />
+  </NumberFieldRoot>
 </template>

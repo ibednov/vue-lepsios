@@ -17,7 +17,8 @@ const props = withDefaults(defineProps<{
 const isMobile = useMediaQuery('(max-width: 768px)')
 const openMobile = ref(false)
 
-const open = defineModel<boolean>('open', { default: props.defaultOpen ?? false })
+const open = defineModel<boolean>('open', { default: true })
+open.value = props.defaultOpen ?? open.value
 
 const setOpen = (value: boolean) => {
   open.value = value // emits('update:open', value)

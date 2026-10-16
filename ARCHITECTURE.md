@@ -1,6 +1,11 @@
 # Vue and Nuxt Lepsios packages
 
-`vue-lepsios` and `nuxt-lepsios` are siblings. `vue-lepsios` owns Vue components, Nuxt-independent composables, types, utilities, and optional styles. `nuxt-lepsios` owns Nuxt layers, modules, plugins, auto-imports, runtime and SSR integration. Neither package is required by the other.
+`vue-lepsios` and `nuxt-lepsios` are siblings with **no package→package dependency**.
+
+- `vue-lepsios` (`@lepsios/vue`) owns Vue components, Nuxt-independent composables, types, utilities, and optional styles.
+- `nuxt-lepsios` owns Nuxt layers, modules, plugins, auto-imports, runtime and SSR integration only.
+- Vue/Vite apps depend on `@lepsios/vue` only.
+- Nuxt apps depend on **both** packages themselves (the app wires UI from `@lepsios/vue`; the Nuxt layer must not import `@lepsios/vue`).
 
 ## Boundaries
 

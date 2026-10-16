@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NumberField, NumberFieldContent, NumberFieldDecrement, NumberFieldIncrement, NumberFieldInput } from './number-field'
+import { NumberField, NumberFieldContent, NumberFieldDecrement, NumberFieldIncrement, NumberFieldInput } from '../ui/number-field'
 
 const props = withDefaults(defineProps<{
   min?: number
