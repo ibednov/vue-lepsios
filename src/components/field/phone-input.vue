@@ -61,19 +61,22 @@ const phoneLang = computed((): PhoneLang => {
 
 const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 
-const resolvedSelectPlaceholder = computed(() =>
-  props.selectPlaceholder
-  ?? (t('ui.input.phone.select_placeholder') === 'ui.input.phone.select_placeholder'
-    ? undefined
-    : t('ui.input.phone.select_placeholder')),
-)
-
 const softSelectClass = 'w-auto shrink-0'
-const softTriggerClass = '!h-12 !min-h-12 !w-auto max-w-[9rem] overflow-hidden rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-3 text-base [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
-const softInputClass = '!h-12 min-h-12 flex-1 rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-4 text-base'
+const softTriggerClass = [
+  '!h-12 !min-h-12 !max-h-12 data-[size=default]:!h-12 data-[size=default]:!min-h-12',
+  '!w-auto max-w-[9rem] shrink-0 overflow-hidden rounded-2xl border-0',
+  'bg-[var(--lepsios-field,#E8E8E8)] px-3 text-base shadow-none',
+  '*:data-[slot=select-value]:!line-clamp-1 *:data-[slot=select-value]:!flex *:data-[slot=select-value]:!items-center',
+].join(' ')
+const softInputClass = '!h-12 !min-h-12 !max-h-12 flex-1 rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-4 text-base shadow-none'
 
 const plainSelectClass = 'w-auto shrink-0'
-const plainTriggerClass = '!h-10 !min-h-10 !w-auto max-w-[9rem] overflow-hidden rounded-md border border-input bg-background px-3 text-sm shadow-xs [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
+const plainTriggerClass = [
+  '!h-10 !min-h-10 !max-h-10 data-[size=default]:!h-10',
+  '!w-auto max-w-[9rem] shrink-0 overflow-hidden rounded-md border border-input',
+  'bg-background px-3 text-sm shadow-xs',
+  '*:data-[slot=select-value]:!line-clamp-1 *:data-[slot=select-value]:!flex *:data-[slot=select-value]:!items-center',
+].join(' ')
 const plainInputClass = '!h-10 !min-h-10 flex-1 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs'
 
 const resolvedSelectClass = computed(() =>
@@ -113,8 +116,8 @@ const resolvedInputClass = computed(() =>
       :dedupe-favorites="dedupeFavorites"
       :enable-search="enableSearch"
       :enable-mask="enableMask"
-      :select-placeholder="resolvedSelectPlaceholder"
-      :input-placeholder="inputPlaceholder ?? placeholder ?? t('ui.input.phone.input_placeholder')"
+      :select-placeholder="selectPlaceholder"
+      :input-placeholder="inputPlaceholder ?? placeholder"
       :disable-country-name-select="disableCountryNameSelect"
       :input-class="resolvedInputClass"
       :select-class="resolvedSelectClass"
