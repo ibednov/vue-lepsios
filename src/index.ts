@@ -127,6 +127,7 @@ export { default as ConfirmDrawer } from './components/shared/confirm-drawer/ind
 export { default as SortDrawer } from './components/shared/sort-drawer/index.vue'
 export { default as QrDrawer } from './components/shared/qr-drawer/index.vue'
 export { default as UploadWrapper } from './components/shared/upload-wrapper/index.vue'
+export { default as SharedDropZone } from './components/shared/drop-zone/index.vue'
 export type {
   SharedUiUploadWrapperPayload,
   SharedUiUploadWrapperPayloadFile,
