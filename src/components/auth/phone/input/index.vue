@@ -114,7 +114,8 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 }
 
 .auth-phone-input :deep(.auth-phone-input__country) {
-  width: 7.5rem;
+  width: auto;
+  min-width: 6.5rem;
   flex-shrink: 0;
 }
 
@@ -124,16 +125,18 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
   height: 3rem !important;
   min-height: 3rem !important;
   max-height: 3rem !important;
-  width: 7.5rem !important;
+  width: auto !important;
+  min-width: 6.5rem;
   align-items: center;
   overflow: hidden;
   border-radius: 1rem !important;
   border: 0 !important;
   background: var(--auth-phone-field) !important;
-  padding: 0 0.75rem !important;
+  padding: 0 0.875rem !important;
   font-size: 1rem !important;
   line-height: 1.5 !important;
   box-shadow: none !important;
+  gap: 0.35rem;
 }
 
 .auth-phone-input :deep(.auth-phone-input__trigger [data-slot='select-value']) {
