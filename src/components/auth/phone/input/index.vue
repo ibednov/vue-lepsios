@@ -114,25 +114,25 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 }
 
 .auth-phone-input :deep(.auth-phone-input__country) {
-  width: auto;
-  min-width: 6.5rem;
+  width: 8.5rem;
   flex-shrink: 0;
 }
 
 .auth-phone-input :deep(.auth-phone-input__trigger) {
   box-sizing: border-box;
-  display: inline-flex;
+  display: inline-flex !important;
   height: 3rem !important;
   min-height: 3rem !important;
   max-height: 3rem !important;
-  width: auto !important;
-  min-width: 6.5rem;
+  width: 8.5rem !important;
+  min-width: 8.5rem !important;
   align-items: center;
-  overflow: hidden;
+  justify-content: space-between;
+  overflow: visible;
   border-radius: 1rem !important;
   border: 0 !important;
   background: var(--auth-phone-field) !important;
-  padding: 0 0.875rem !important;
+  padding: 0 0.75rem !important;
   font-size: 1rem !important;
   line-height: 1.5 !important;
   box-shadow: none !important;
@@ -140,11 +140,27 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 }
 
 .auth-phone-input :deep(.auth-phone-input__trigger [data-slot='select-value']) {
-  display: flex;
+  display: flex !important;
   min-width: 0;
-  flex: 1;
+  flex: 1 1 auto;
   align-items: center;
-  overflow: hidden;
+  gap: 0.35rem;
+  overflow: visible;
+}
+
+.auth-phone-input :deep(.auth-phone-input__trigger img) {
+  width: 1.5rem;
+  height: 1rem;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.auth-phone-input :deep(.auth-phone-input__trigger span) {
+  display: inline-block;
+  font-size: 1rem !important;
+  line-height: 1.25;
+  color: inherit;
+  white-space: nowrap;
 }
 
 .auth-phone-input :deep(.auth-phone-input__field) {
