@@ -68,13 +68,13 @@ const resolvedSelectPlaceholder = computed(() =>
     : t('ui.input.phone.select_placeholder')),
 )
 
-const softSelectClass = 'h-12 w-[7.5rem] shrink-0 border-0 bg-[var(--lepsios-field,#E8E8E8)]'
-const softTriggerClass = '!h-12 !min-h-12 w-full overflow-hidden rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-3 text-base [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
-const softInputClass = '!h-12 min-h-12 flex w-full rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-4 text-base'
+const softSelectClass = 'w-auto shrink-0'
+const softTriggerClass = '!h-12 !min-h-12 !w-auto max-w-[9rem] overflow-hidden rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-3 text-base [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
+const softInputClass = '!h-12 min-h-12 flex-1 rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-4 text-base'
 
-const plainSelectClass = 'w-[7.5rem] shrink-0'
-const plainTriggerClass = '!h-10 !min-h-10 w-full overflow-hidden rounded-md border border-input bg-background px-3 text-sm shadow-xs [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
-const plainInputClass = '!h-10 !min-h-10 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs'
+const plainSelectClass = 'w-auto shrink-0'
+const plainTriggerClass = '!h-10 !min-h-10 !w-auto max-w-[9rem] overflow-hidden rounded-md border border-input bg-background px-3 text-sm shadow-xs [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
+const plainInputClass = '!h-10 !min-h-10 flex-1 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs'
 
 const resolvedSelectClass = computed(() =>
   props.selectClass
