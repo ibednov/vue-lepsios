@@ -7,7 +7,7 @@ import { cn } from '../../lib/cn'
 import 'alexbednov-phone-select/style.css'
 
 type PhoneLang = 'ru' | 'en' | 'az' | 'be'
-/** `soft` — Wishimi product field tokens; `plain` — host shadcn Input chrome */
+/** `soft` — Wishimi field chrome; `plain` — host shadcn Input */
 type PhoneVariant = 'soft' | 'plain'
 
 interface Props {
@@ -17,6 +17,7 @@ interface Props {
   testId?: string
   dataTestid?: string
   defaultCountry?: string
+  /** Omit or empty = all countries from phone-select */
   onlyCountries?: string[]
   lang?: PhoneLang
   favoritesCountries?: string[]
@@ -37,7 +38,6 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   defaultCountry: 'by',
   favoritesCountries: () => ['BY'],
-  onlyCountries: () => ['BY', 'RU', 'AZ'],
   hideFavorites: true,
   dedupeFavorites: true,
   enableSearch: true,
@@ -61,18 +61,13 @@ const phoneLang = computed((): PhoneLang => {
 
 const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 
-/** Empty placeholder when a country is always preselected — avoids Radix SelectValue stacking placeholder + value. */
-const resolvedSelectPlaceholder = computed(() => {
-  if (props.selectPlaceholder !== undefined)
-    return props.selectPlaceholder
-  if (props.variant === 'plain')
-    return ''
-  return t('ui.input.phone.select_placeholder')
-})
+const resolvedSelectPlaceholder = computed(() =>
+  props.selectPlaceholder ?? t('ui.input.phone.select_placeholder'),
+)
 
-const softSelectClass = 'h-12 w-[7.5rem] shrink-0 border-0 bg-lepsios-field'
-const softTriggerClass = '!h-12 !min-h-12 w-full rounded-2xl border-0 bg-lepsios-field px-3 text-base'
-const softInputClass = '!h-12 min-h-12 flex w-full rounded-2xl px-4 text-base bg-lepsios-field border-0'
+const softSelectClass = 'h-12 w-[7.5rem] shrink-0 border-0 bg-[var(--lepsios-field,#E8E8E8)]'
+const softTriggerClass = '!h-12 !min-h-12 w-full overflow-hidden rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-3 text-base [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
+const softInputClass = '!h-12 min-h-12 flex w-full rounded-2xl border-0 bg-[var(--lepsios-field,#E8E8E8)] px-4 text-base'
 
 const plainSelectClass = 'w-[7.5rem] shrink-0'
 const plainTriggerClass = '!h-10 !min-h-10 w-full overflow-hidden rounded-md border border-input bg-background px-3 text-sm shadow-xs [&>span]:line-clamp-1 [&>span]:flex [&>span]:items-center'
