@@ -49,9 +49,6 @@
     "@shikijs/markdown-it": {
       "optional": true
     },
-  "devDependencies": {
-    "alexbednov-phone-select": "file:../../_shared/phone-select"
-  },
     "markdown-it": {
       "optional": true
     },
@@ -67,5 +64,8 @@
     "dayjs": {
       "optional": true
     }
+  },
+  "devDependencies": {
+    "alexbednov-phone-select": "file:../phone-select"
   }
 }
