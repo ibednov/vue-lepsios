@@ -1,6 +1,6 @@
 {
   "name": "@lepsios/vue",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
   "description": "Shared Vue 3 components and composables for Vite and Nuxt applications",
   "license": "UNLICENSED",

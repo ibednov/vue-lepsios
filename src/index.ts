@@ -4,6 +4,7 @@ export { useRevealSecret } from './composables/admin/use-reveal-secret'
 export { useSortable, moveArrayElement } from './composables/collections/use-sortable'
 
 export { default as CrmDataTable } from './components/admin/crm-data-table.vue'
+export type { CrmBulkAction } from './components/admin/crm-bulk-action'
 export { default as CrmPagination } from './components/admin/crm-pagination.vue'
 export { default as CrmMaskedId } from './components/admin/crm-masked-id.vue'
 export { default as CrmNumberField } from './components/admin/crm-number-field.vue'

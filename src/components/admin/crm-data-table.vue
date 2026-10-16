@@ -1,7 +1,23 @@
 <script setup lang="ts">
-import { computed, useSlots } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import type { PaginationMeta } from '../../types/pagination'
+import type { CrmBulkAction } from './crm-bulk-action'
 import Spinner from '../ui/spinner/spinner.vue'
+import { Button } from '../ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu'
 import CrmPagination from './crm-pagination.vue'
 import AdminTableFrame from './admin-table-frame.vue'
 
@@ -21,6 +37,12 @@ const props = withDefaults(defineProps<{
   paginateAbove?: number
   /** Optional id on <tbody> for DnD libs (useSortable). */
   bodyId?: string
+  /** Selected row ids (parent owns checkboxes in #head / rows). */
+  selectedIds?: string[]
+  /** Bulk actions; shown when selection is non-empty. */
+  bulkActions?: CrmBulkAction[]
+  /** Label for the bulk dropdown trigger. */
+  bulkActionsLabel?: string
 }>(), {
   loading: false,
   empty: undefined,
@@ -28,10 +50,15 @@ const props = withDefaults(defineProps<{
   meta: null,
   bodyId: undefined,
   colSpan: 12,
+  selectedIds: () => [],
+  bulkActions: () => [],
+  bulkActionsLabel: 'Actions',
 })
 
 const emit = defineEmits<{
   pageChange: [page: number]
+  /** Fired after optional system confirm. */
+  bulkAction: [payload: { key: string, ids: string[] }]
 }>()
 
 const slots = useSlots()
@@ -45,15 +72,84 @@ const showEmpty = computed(() => {
 })
 
 const showRows = computed(() => !props.loading && !showEmpty.value)
+
+const showBulk = computed(() =>
+  (props.selectedIds?.length ?? 0) > 0 && (props.bulkActions?.length ?? 0) > 0,
+)
+
+const showToolbarRow = computed(() => !!slots.toolbar || showBulk.value)
+
+const pending = ref<CrmBulkAction | null>(null)
+const confirmOpen = ref(false)
+
+const requestBulk = (action: CrmBulkAction) => {
+  const ids = [...(props.selectedIds ?? [])]
+  if (!ids.length)
+    return
+  if (action.confirmTitle) {
+    pending.value = action
+    confirmOpen.value = true
+    return
+  }
+  emit('bulkAction', { key: action.key, ids })
+}
+
+const confirmBulk = () => {
+  const action = pending.value
+  const ids = [...(props.selectedIds ?? [])]
+  confirmOpen.value = false
+  pending.value = null
+  if (!action || !ids.length)
+    return
+  emit('bulkAction', { key: action.key, ids })
+}
+
+const cancelBulk = () => {
+  confirmOpen.value = false
+  pending.value = null
+}
 </script>
 
 <template>
   <div class="space-y-3">
     <div
-      v-if="$slots.toolbar"
+      v-if="showToolbarRow"
       class="flex flex-wrap items-center gap-2"
     >
-      <slot name="toolbar" />
+      <div class="flex min-w-0 flex-1 flex-wrap items-center gap-2">
+        <slot name="toolbar" />
+      </div>
+      <div
+        v-if="showBulk"
+        class="ml-auto flex shrink-0 items-center gap-2"
+        data-testid="crm-data-table-bulk"
+      >
+        <span class="text-muted-foreground text-sm tabular-nums">
+          {{ selectedIds.length }}
+        </span>
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <Button
+              variant="outline"
+              size="sm"
+              data-testid="crm-data-table-bulk-trigger"
+            >
+              {{ bulkActionsLabel }}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              v-for="action in bulkActions"
+              :key="action.key"
+              :variant="action.variant === 'destructive' ? 'destructive' : undefined"
+              :data-testid="`crm-data-table-bulk-${action.key}`"
+              @click="requestBulk(action)"
+            >
+              {{ action.label }}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
 
     <div class="overflow-hidden rounded-xl border border-border bg-card">
@@ -101,5 +197,37 @@ const showRows = computed(() => !props.loading && !showEmpty.value)
       :min-total="paginateAbove"
       @page-change="emit('pageChange', $event)"
     />
+
+    <Dialog
+      :open="confirmOpen"
+      @update:open="(v) => { if (!v) cancelBulk() }"
+    >
+      <DialogContent data-testid="crm-data-table-bulk-confirm">
+        <DialogHeader>
+          <DialogTitle>
+            {{ pending?.confirmTitle }}
+          </DialogTitle>
+          <DialogDescription v-if="pending?.confirmDescription">
+            {{ pending.confirmDescription }}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter class="gap-2 sm:justify-end">
+          <Button
+            variant="outline"
+            data-testid="crm-data-table-bulk-cancel"
+            @click="cancelBulk"
+          >
+            {{ pending?.cancelLabel || 'Cancel' }}
+          </Button>
+          <Button
+            :variant="pending?.variant === 'destructive' ? 'destructive' : 'default'"
+            data-testid="crm-data-table-bulk-confirm-btn"
+            @click="confirmBulk"
+          >
+            {{ pending?.confirmLabel || 'Confirm' }}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
