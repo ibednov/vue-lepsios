@@ -21,7 +21,7 @@ const emit = defineEmits<{
 }>()
 
 const target = ref<HTMLElement | null>(null)
-const { isOverDropZone } = useDropZone(target, {
+const { isOverDropZone } = useDropZone(() => target.value, {
   multiple: props.multiple,
   dataTypes: props.dataTypes,
   preventDefaultForUnhandled: true,
