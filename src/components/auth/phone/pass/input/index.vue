@@ -5,7 +5,7 @@
  */
 import AuthPhoneInput from '../../input/index.vue'
 
-withDefaults(defineProps<{
+defineProps<{
   label?: string
   invalid?: boolean
   errorMessage?: string | null
@@ -13,9 +13,7 @@ withDefaults(defineProps<{
   defaultCountry?: string
   onlyCountries?: string[]
   inputPlaceholder?: string
-}>(), {
-  defaultCountry: 'by',
-})
+}>()
 
 const modelValue = defineModel<string>({ default: '' })
 </script>

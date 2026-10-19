@@ -11,7 +11,7 @@ export const normalizeAuthPhone = (phone: string | null | undefined): string => 
   return `+${digits}`
 }
 
-export const getAuthPhoneCountry = (phone: string): string => {
+export const getAuthPhoneCountry = (phone: string): string | undefined => {
   const normalized = normalizeAuthPhone(phone)
   if (normalized.startsWith('+375'))
     return 'by'
@@ -19,7 +19,7 @@ export const getAuthPhoneCountry = (phone: string): string => {
     return 'ru'
   if (normalized.startsWith('+994'))
     return 'az'
-  return 'by'
+  return undefined
 }
 
 export const isAuthPhoneFilled = (phone: string | null | undefined): boolean =>

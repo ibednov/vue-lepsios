@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * AuthPhoneInput — base phone field for auth flows (Wishimi soft chrome).
+ * AuthPhoneInput — base phone field for auth flows.
  * Soft look is enforced via scoped CSS so Vite/Nuxt hosts that do not scan
  * this package for Tailwind still render the same field.
  * Directory auto-import name: AuthPhoneInput
@@ -27,8 +27,6 @@ const props = withDefaults(defineProps<{
   inputPlaceholder?: string
   disableCountryNameSelect?: boolean
 }>(), {
-  defaultCountry: 'by',
-  favoritesCountries: () => ['BY'],
   disableCountryNameSelect: true,
 })
 

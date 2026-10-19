@@ -7,7 +7,7 @@ import { cn } from '../../lib/cn'
 import 'alexbednov-phone-select/style.css'
 
 type PhoneLang = 'ru' | 'en' | 'az' | 'be'
-/** `soft` — Wishimi field chrome; `plain` — host shadcn Input */
+/** `soft` — soft field chrome; `plain` — host shadcn Input */
 type PhoneVariant = 'soft' | 'plain'
 
 interface Props {
@@ -36,8 +36,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  defaultCountry: 'by',
-  favoritesCountries: () => ['BY'],
   hideFavorites: true,
   dedupeFavorites: true,
   enableSearch: true,
