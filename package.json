@@ -1,6 +1,6 @@
 {
   "name": "@lepsios/vue",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "description": "Shared Vue 3 components and composables for Vite and Nuxt applications",
   "license": "UNLICENSED",
@@ -49,12 +49,6 @@
   },
   "peerDependenciesMeta": {
     "@shikijs/markdown-it": {
-      "optional": true
-    },
-    "markdown-it": {
-      "optional": true
-    },
-    "shiki": {
       "optional": true
     },
     "typed.js": {
