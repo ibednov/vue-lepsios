@@ -1,6 +1,6 @@
 {
   "name": "@lepsios/vue",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "type": "module",
   "description": "Shared Vue 3 components and composables for Vite and Nuxt applications",
   "license": "UNLICENSED",
@@ -49,9 +49,6 @@
   },
   "peerDependenciesMeta": {
     "typed.js": {
-      "optional": true
-    },
-    "qrcode.vue": {
       "optional": true
     },
     "dayjs": {
