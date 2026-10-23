@@ -56,6 +56,6 @@
     }
   },
   "devDependencies": {
-    "alexbednov-phone-select": "file:../phone-select"
+    "alexbednov-phone-select": "^0.4.4"
   }
 }
