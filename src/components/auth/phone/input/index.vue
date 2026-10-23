@@ -90,10 +90,18 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
 <style scoped>
 .auth-phone-input {
   --auth-phone-field: var(--lepsios-field, #e8e8e8);
+  --auth-phone-color: var(--lepsios-field-foreground, #18181b);
+  --auth-phone-placeholder: var(--lepsios-field-placeholder, #71717a);
   display: flex;
   width: 100%;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+:global(.dark) .auth-phone-input {
+  --auth-phone-field: var(--lepsios-field-dark, var(--input, #27272a));
+  --auth-phone-color: var(--lepsios-field-foreground-dark, var(--foreground, #fafafa));
+  --auth-phone-placeholder: var(--lepsios-field-placeholder-dark, var(--muted-foreground, #a1a1aa));
 }
 
 .auth-phone-input__label {
@@ -139,6 +147,7 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
   line-height: 1.5 !important;
   box-shadow: none !important;
   gap: 0.35rem;
+  color: var(--auth-phone-color) !important;
 }
 
 .auth-phone-input :deep(.auth-phone-input__trigger [data-slot='select-value']) {
@@ -179,6 +188,12 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
   font-size: 1rem !important;
   line-height: 1.5 !important;
   box-shadow: none !important;
+  color: var(--auth-phone-color) !important;
+}
+
+.auth-phone-input :deep(.auth-phone-input__field::placeholder) {
+  color: var(--auth-phone-placeholder) !important;
+  opacity: 1;
 }
 
 .auth-phone-input--invalid :deep(.auth-phone-input__field),
