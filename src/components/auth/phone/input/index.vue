@@ -26,8 +26,10 @@ const props = withDefaults(defineProps<{
   selectPlaceholder?: string
   inputPlaceholder?: string
   disableCountryNameSelect?: boolean
+  disableAutoParseNumber?: boolean
 }>(), {
   disableCountryNameSelect: true,
+  disableAutoParseNumber: false,
 })
 
 const modelValue = defineModel<string>({ default: '' })
@@ -70,6 +72,7 @@ const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
       :select-placeholder="selectPlaceholder || undefined"
       :input-placeholder="inputPlaceholder"
       :disable-country-name-select="disableCountryNameSelect"
+      :disable-auto-parse-number="disableAutoParseNumber"
       select-class="auth-phone-input__country"
       select-trigger-class="auth-phone-input__trigger"
       input-class="auth-phone-input__field"
