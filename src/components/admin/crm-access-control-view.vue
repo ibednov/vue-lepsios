@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Badge } from '../ui/badge'
+import { Button } from '../ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 
 interface CrmAccessRoleViewModel {
@@ -14,6 +15,7 @@ const props = withDefaults(defineProps<{
   permissionCatalog?: string[]
   loading?: boolean
   error?: string | null
+  retryLabel?: string
   labels: {
     rolesTitle: string
     permissionsTitle: string
@@ -26,6 +28,7 @@ const props = withDefaults(defineProps<{
   permissionLabel?: (permissionKey: string) => string
 }>(), { mode: 'all', loading: false, error: null })
 
+const emit = defineEmits<{ retry: [] }>()
 const permissions = computed(() => [...new Set([...props.roles.flatMap(role => role.permissionKeys), ...(props.permissionCatalog ?? [])])].sort())
 const roleText = (key: string) => props.roleLabel?.(key) ?? key
 const permissionText = (key: string) => props.permissionLabel?.(key) ?? key
@@ -36,9 +39,10 @@ const permissionText = (key: string) => props.permissionLabel?.(key) ?? key
     <p v-if="loading" class="text-sm text-muted-foreground" role="status">
       {{ labels.loading }}
     </p>
-    <p v-else-if="error" class="text-sm text-destructive" role="alert">
-      {{ error }}
-    </p>
+    <div v-else-if="error" class="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-destructive/40 p-4 text-sm text-destructive" role="alert">
+      <span>{{ error }}</span>
+      <Button v-if="retryLabel" variant="outline" size="sm" @click="emit('retry')">{{ retryLabel }}</Button>
+    </div>
     <template v-else>
       <section v-if="mode !== 'permissions'" class="space-y-3">
         <h2 class="text-lg font-semibold">{{ labels.rolesTitle }}</h2>
