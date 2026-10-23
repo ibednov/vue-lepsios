@@ -16,13 +16,17 @@ const props = withDefaults(defineProps<{
   columns: ColumnDef<TData, any>[]
   meta?: PaginationMeta | null
   loading?: boolean
+  error?: string | null
   empty?: boolean
   emptyText: string
   loadingText: string
   paginateAbove?: number
+  previousLabel?: string
+  nextLabel?: string
   manualPagination?: boolean
   manualSorting?: boolean
   manualFiltering?: boolean
+  sorting?: SortingState
   pageSize?: number
   rowClass?: (row: TData) => string
   selectedIds?: string[]
@@ -32,12 +36,16 @@ const props = withDefaults(defineProps<{
   bulkActionsLabel?: string
 }>(), {
   loading: false,
+  error: null,
   empty: undefined,
   paginateAbove: 3,
+  previousLabel: 'Previous',
+  nextLabel: 'Next',
   meta: null,
   manualPagination: false,
   manualSorting: false,
   manualFiltering: false,
+  sorting: undefined,
   pageSize: 10,
   selectedIds: () => [],
   bodyId: undefined,
@@ -66,7 +74,7 @@ const table = useVueTable<TData>({
   get columns() { return props.columns },
   getRowId: (row, index) => props.getRowId?.(row, index) ?? String((row as any).id ?? index),
   state: {
-    get sorting() { return sorting.value },
+    get sorting() { return props.sorting ?? sorting.value },
     get rowSelection() { return rowSelection.value },
     get columnVisibility() { return columnVisibility.value },
     get pagination() { return pagination.value },
@@ -93,7 +101,7 @@ const table = useVueTable<TData>({
   enableRowSelection: true,
 })
 
-const showEmpty = computed(() => !props.loading && (props.empty ?? table.getRowModel().rows.length === 0))
+const showEmpty = computed(() => !props.loading && !props.error && (props.empty ?? table.getRowModel().rows.length === 0))
 const showBulk = computed(() => props.selectedIds.length > 0 && props.bulkActions.length > 0)
 const showToolbar = computed(() => !!slots.toolbar || showBulk.value)
 const pending = ref<CrmBulkAction | null>(null)
@@ -140,7 +148,8 @@ function confirmBulk() {
           </TableHeader>
           <TableBody :id="bodyId">
             <TableRow v-if="loading"><TableCell :colspan="Math.max(1, table.getVisibleLeafColumns().length)" class="p-0"><div class="text-muted-foreground flex items-center justify-center gap-2 px-4 py-10 text-sm" data-testid="crm-data-table-loading" role="status"><Spinner class="size-4" /><span>{{ loadingText }}</span></div></TableCell></TableRow>
-            <TableRow v-else-if="showEmpty"><TableCell :colspan="Math.max(1, table.getVisibleLeafColumns().length)" class="text-muted-foreground h-24 text-center" data-testid="crm-data-table-empty">{{ emptyText }}</TableCell></TableRow>
+            <TableRow v-else-if="error"><TableCell :colspan="Math.max(1, table.getVisibleLeafColumns().length)" class="p-0"><div class="flex min-h-24 flex-wrap items-center justify-center gap-3 p-4 text-sm text-destructive" data-testid="crm-data-table-error" role="alert"><slot name="error" :error="error"><span>{{ error }}</span></slot></div></TableCell></TableRow>
+            <TableRow v-else-if="showEmpty"><TableCell :colspan="Math.max(1, table.getVisibleLeafColumns().length)" class="text-muted-foreground h-24 text-center" data-testid="crm-data-table-empty"><slot name="empty">{{ emptyText }}</slot></TableCell></TableRow>
             <template v-else>
               <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :id="props.getRowId?.(row.original, row.index)" :class="props.rowClass?.(row.original)" :data-state="row.getIsSelected() && 'selected'" @click="emit('rowClick', { event: $event, row: row.original })">
                 <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
@@ -155,7 +164,7 @@ function confirmBulk() {
       </div>
     </div>
 
-    <CrmPagination v-if="meta" :meta="meta" :min-total="paginateAbove" @page-change="emit('pageChange', $event)" />
+    <CrmPagination v-if="meta" :meta="meta" :min-total="paginateAbove" :prev-label="previousLabel" :next-label="nextLabel" @page-change="emit('pageChange', $event)" />
 
     <Dialog :open="confirmOpen" @update:open="(v) => { if (!v) { confirmOpen = false; pending = null } }">
       <DialogContent data-testid="crm-data-table-bulk-confirm"><DialogHeader><DialogTitle>{{ pending?.confirmTitle }}</DialogTitle><DialogDescription v-if="pending?.confirmDescription">{{ pending.confirmDescription }}</DialogDescription></DialogHeader><DialogFooter class="gap-2 sm:justify-end"><Button variant="outline" data-testid="crm-data-table-bulk-cancel" @click="confirmOpen = false; pending = null">{{ pending?.cancelLabel || 'Cancel' }}</Button><Button :variant="pending?.variant === 'destructive' ? 'destructive' : 'default'" data-testid="crm-data-table-bulk-confirm-btn" @click="confirmBulk">{{ pending?.confirmLabel || 'Confirm' }}</Button></DialogFooter></DialogContent>
