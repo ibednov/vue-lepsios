@@ -31,6 +31,7 @@ import {
 } from '../ui/number-field'
 import FieldThumbnail from './thumbnail.vue'
 import FieldInputText from './input/text.vue'
+import FieldInputEmoji from './input/emoji.vue'
 import FieldInputLink from './input/link.vue'
 import FieldInputPhone from './input/phone.vue'
 import FieldInputOtp from './input/otp.vue'
@@ -161,6 +162,15 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
 
 <template>
   <template v-if="data">
+    <FieldInputEmoji
+      v-if="data.type === 'emoji'"
+      :model-value="String(data.value ?? '')"
+      :label="data.label"
+      :placeholder="data.placeholder"
+      :options="data.emojiOptions || []"
+      @update:model-value="emitUpdate"
+    />
+
     <FieldThumbnail
       v-if="data.type === 'thumbnail'"
       v-model="thumbnailValue"

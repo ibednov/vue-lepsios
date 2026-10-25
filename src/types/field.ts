@@ -14,13 +14,14 @@ export interface FieldThumbnailOption {
 
 export interface FieldInterface {
   key?: string
-  type: 'input' | 'textarea' | 'textarea-md' | 'date' | 'date-year-and-months' | 'select' | 'text' | 'tags' | 'switch' | 'price' | 'link' | 'file' | 'phone' | 'otp' | 'group' | 'repeater' | 'thumbnail'
+  type: 'input' | 'textarea' | 'textarea-md' | 'date' | 'date-year-and-months' | 'select' | 'text' | 'tags' | 'switch' | 'price' | 'link' | 'file' | 'phone' | 'otp' | 'group' | 'repeater' | 'thumbnail' | 'emoji'
   placeholder?: string
   label?: string
   valueType?: 'text' | 'number'
   inputType?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search'
   options?: FieldOption[]
   thumbnailOptions?: FieldThumbnailOption[]
+  emojiOptions?: FieldOption[]
   required?: boolean
   minLength?: number
   maxLength?: number
