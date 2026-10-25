@@ -72,11 +72,11 @@ const drawerFullscreenClass = [
         :class="[dialogClass]"
     >
         <DialogContent
-            :class="[surfaceClass, dialogContentClass]"
+            :class="['min-w-0', surfaceClass, dialogContentClass]"
         >
             <DialogHeader
                 v-if="title || description"
-                :class="[dialogContentHeaderClass]"
+                :class="['min-w-0 max-w-full', dialogContentHeaderClass]"
             >
                 <DialogTitle v-if="title">
                     {{ title }}
@@ -86,8 +86,8 @@ const drawerFullscreenClass = [
                 </DialogDescription>
             </DialogHeader>
             <div
-                :class="[dialogContentSlotClass]"
-                class="max-h-[80vh] overflow-y-auto "
+                :class="['min-w-0 max-w-full', dialogContentSlotClass]"
+                class="max-h-[80vh] overflow-y-auto"
             >
                 <slot :close="close" />
             </div>
@@ -159,6 +159,7 @@ const drawerFullscreenClass = [
                 <div
                     :class="[
                         { 'mb-10': drawerHideFooter },
+                        'min-w-0 max-w-full',
                         drawerContentSlotClass,
                     ]"
                 >
