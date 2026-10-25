@@ -38,7 +38,7 @@ export interface FieldInterface {
   invalidNumberText?: string
   accept?: string
   maxSize?: number
-  appearance?: 'default' | 'drawer'
+  appearance?: 'default' | 'drawer' | 'wishimi'
   dateRange?: FieldDateRange
   hint?: string
   hints?: Record<string, string>

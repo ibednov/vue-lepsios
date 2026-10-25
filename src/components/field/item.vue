@@ -251,17 +251,22 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
       v-else
       class="flex flex-col gap-2"
     >
-      <Label v-if="isShowLabel">
+      <Label
+        v-if="isShowLabel"
+        :class="data.inputType === 'search' ? 'sr-only' : data.appearance === 'wishimi' ? 'text-[13px] leading-[18px] font-normal text-[#BBBBBB]' : ''"
+      >
         {{ data.label || data.placeholder }}
       </Label>
       <FieldInputText
         v-if="data && data.type === 'input' && data.valueType !== 'number'"
         :model-value="data.value ?? ''"
-        variant="default"
+        :variant="data.inputType === 'search' ? 'search' : data.appearance === 'wishimi' ? 'wishimi' : 'default'"
         :type="data.inputType || 'text'"
         :placeholder="data.placeholder"
         :maxlength="data.maxLength"
         :input-class="data.class"
+        :label="data.label || data.placeholder"
+        :aria-label="data.inputType === 'search' ? data.label || data.placeholder : undefined"
         @update:model-value="emitUpdate"
       />
       <FieldInputLink
