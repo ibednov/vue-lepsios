@@ -12,6 +12,7 @@ interface Props {
   placeholder?: string
   hasError?: boolean
   variant?: 'default' | 'filled'
+  type?: 'text' | 'number'
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,13 +25,14 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: '○',
   hasError: false,
   variant: 'default',
+  type: 'text',
 })
 
 const emit = defineEmits<{
   complete: []
 }>()
 
-const modelValue = defineModel<string[] | null>('modelValue', { default: null })
+const modelValue = defineModel<Array<string | number> | null>('modelValue', { default: null })
 
 const otpValue = computed({
   get: () => {
@@ -43,7 +45,7 @@ const otpValue = computed({
     }
     return current.slice(0, props.length)
   },
-  set: (val: string[]) => {
+  set: (val: Array<string | number>) => {
     modelValue.value = val
   },
 })
@@ -60,6 +62,7 @@ const isFilled = computed(() => props.variant === 'filled')
     :id="props.id"
     v-model="otpValue"
     :placeholder="props.placeholder"
+    :type="props.type"
     :class="[props.class, props.fullWidth || isFilled ? 'w-full' : '']"
     @complete="handleComplete"
   >

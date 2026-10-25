@@ -309,8 +309,9 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
         :auto-focus="data.autoFocus"
         :full-width="data.fullWidth"
         :variant="data.variant"
+        :type="data.inputType === 'number' ? 'number' : 'text'"
         :has-error="!!data.error"
-        @update:model-value="(val: string[] | null) => { emitUpdate(val); emit('update:error', null) }"
+        @update:model-value="(val: Array<string | number> | null) => { emitUpdate(val); emit('update:error', null) }"
         @complete="emit('complete')"
       />
       <NumberField

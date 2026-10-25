@@ -40,8 +40,8 @@ const digits = computed({
       arr.push('')
     return arr
   },
-  set: (val: string[]) => {
-    modelValue.value = val.join('')
+  set: (val: Array<string | number>) => {
+    modelValue.value = val.map(String).join('')
   },
 })
 
@@ -69,6 +69,7 @@ const onComplete = () => {
       :has-error="hasError || Boolean(errorMessage)"
       :auto-focus="autoFocus"
       variant="filled"
+      type="number"
       full-width
       @complete="onComplete"
     />
