@@ -1,203 +1,57 @@
 <script setup lang="ts">
 /**
- * AuthPhoneInput — base phone field for auth flows.
- * Soft look is enforced via scoped CSS so Vite/Nuxt hosts that do not scan
- * this package for Tailwind still render the same field.
- * Directory auto-import name: AuthPhoneInput
+ * AuthPhoneInput composes the shared phone field with an auth label and error.
+ * Keep product forms on the generic `Field` API instead of using this adapter.
  */
-import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { PhoneSelect } from 'alexbednov-phone-select/vue'
+import type { FieldInputPhoneProps } from '../../../field/input/phone.vue'
+import FieldInputPhone from '../../../field/input/phone.vue'
 import { Label } from '../../../ui/label'
-import 'alexbednov-phone-select/style.css'
 
-type PhoneLang = 'ru' | 'en' | 'az' | 'be'
-
-const props = withDefaults(defineProps<{
+interface Props extends FieldInputPhoneProps {
   label?: string
-  invalid?: boolean
-  errorMessage?: string | null
-  testId?: string
-  dataTestid?: string
-  defaultCountry?: string
-  onlyCountries?: string[]
-  favoritesCountries?: string[]
-  lang?: PhoneLang
-  selectPlaceholder?: string
-  inputPlaceholder?: string
-  disableCountryNameSelect?: boolean
-  disableAutoParseNumber?: boolean
-}>(), {
+}
+
+const props = withDefaults(defineProps<Props>(), {
   disableCountryNameSelect: true,
   disableAutoParseNumber: false,
 })
 
-const modelValue = defineModel<string>({ default: '' })
-const { locale } = useI18n()
-
-const phoneLang = computed((): PhoneLang => {
-  if (props.lang)
-    return props.lang
-  const code = locale.value.split('-')[0]?.toLowerCase()
-  if (code === 'en' || code === 'ru' || code === 'az' || code === 'be')
-    return code
-  return 'ru'
-})
-
-const resolvedTestId = computed(() => props.testId ?? props.dataTestid)
+const modelValue = defineModel<string | null>({ default: '' })
 </script>
 
 <template>
-  <div
-    class="auth-phone-input"
-    :class="{ 'auth-phone-input--invalid': invalid }"
-  >
+  <div class="flex w-full flex-col gap-2">
     <Label
-      v-if="label"
-      class="auth-phone-input__label"
+      v-if="props.label"
+      class="text-sm font-medium"
     >
-      {{ label }}
+      {{ props.label }}
     </Label>
-    <PhoneSelect
+    <FieldInputPhone
       v-model="modelValue"
-      class="auth-phone-input__select"
-      :default-country="defaultCountry"
-      :only-countries="onlyCountries"
-      :lang="phoneLang"
-      :favorites-countries="favoritesCountries"
-      hide-favorites
-      dedupe-favorites
-      enable-search
-      enable-mask
-      :select-placeholder="selectPlaceholder || undefined"
-      :input-placeholder="inputPlaceholder"
-      :disable-country-name-select="disableCountryNameSelect"
-      :disable-auto-parse-number="disableAutoParseNumber"
-      select-class="auth-phone-input__country"
-      select-trigger-class="auth-phone-input__trigger"
-      input-class="auth-phone-input__field"
-      :data-testid="resolvedTestId"
+      :class="props.class"
+      :default-country="props.defaultCountry"
+      :only-countries="props.onlyCountries"
+      :favorites-countries="props.favoritesCountries"
+      :lang="props.lang"
+      :hide-favorites="props.hideFavorites"
+      :dedupe-favorites="props.dedupeFavorites"
+      :enable-search="props.enableSearch"
+      :enable-mask="props.enableMask"
+      :select-placeholder="props.selectPlaceholder"
+      :input-placeholder="props.inputPlaceholder"
+      :disable-country-name-select="props.disableCountryNameSelect"
+      :disable-auto-parse-number="props.disableAutoParseNumber"
+      :invalid="props.invalid"
+      :error-message="props.errorMessage"
+      :test-id="props.testId ?? props.dataTestid"
+      :select-class="props.selectClass"
+      :select-trigger-class="props.selectTriggerClass"
+      :select-value-class="props.selectValueClass"
+      :select-content-class="props.selectContentClass"
+      :select-item-class="props.selectItemClass"
+      :select-item-country-class="props.selectItemCountryClass"
+      :input-class="props.inputClass"
     />
-    <p
-      v-if="errorMessage"
-      class="auth-phone-input__error"
-    >
-      {{ errorMessage }}
-    </p>
   </div>
 </template>
-
-<style scoped>
-.auth-phone-input {
-  --auth-phone-field: var(--lepsios-field, #e8e8e8);
-  --auth-phone-color: var(--lepsios-field-foreground, #18181b);
-  --auth-phone-placeholder: var(--lepsios-field-placeholder, #71717a);
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-:global(.dark) .auth-phone-input {
-  --auth-phone-field: var(--lepsios-field-dark, var(--input, #27272a));
-  --auth-phone-color: var(--lepsios-field-foreground-dark, var(--foreground, #fafafa));
-  --auth-phone-placeholder: var(--lepsios-field-placeholder-dark, var(--muted-foreground, #a1a1aa));
-}
-
-.auth-phone-input__label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.25rem;
-}
-
-.auth-phone-input__error {
-  margin: 0;
-  font-size: 0.875rem;
-  color: var(--destructive, #dc2626);
-}
-
-/* PhoneSelect root is a flex row — keep country compact, number grows */
-.auth-phone-input :deep(.relative.flex.items-center),
-.auth-phone-input :deep([data-testid]) {
-  width: 100%;
-  gap: 0.75rem !important; /* country vs number — not one fused pill */
-}
-
-.auth-phone-input :deep(.auth-phone-input__country) {
-  width: 8.5rem;
-  flex-shrink: 0;
-}
-
-.auth-phone-input :deep(.auth-phone-input__trigger) {
-  box-sizing: border-box;
-  display: inline-flex !important;
-  height: 3rem !important;
-  min-height: 3rem !important;
-  max-height: 3rem !important;
-  width: 8.5rem !important;
-  min-width: 8.5rem !important;
-  align-items: center;
-  justify-content: space-between;
-  overflow: visible;
-  border-radius: 1rem !important;
-  border: 0 !important;
-  background: var(--auth-phone-field) !important;
-  padding: 0 0.75rem !important;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
-  box-shadow: none !important;
-  gap: 0.35rem;
-  color: var(--auth-phone-color) !important;
-}
-
-.auth-phone-input :deep(.auth-phone-input__trigger [data-slot='select-value']) {
-  display: flex !important;
-  min-width: 0;
-  flex: 1 1 auto;
-  align-items: center;
-  gap: 0.35rem;
-  overflow: visible;
-}
-
-.auth-phone-input :deep(.auth-phone-input__trigger img) {
-  width: 1.5rem;
-  height: 1rem;
-  flex-shrink: 0;
-  object-fit: cover;
-}
-
-.auth-phone-input :deep(.auth-phone-input__trigger span) {
-  display: inline-block;
-  font-size: 1rem !important;
-  line-height: 1.25;
-  color: inherit;
-  white-space: nowrap;
-}
-
-.auth-phone-input :deep(.auth-phone-input__field) {
-  box-sizing: border-box;
-  height: 3rem !important;
-  min-height: 3rem !important;
-  max-height: 3rem !important;
-  min-width: 0;
-  flex: 1 1 auto;
-  border-radius: 1rem !important;
-  border: 0 !important;
-  background: var(--auth-phone-field) !important;
-  padding: 0 1rem !important;
-  font-size: 1rem !important;
-  line-height: 1.5 !important;
-  box-shadow: none !important;
-  color: var(--auth-phone-color) !important;
-}
-
-.auth-phone-input :deep(.auth-phone-input__field::placeholder) {
-  color: var(--auth-phone-placeholder) !important;
-  opacity: 1;
-}
-
-.auth-phone-input--invalid :deep(.auth-phone-input__field),
-.auth-phone-input--invalid :deep(.auth-phone-input__trigger) {
-  box-shadow: 0 0 0 1px color-mix(in oklab, var(--destructive, #dc2626) 50%, transparent) !important;
-}
-</style>

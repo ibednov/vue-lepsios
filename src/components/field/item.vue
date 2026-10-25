@@ -32,10 +32,11 @@ import {
 import FieldThumbnail from './thumbnail.vue'
 import FieldInputText from './input/text.vue'
 import FieldInputLink from './input/link.vue'
-import PhoneInput from './phone-input.vue'
+import FieldInputPhone from './input/phone.vue'
 import FieldInputOtp from './input/otp.vue'
 import FieldInputPrice from './input/price.vue'
 import FieldInputFile from './input/file.vue'
+import Datepicker from '../shared/Datepicker.vue'
 import FieldPicker from './picker/index.vue'
 import FieldPickerDate from './picker/date.vue'
 import FieldToggle from './toggle.vue'
@@ -259,13 +260,33 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
         :placeholder="data.placeholder"
         @update:model-value="emitUpdate"
       />
-      <PhoneInput
+      <FieldInputPhone
         v-if="data && data.type === 'phone'"
-        :id="data.key ? `phone-${data.key}` : undefined"
         :model-value="data.value"
-        :placeholder="data.placeholder"
         :class="data.class"
-        @update:model-value="emitUpdate"
+        :default-country="data.defaultCountry"
+        :only-countries="data.onlyCountries"
+        :favorites-countries="data.favoritesCountries"
+        :lang="data.lang"
+        :hide-favorites="data.hideFavorites"
+        :dedupe-favorites="data.dedupeFavorites"
+        :enable-search="data.enableSearch"
+        :enable-mask="data.enableMask"
+        :select-placeholder="data.selectPlaceholder"
+        :input-placeholder="data.inputPlaceholder ?? data.placeholder"
+        :disable-country-name-select="data.disableCountryNameSelect"
+        :disable-auto-parse-number="data.disableAutoParseNumber"
+        :invalid="Boolean(data.error)"
+        :error-message="data.error"
+        :test-id="data.testId"
+        :select-class="data.selectClass"
+        :select-trigger-class="data.selectTriggerClass"
+        :select-value-class="data.selectValueClass"
+        :select-content-class="data.selectContentClass"
+        :select-item-class="data.selectItemClass"
+        :select-item-country-class="data.selectItemCountryClass"
+        :input-class="data.inputClass"
+        @update:model-value="(value) => { emitUpdate(value); emit('update:error', null) }"
       />
       <FieldInputOtp
         v-if="data && data.type === 'otp'"
@@ -295,7 +316,7 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
           <NumberFieldIncrement />
         </NumberFieldContent>
       </NumberField>
-      <shared-ui-datepicker
+      <Datepicker
         v-if="data && data.type === 'date'"
         :model-value="data.value"
         :range="data.dateRange ?? 'future'"

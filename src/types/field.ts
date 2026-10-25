@@ -1,4 +1,5 @@
 export type FieldDateRange = 'future' | 'past' | 'any'
+export type FieldInputPhoneLanguage = 'ru' | 'en' | 'az' | 'be'
 
 export interface FieldOption {
   label: string
@@ -41,6 +42,25 @@ export interface FieldInterface {
   hint?: string
   hints?: Record<string, string>
   disabled?: boolean
+  testId?: string
+  defaultCountry?: string
+  onlyCountries?: string[]
+  favoritesCountries?: string[]
+  lang?: FieldInputPhoneLanguage
+  hideFavorites?: boolean
+  dedupeFavorites?: boolean
+  enableSearch?: boolean
+  enableMask?: boolean
+  selectPlaceholder?: string
+  inputPlaceholder?: string
+  disableCountryNameSelect?: boolean
+  disableAutoParseNumber?: boolean
+  selectClass?: string
+  selectTriggerClass?: string
+  selectValueClass?: string
+  selectContentClass?: string
+  selectItemClass?: string
+  selectItemCountryClass?: string
   iconSrc?: string
   submit?: boolean
   defaultItem?: Record<string, any>

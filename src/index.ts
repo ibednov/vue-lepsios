@@ -46,6 +46,7 @@ export { NumberField, NumberFieldContent, NumberFieldDecrement, NumberFieldIncre
 
 export type {
   FieldDateRange,
+  FieldInputPhoneLanguage,
   FieldOption,
   FieldThumbnailOption,
   FieldInterface,
@@ -111,6 +112,8 @@ export { default as FieldToggle } from './components/field/toggle.vue'
 export { default as FieldThumbnail } from './components/field/thumbnail.vue'
 export { default as FieldInputText } from './components/field/input/text.vue'
 export { default as FieldInputLink } from './components/field/input/link.vue'
+export { default as FieldInputPhone } from './components/field/input/phone.vue'
+export type { FieldInputPhoneProps } from './components/field/input/phone.vue'
 export { default as FieldInputOtp } from './components/field/input/otp.vue'
 export { default as FieldInputPrice } from './components/field/input/price.vue'
 export { default as FieldInputFile } from './components/field/input/file.vue'
