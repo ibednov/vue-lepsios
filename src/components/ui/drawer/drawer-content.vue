@@ -19,7 +19,7 @@ const forwarded = useForwardPropsEmits(props, emits)
             data-slot="drawer-content"
             v-bind="forwarded"
             :class="cn(
-                `group/drawer-content bg-background backdrop-blur-xl fixed z-99 flex h-auto flex-col !rounded-t-4xl
+                `group/drawer-content bg-background backdrop-blur-xl fixed z-[99] flex h-auto flex-col !rounded-t-4xl
         border-t-2 border-white/20
         `,
                 `data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg`,
