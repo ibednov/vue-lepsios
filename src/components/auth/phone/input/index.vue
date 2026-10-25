@@ -3,7 +3,7 @@
  * AuthPhoneInput composes the shared phone field with an auth label and error.
  * Keep product forms on the generic `Field` API instead of using this adapter.
  */
-import type { FieldInputPhoneProps } from '../../../field/input/phone.vue'
+import type { FieldInputPhoneProps, PhoneInputOverflow } from '../../../field/input/phone.vue'
 import FieldInputPhone from '../../../field/input/phone.vue'
 import { Label } from '../../../ui/label'
 
@@ -17,6 +17,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const modelValue = defineModel<string | null>({ default: '' })
+const emit = defineEmits<{
+  'input-overflow': [value: PhoneInputOverflow]
+}>()
 </script>
 
 <template>
@@ -52,6 +55,7 @@ const modelValue = defineModel<string | null>({ default: '' })
       :select-item-class="props.selectItemClass"
       :select-item-country-class="props.selectItemCountryClass"
       :input-class="props.inputClass"
+      @input-overflow="emit('input-overflow', $event)"
     />
   </div>
 </template>

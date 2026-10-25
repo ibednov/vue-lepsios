@@ -5,6 +5,10 @@
  */
 import AuthPhoneInput from '../../input/index.vue'
 
+const emit = defineEmits<{
+  'input-overflow': [value: { receivedDigits: number, maxDigits: number }]
+}>()
+
 defineProps<{
   label?: string
   invalid?: boolean
@@ -28,5 +32,6 @@ const modelValue = defineModel<string>({ default: '' })
     :default-country="defaultCountry"
     :only-countries="onlyCountries"
     :input-placeholder="inputPlaceholder"
+    @input-overflow="emit('input-overflow', $event)"
   />
 </template>

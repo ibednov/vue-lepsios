@@ -7,6 +7,11 @@ import 'alexbednov-phone-select/style.css'
 
 type ClassValue = HTMLAttributes['class']
 
+export interface PhoneInputOverflow {
+  receivedDigits: number
+  maxDigits: number
+}
+
 export interface FieldInputPhoneProps {
   class?: ClassValue
   defaultCountry?: string
@@ -44,6 +49,9 @@ const props = withDefaults(defineProps<FieldInputPhoneProps>(), {
 })
 
 const modelValue = defineModel<string | null>({ default: '' })
+const emit = defineEmits<{
+  'input-overflow': [value: PhoneInputOverflow]
+}>()
 
 const defaultSelectClass = 'w-[8.5rem] shrink-0'
 const selectTriggerClass = [
@@ -94,6 +102,7 @@ const resolvedInputClass = () => cn(
       :input-class="resolvedInputClass()"
       :data-testid="props.testId ?? props.dataTestid"
       :aria-invalid="props.invalid || undefined"
+      @input-overflow="emit('input-overflow', $event)"
     />
     <p
       v-if="props.errorMessage"
