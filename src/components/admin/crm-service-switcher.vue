@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
+import { SidebarMenu, SidebarMenuItem, sidebarMenuButtonVariants } from '../ui/sidebar'
 
 export interface CrmServiceOption {
   id: string
@@ -20,8 +20,10 @@ export interface CrmServiceOption {
 const props = withDefaults(defineProps<{
   services: CrmServiceOption[]
   activeService: string
+  mobile?: boolean
   label?: string
 }>(), {
+  mobile: false,
   label: 'Переключить сервис',
 })
 
@@ -30,6 +32,7 @@ const emit = defineEmits<{
 }>()
 
 const active = computed(() => props.services.find(service => service.id === props.activeService))
+const triggerClass = sidebarMenuButtonVariants({ size: 'lg' })
 </script>
 
 <template>
@@ -37,9 +40,9 @@ const active = computed(() => props.services.find(service => service.id === prop
     <SidebarMenuItem>
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
-          <SidebarMenuButton
-            size="lg"
-            class="h-auto min-h-12"
+          <button
+            type="button"
+            :class="[triggerClass, 'h-auto min-h-12 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground']"
             :aria-label="label"
             :title="label"
           >
@@ -53,9 +56,14 @@ const active = computed(() => props.services.find(service => service.id === prop
             <svg class="ml-auto size-4 shrink-0 text-muted-foreground" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="m6 9 6 6 6-6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
             </svg>
-          </SidebarMenuButton>
+          </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="start" side="bottom" class="w-56">
+        <DropdownMenuContent
+          align="start"
+          :side="mobile ? 'bottom' : 'right'"
+          :side-offset="4"
+          class="w-56"
+        >
           <DropdownMenuItem
             v-for="service in services"
             :key="service.id"

@@ -5,6 +5,12 @@ export { useSortable, moveArrayElement } from './composables/collections/use-sor
 
 export { default as CrmDataTable } from './components/admin/crm-data-table.vue'
 export { default as CrmServiceSwitcher } from './components/admin/crm-service-switcher.vue'
+export { default as CrmSidebarNavigation } from './components/admin/crm-sidebar-navigation.vue'
+export type {
+  CrmSidebarNavigationGroup,
+  CrmSidebarNavigationItem,
+  CrmSidebarNavigationSection,
+} from './components/admin/crm-sidebar-navigation.vue'
 export type { CrmServiceOption } from './components/admin/crm-service-switcher.vue'
 export type { CrmBulkAction } from './components/admin/crm-bulk-action'
 export { default as CrmPagination } from './components/admin/crm-pagination.vue'

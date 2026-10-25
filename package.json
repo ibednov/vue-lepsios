@@ -1,6 +1,6 @@
 {
   "name": "@lepsios/vue",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "type": "module",
   "description": "Shared Vue 3 components and composables for Vite and Nuxt applications",
   "license": "UNLICENSED",
@@ -47,7 +47,8 @@
     "vaul-vue": "^0.4.1",
     "vue": "^3.5.0",
     "vue-i18n": "^11.0.0",
-    "vue-sonner": "^2.0.0"
+    "vue-sonner": "^2.0.0",
+    "vue-router": "^4.0.0"
   },
   "peerDependenciesMeta": {
     "typed.js": {
@@ -55,6 +56,7 @@
     }
   },
   "devDependencies": {
-    "alexbednov-phone-select": "^0.4.4"
+    "alexbednov-phone-select": "^0.4.4",
+    "vue-router": "^4.5.1"
   }
 }
