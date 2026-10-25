@@ -6,6 +6,15 @@ The initial UI slice targets CRM screens: table framing and pagination, number f
 
 The package exports Vue SFC and TypeScript source for host bundlers to compile. Consumers provide the peer dependencies listed in `package.json` and their own Tailwind theme tokens.
 
+## Input appearances
+
+The shared `Input` supports `wishimi` for a labeled 52px field and `wishimi-search` for a 52px search field. `FieldItem` applies the labeled appearance with `appearance: 'wishimi'`; `inputType: 'search'` selects the search treatment and its leading search icon. The matching primary action uses `Button` with `variant="wishimi"` and `size="wishimi"`.
+
+```vue
+<Input v-model="name" variant="wishimi" />
+<Button variant="wishimi" size="wishimi">Continue</Button>
+```
+
 ```ts
 import { CrmDataTable, CrmNumberField, useNotify, useConfirmDialog } from '@lepsios/vue'
 import { useSortable, moveArrayElement } from '@lepsios/vue'
