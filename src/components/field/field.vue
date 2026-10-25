@@ -15,6 +15,7 @@ withDefaults(defineProps<Props>(), {
 defineEmits<{
   'complete': []
   'update:error': [error: string | null]
+  inputOverflow: [value: { receivedDigits: number, maxDigits: number }]
 }>()
 
 const data = defineModel<FieldDataInterface | undefined>()
@@ -44,6 +45,7 @@ const data = defineModel<FieldDataInterface | undefined>()
       :is-show-label="isShowLabel"
       @complete="$emit('complete')"
       @update:error="$emit('update:error', $event)"
+      @input-overflow="$emit('inputOverflow', $event)"
     />
   </template>
 </template>

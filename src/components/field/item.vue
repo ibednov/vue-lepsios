@@ -53,6 +53,7 @@ withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   'complete': []
   'update:error': [error: string | null]
+  inputOverflow: [value: { receivedDigits: number, maxDigits: number }]
 }>()
 
 const data = defineModel<FieldDataInterface | undefined>()
@@ -297,6 +298,7 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
         :select-item-country-class="data.selectItemCountryClass"
         :input-class="data.inputClass"
         @update:model-value="(value) => { emitUpdate(value); emit('update:error', null) }"
+        @input-overflow="emit('inputOverflow', $event)"
       />
       <FieldInputOtp
         v-if="data && data.type === 'otp'"
