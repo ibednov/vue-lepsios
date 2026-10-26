@@ -164,6 +164,7 @@ watch(() => data.value, syncFromModel, { immediate: true })
                 v-model:placeholder="placeholder"
                 :min-value="calendarMinValue"
                 :max-value="calendarMaxValue"
+                :calendar-label="t('shared.ui.datepicker.label')"
                 initial-focus
                 @update:model-value="handleCalendarUpdate"
             />
