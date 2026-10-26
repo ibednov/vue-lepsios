@@ -116,16 +116,29 @@ watch(() => data.value, syncFromModel, { immediate: true })
         <PopoverTrigger as-child>
             <Button
                 variant="outline"
+                type="button"
+                :aria-haspopup="true"
+                :aria-expanded="isOpen"
                 :class="cn(
-                    'justify-start text-left font-normal',
+                    'w-full justify-between gap-2 border-2 px-3 text-left font-normal shadow-none',
                     !dateValue && 'text-muted-foreground',
                 )"
             >
+                <span class="flex min-w-0 items-center gap-2">
+                    <Icon
+                        icon="lucide:calendar"
+                        width="18"
+                        class="shrink-0 opacity-80"
+                    />
+                    <span class="truncate">
+                        {{ dateValue ? dateFormatter.format(dateValue.toDate(getLocalTimeZone())) : t('shared.ui.datepicker.placeholder') }}
+                    </span>
+                </span>
                 <Icon
-                    icon="lucide:calendar"
+                    icon="lucide:chevron-down"
                     width="16"
+                    class="shrink-0 opacity-70"
                 />
-                {{ dateValue ? dateFormatter.format(dateValue.toDate(getLocalTimeZone())) : t('shared.ui.datepicker.placeholder') }}
             </Button>
         </PopoverTrigger>
         <PopoverContent
