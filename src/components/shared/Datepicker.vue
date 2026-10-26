@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import SharedUiCalendar from './calendar/index.vue'
 import { Button } from '../ui/button'
 import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover'
@@ -72,36 +72,41 @@ const rangeBounds = computed(() => getCalendarRangeBounds(props.range))
 const calendarMinValue = computed(() => rangeBounds.value.minValue)
 const calendarMaxValue = computed(() => rangeBounds.value.maxValue)
 
-onMounted(() => {
-  if (data.value) {
-    let isoDateString: string | undefined
-    if (typeof data.value === 'string') {
-      if (/^\d{4}-\d{2}-\d{2}T/.test(data.value)) {
-        isoDateString = data.value.split('T')[0]
-      }
-      else {
-        isoDateString = data.value
-      }
-    }
-    else if (data.value instanceof Date) {
-      isoDateString = dayjs(data.value).format('YYYY-MM-DD')
-    }
+const syncFromModel = (value: Date | string | null | undefined) => {
+  if (!value) {
+    dateValue.value = undefined
+    return
+  }
 
-    if (isoDateString) {
-      try {
-        dateValue.value = parseDate(isoDateString)
-        placeholder.value = dateValue.value
-      }
-      catch (e) {
-        console.error('Failed to parse date:', isoDateString, e)
-        dateValue.value = undefined
-      }
+  let isoDateString: string | undefined
+  if (typeof value === 'string') {
+    if (/^\d{4}-\d{2}-\d{2}T/.test(value)) {
+      isoDateString = value.split('T')[0]
+    }
+    else {
+      isoDateString = value
     }
   }
-  else {
+  else if (value instanceof Date) {
+    isoDateString = dayjs(value).format('YYYY-MM-DD')
+  }
+
+  if (!isoDateString) {
+    dateValue.value = undefined
+    return
+  }
+
+  try {
+    dateValue.value = parseDate(isoDateString)
+    placeholder.value = dateValue.value
+  }
+  catch (e) {
+    console.error('Failed to parse date:', isoDateString, e)
     dateValue.value = undefined
   }
-})
+}
+
+watch(() => data.value, syncFromModel, { immediate: true })
 </script>
 
 <template>
