@@ -73,6 +73,7 @@ const drawerFullscreenClass = [
     >
         <DialogContent
             :class="[surfaceClass, dialogContentClass]"
+            :close-label="props.closeLabel || 'Close'"
         >
             <DialogHeader
                 v-if="title || description"
@@ -119,7 +120,7 @@ const drawerFullscreenClass = [
                         <button
                             type="button"
                             class="pointer-events-auto flex size-7 items-center justify-center rounded-full bg-lepsios-field text-foreground"
-                            :aria-label="props.closeLabel"
+                            :aria-label="props.closeLabel || 'Close'"
                         >
                             <Icon
                                 icon="akar-icons:cross"
