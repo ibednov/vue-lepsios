@@ -13,6 +13,7 @@ withDefaults(defineProps<{
   actions?: LandingCallToActionAction[]
   id?: string
   tone?: 'light' | 'dark'
+  backgroundImage?: string
 }>(), {
   id: 'call-to-action',
   tone: 'light',
@@ -26,10 +27,13 @@ withDefaults(defineProps<{
     :aria-labelledby="title || $slots.title ? `${id}-title` : undefined"
     class="py-16 sm:py-20"
     :class="tone === 'light' ? 'bg-white' : 'bg-[var(--gp-bg,#141414)]'"
+    :style="backgroundImage ? { backgroundImage: `linear-gradient(${tone === 'light' ? 'rgba(255,255,255,.82),rgba(255,255,255,.82)' : 'rgba(9,9,11,.68),rgba(9,9,11,.68)' }),url('${backgroundImage}')` } : undefined"
   >
     <div
       class="mx-auto grid w-full max-w-6xl items-center gap-8 overflow-hidden rounded-3xl px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[1.1fr_0.9fr] lg:px-14"
-      :class="tone === 'light' ? 'bg-zinc-100' : 'bg-[var(--gp-surface,#272727)]'"
+      :class="tone === 'light'
+        ? (backgroundImage ? 'bg-white/80 backdrop-blur-sm' : 'bg-zinc-100')
+        : (backgroundImage ? 'bg-black/55 backdrop-blur-sm' : 'bg-[var(--gp-surface,#272727)]')"
     >
       <div class="flex flex-col items-start">
         <slot name="eyebrow" />

@@ -67,6 +67,7 @@ const props = withDefaults(defineProps<{
 
 <style scoped>
 .lp-hero {
+  --lp-background: #fff;
   --lp-foreground: #18181b;
   --lp-muted: #62656f;
   --lp-border: #e4e4e7;
@@ -74,10 +75,12 @@ const props = withDefaults(defineProps<{
   --lp-primary: #18181b;
   --lp-primary-foreground: #fff;
   padding: 2rem 0 6rem;
+  background: var(--lp-background);
   color: var(--lp-foreground);
 }
 
 .lp-hero[data-tone='dark'] {
+  --lp-background: #141414;
   --lp-foreground: #f5f5fa;
   --lp-muted: #a4a7b9;
   --lp-border: #282b37;
