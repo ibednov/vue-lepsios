@@ -166,7 +166,7 @@ const props = withDefaults(defineProps<{
   outline-offset: 3px;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .lp-navbar__inner {
     width: min(100% - 2rem, 1280px);
     min-height: 64px;
