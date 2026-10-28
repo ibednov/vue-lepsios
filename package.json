@@ -16,6 +16,10 @@
       "types": "./src/components/ui/*/index.ts",
       "import": "./src/components/ui/*/index.ts"
     },
+    "./components/landing": {
+      "types": "./src/components/landing/index.ts",
+      "import": "./src/components/landing/index.ts"
+    },
     "./components/*": "./src/components/*",
     "./composables/*": "./src/composables/*",
     "./lib/*": "./src/lib/*",

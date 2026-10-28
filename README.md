@@ -38,6 +38,34 @@ import '@lepsios/vue/assets/css/landing-brutal.css'
 | `landing.css` | Dark marketing palette (`--gp-*`) |
 | `landing-brutal.css` | Light brutal marketing palette |
 
+## Landing blocks
+
+Reusable page sections are grouped under `src/components/landing` and exported
+from `@lepsios/vue/components/landing` (or the package root). Product copy,
+links, route behavior, and authenticated actions belong to the consuming app;
+pass them as props or slots. Blocks use a light tone by default and accept
+`tone="dark"` when needed.
+
+```vue
+<LandingStepsSection
+  :items="steps"
+  :title="copy.stepsTitle"
+  :description="copy.stepsDescription"
+>
+  <template #eyebrow>{{ copy.stepsEyebrow }}</template>
+</LandingStepsSection>
+
+<LandingCallToAction :title="copy.ctaTitle" :description="copy.ctaDescription">
+  <template #actions>
+    <ProductSignupAction />
+  </template>
+</LandingCallToAction>
+```
+
+Available groups: `LandingHero`, `LandingNavbar`, `LandingFeatureGrid`,
+`LandingStepsSection`, `LandingFaqSection`, `LandingCallToAction`, and
+`LandingFooterSection`.
+
 ## Local development
 
 The canonical source is this repository. Product repositories that build in isolated Docker contexts keep a synchronized vendored copy for reproducible builds.
