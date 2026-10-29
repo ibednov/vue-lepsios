@@ -3,7 +3,7 @@
   "version": "0.5.0",
   "type": "module",
   "description": "Shared Vue 3 components and composables for Vite and Nuxt applications",
-  "license": "UNLICENSED",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "files": [
     "src"
   ],

@@ -69,3 +69,7 @@ Available groups: `LandingHero`, `LandingNavbar`, `LandingFeatureGrid`,
 ## Local development
 
 The canonical source is this repository. Product repositories that build in isolated Docker contexts keep a synchronized vendored copy for reproducible builds.
+
+## License
+
+[PolyForm Noncommercial License 1.0.0](LICENSE). Free for noncommercial use; commercial use requires the author's written permission — contact via [alexbednov.dev](https://alexbednov.dev). See [CONTRIBUTING.md](CONTRIBUTING.md).
