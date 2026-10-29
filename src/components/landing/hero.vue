@@ -8,6 +8,8 @@ export interface LandingHeroAction {
   variant?: 'primary' | 'secondary'
 }
 
+export type LandingHeroVariant = 'marketing' | 'term'
+
 const props = withDefaults(defineProps<{
   title: string
   description?: string
@@ -15,20 +17,30 @@ const props = withDefaults(defineProps<{
   actions?: LandingHeroAction[]
   highlights?: string[]
   tone?: 'light' | 'dark'
+  /** marketing = current LP look; term = mono case-page hero */
+  variant?: LandingHeroVariant
   class?: HTMLAttributes['class']
 }>(), {
   actions: () => [],
   highlights: () => [],
   tone: 'light',
+  variant: 'marketing',
 })
 </script>
 
 <template>
-  <section :class="cn('lp-hero', props.class)" :data-tone="tone">
+  <section
+    :class="cn('lp-hero', variant === 'term' && 'lp-hero--term', props.class)"
+    :data-tone="tone"
+    :data-variant="variant"
+  >
     <div class="lp-hero__inner">
       <div class="lp-hero__copy">
         <div v-if="eyebrow || $slots.eyebrow" class="lp-hero__eyebrow">
           <slot name="eyebrow">{{ eyebrow }}</slot>
+        </div>
+        <div v-if="$slots.meta" class="lp-hero__meta">
+          <slot name="meta" />
         </div>
         <h1 class="lp-hero__title">
           <slot name="title">{{ title }}</slot>
@@ -36,18 +48,23 @@ const props = withDefaults(defineProps<{
         <p v-if="description || $slots.description" class="lp-hero__description">
           <slot name="description">{{ description }}</slot>
         </p>
+        <div v-if="$slots.stack" class="lp-hero__stack">
+          <slot name="stack" />
+        </div>
 
-        <div v-if="actions.length || $slots.actions" class="lp-hero__actions">
-          <slot name="actions">
-            <a
-              v-for="(action, index) in actions"
-              :key="`${action.href}-${index}`"
-              :class="['lp-hero__action', `lp-hero__action--${action.variant ?? 'primary'}`]"
-              :href="action.href"
-            >
-              {{ action.label }}
-              <slot :name="`action-icon-${index}`" />
-            </a>
+        <div v-if="actions.length || $slots.actions || $slots.ctas" class="lp-hero__actions">
+          <slot name="ctas">
+            <slot name="actions">
+              <a
+                v-for="(action, index) in actions"
+                :key="`${action.href}-${index}`"
+                :class="['lp-hero__action', `lp-hero__action--${action.variant ?? 'primary'}`]"
+                :href="action.href"
+              >
+                {{ action.label }}
+                <slot :name="`action-icon-${index}`" />
+              </a>
+            </slot>
           </slot>
         </div>
 
@@ -254,5 +271,68 @@ const props = withDefaults(defineProps<{
   .lp-hero__action {
     transition: none;
   }
+}
+
+.lp-hero--term {
+  --lp-primary: var(--lepsios-term-accent, #2f6a14);
+  --lp-primary-foreground: var(--lepsios-term-window, #f4f2ea);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: -0.01em;
+}
+
+.lp-hero--term .lp-hero__eyebrow {
+  border-color: color-mix(in srgb, var(--lepsios-term-accent, #2f6a14) 35%, transparent);
+  border-radius: 4px;
+  color: var(--lepsios-term-accent, #2f6a14);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px color-mix(in srgb, var(--lepsios-term-accent, #2f6a14) 35%, transparent);
+}
+
+.lp-hero--term .lp-hero__meta {
+  margin-top: 0.75rem;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lp-muted);
+}
+
+.lp-hero--term .lp-hero__title {
+  max-width: none;
+  letter-spacing: -0.04em;
+}
+
+.lp-hero--term .lp-hero__stack {
+  margin-top: 1rem;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--lepsios-term-accent, #2f6a14);
+}
+
+.lp-hero--term .lp-hero__action {
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.lp-hero--term .lp-hero__action--secondary {
+  border-color: color-mix(in srgb, var(--lepsios-term-accent, #2f6a14) 55%, transparent);
+}
+
+.lp-hero--term .lp-hero__highlights li {
+  border-radius: 4px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lp-hero--term .lp-hero__media {
+  border-radius: 12px;
+  background: transparent;
 }
 </style>

@@ -8,7 +8,8 @@ import { entityCardVariants } from './variants'
 interface ComponentProps {
   variant?: NonNullable<EntityCardVariants['variant']>
   density?: NonNullable<EntityCardVariants['density']>
-  as?: 'article' | 'div' | 'button'
+  as?: 'article' | 'div' | 'button' | 'a'
+  href?: string
   clickable?: boolean
   class?: HTMLAttributes['class']
 }
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<ComponentProps>(), {
   variant: 'person',
   density: 'cozy',
   as: 'article',
+  href: undefined,
   clickable: false,
 })
 
@@ -48,6 +50,7 @@ const handleClick = () => {
     <component
         :is="rootTag"
         :type="rootTag === 'button' ? 'button' : undefined"
+        :href="rootTag === 'a' ? href : undefined"
         :class="cn(
             entityCardVariants({ variant: props.variant, density: props.density }),
             clickable && rootTag !== 'button' && 'cursor-pointer',
@@ -104,6 +107,38 @@ const handleClick = () => {
                 class="flex shrink-0 items-center gap-2"
             >
                 <slot name="trailing" />
+            </div>
+            <slot />
+        </template>
+
+        <!-- case-term: case index card (thumb, chips, title, body, stackline) -->
+        <template v-else-if="variant === 'case-term'">
+            <div
+                v-if="slots.leading"
+                class="term-case-card__thumb"
+            >
+                <slot name="leading" />
+            </div>
+            <div
+                v-if="slots.meta"
+                class="flex flex-wrap gap-2"
+            >
+                <slot name="meta" />
+            </div>
+            <slot name="title" />
+            <slot name="subtitle" />
+            <slot name="preview" />
+            <div
+                v-if="slots.footer"
+                class="term-case-card__stackline"
+            >
+                <slot name="footer" />
+            </div>
+            <div
+                v-if="slots.actions"
+                class="flex items-center gap-2"
+            >
+                <slot name="actions" />
             </div>
             <slot />
         </template>
