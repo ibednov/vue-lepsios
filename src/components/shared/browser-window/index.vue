@@ -55,7 +55,12 @@ const aspectClass = computed(() => {
     class="flex min-h-0 w-full flex-col overflow-hidden"
     :class="[
       isTerm
-        ? 'term-browser rounded-[10px] border border-[color:color-mix(in_srgb,var(--lepsios-term-accent)_16%,transparent)] bg-[color:var(--lepsios-term-window,#f4f2ea)] text-[color:var(--foreground)] shadow-[0_24px_80px_rgba(0,0,0,0.18)]'
+        ? [
+            'term-browser rounded-[10px] border shadow-[0_24px_80px_rgba(0,0,0,0.18)]',
+            isLight
+              ? 'border-[#d6d3c9] bg-[#f4f2ea] text-[#18181b]'
+              : 'border-[color:color-mix(in_srgb,var(--lepsios-term-accent)_16%,transparent)] bg-[color:var(--lepsios-term-window,#f4f2ea)] text-[color:var(--foreground)]',
+          ]
         : [
             'border',
             isLight
@@ -75,7 +80,12 @@ const aspectClass = computed(() => {
       class="flex shrink-0 items-center gap-2 border-b"
       :class="[
         isTerm
-          ? 'h-8 gap-1.5 px-3 text-[11px] text-[color:color-mix(in_srgb,var(--foreground)_55%,transparent)] border-[color:color-mix(in_srgb,var(--lepsios-term-accent)_16%,transparent)] bg-[color:var(--lepsios-term-chrome,#e7e4db)]'
+          ? [
+              'h-8 gap-1.5 px-3 text-[11px]',
+              isLight
+                ? 'border-[#d6d3c9] bg-[#e7e4db] text-[#52525b]'
+                : 'text-[color:color-mix(in_srgb,var(--foreground)_55%,transparent)] border-[color:color-mix(in_srgb,var(--lepsios-term-accent)_16%,transparent)] bg-[color:var(--lepsios-term-chrome,#e7e4db)]',
+            ]
           : [
               'h-11 px-3',
               isMac ? '' : 'flex-row-reverse',
@@ -127,7 +137,7 @@ const aspectClass = computed(() => {
       class="flex min-h-0 min-w-0 flex-1 flex-col"
       :class="[
         isTerm
-          ? 'bg-[color:var(--lepsios-term-window,#f4f2ea)]'
+          ? (isLight ? 'bg-[#fafafa] text-[#18181b]' : 'bg-[color:var(--lepsios-term-window,#f4f2ea)]')
           : isLight ? 'bg-[#fafafa] text-[#09090b]' : 'bg-[color:var(--gp-paper,#fafafa)]',
         scrollable ? 'overflow-auto' : 'overflow-hidden',
       ]"

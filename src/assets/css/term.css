@@ -8,7 +8,7 @@
 html.dark {
   --lepsios-term-accent: #b8ff3c;
   --lepsios-term-window: #0c0c0c;
-  --lepsios-term-chrome: rgb(0 0 0 / 0.4);
+  --lepsios-term-chrome: #141414;
 }
 
 .term-window {
@@ -107,17 +107,23 @@ html.dark .term-body {
 
 .term-chip {
   flex-shrink: 0;
-  border: 1px solid color-mix(in srgb, var(--lepsios-term-accent) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--lepsios-term-accent) 40%, transparent);
   padding: 0.2rem 0.65rem;
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--lepsios-term-accent) 85%, white);
+  /* Accent as-is — mixing with white washed labels out on light chrome. */
+  color: var(--lepsios-term-accent);
+  background: transparent;
 }
 
 .term-chip.is-on {
   background: var(--lepsios-term-accent);
   color: var(--lepsios-term-window);
+}
+
+.term-chip:hover {
+  border-color: var(--lepsios-term-accent);
 }
 
 @media (max-width: 640px) {

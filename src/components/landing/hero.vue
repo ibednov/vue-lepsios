@@ -106,6 +106,25 @@ const props = withDefaults(defineProps<{
   --lp-primary-foreground: #09090b;
 }
 
+/* Case pages: follow site color-mode — never force white paper under dark UI tokens. */
+.lp-hero--term {
+  --lp-background: transparent;
+  --lp-foreground: var(--foreground);
+  --lp-muted: color-mix(in srgb, var(--foreground) 68%, transparent);
+  --lp-border: color-mix(in srgb, var(--foreground) 14%, transparent);
+  --lp-card: transparent;
+  --lp-primary: var(--foreground);
+  --lp-primary-foreground: var(--background);
+  background: transparent;
+  color: var(--foreground);
+}
+
+.lp-hero--term .lp-hero__media {
+  border-radius: 12px;
+  background: transparent;
+  overflow: visible;
+}
+
 .lp-hero__inner {
   width: min(100% - 2.5rem, 1280px);
   margin-inline: auto;
