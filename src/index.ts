@@ -1,6 +1,9 @@
 export type { PaginationMeta } from './types/pagination'
 export { emptyPaginationMeta } from './types/pagination'
 export { useRevealSecret } from './composables/admin/use-reveal-secret'
+export { assemblePrivateFile } from './utils/files/private'
+export type { AssembledPrivateFile, PrivateFileMeta } from './utils/files/private'
+export { usePrivateFile } from './composables/files/use-private-file'
 export { useSortable, moveArrayElement } from './composables/collections/use-sortable'
 
 export { default as CrmDataTable } from './components/admin/crm-data-table.vue'
