@@ -2,6 +2,7 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from '../../../lib/cn'
 import SharedCaseTeaser from '../case-teaser/index.vue'
+import SharedMediaFrame from '../media-frame/index.vue'
 import {
   Stepper,
   StepperDescription,
@@ -23,12 +24,23 @@ export type CaseSectionMetric = { label: string; value: string }
 
 export type CaseSectionStep = { title: string; description: string }
 
+export type CaseSectionPhone = { src: string; alt: string; caption?: string }
+
 export type CaseSectionTeaser = {
   kicker?: string
   title?: string
   body?: string
   cta?: string
   onClick?: () => void
+  media?: {
+    img: string
+    alt?: string
+    variant?: 'phone' | 'surface' | 'browser'
+    rounded?: string | number
+    padding?: string | number
+    class?: string
+    loading?: 'lazy' | 'eager'
+  }
 }
 
 const props = withDefaults(defineProps<{
@@ -43,6 +55,7 @@ const props = withDefaults(defineProps<{
   mediaSide?: 'start' | 'end'
   metrics?: CaseSectionMetric[]
   steps?: CaseSectionStep[]
+  phones?: CaseSectionPhone[]
   teaser?: CaseSectionTeaser
 }>(), {
   kicker: undefined,
@@ -55,6 +68,7 @@ const props = withDefaults(defineProps<{
   mediaSide: 'end',
   metrics: undefined,
   steps: undefined,
+  phones: undefined,
   teaser: undefined,
 })
 
@@ -224,6 +238,29 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
           </dd>
         </div>
       </dl>
+      <div
+        v-if="phones?.length"
+        class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      >
+        <figure
+          v-for="shot in phones"
+          :key="shot.src"
+          class="m-0 mx-auto flex w-full max-w-[220px] flex-col gap-3"
+        >
+          <SharedMediaFrame
+            variant="phone"
+            :img="shot.src"
+            :alt="shot.alt"
+            loading="lazy"
+          />
+          <figcaption
+            v-if="shot.caption"
+            class="text-sm text-foreground/55"
+          >
+            {{ shot.caption }}
+          </figcaption>
+        </figure>
+      </div>
       <SharedCaseTeaser
         v-if="teaser"
         clickable
@@ -235,6 +272,17 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
       >
         <template v-if="$slots['teaser-media']" #media>
           <slot name="teaser-media" />
+        </template>
+        <template v-else-if="teaser.media" #media>
+          <SharedMediaFrame
+            :variant="teaser.media.variant ?? 'phone'"
+            :img="teaser.media.img"
+            :alt="teaser.media.alt ?? ''"
+            :rounded="teaser.media.rounded"
+            :padding="teaser.media.padding"
+            :loading="teaser.media.loading ?? 'lazy'"
+            :class="teaser.media.class"
+          />
         </template>
       </SharedCaseTeaser>
       <slot v-if="!useSplit" />
