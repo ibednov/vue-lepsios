@@ -10,6 +10,8 @@ export type CaseSectionPart =
 
 export type CaseSectionParagraph = string | CaseSectionPart[]
 
+export type CaseSectionMetric = { label: string; value: string }
+
 const props = withDefaults(defineProps<{
   kicker?: string
   title?: string
@@ -17,13 +19,27 @@ const props = withDefaults(defineProps<{
   class?: HTMLAttributes['class']
   paragraphs?: CaseSectionParagraph[]
   cards?: { title: string; description: string }[]
+  layout?: 'stack' | 'split'
+  mediaSide?: 'start' | 'end'
+  metrics?: CaseSectionMetric[]
 }>(), {
   kicker: undefined,
   title: undefined,
   id: undefined,
   paragraphs: undefined,
   cards: undefined,
+  layout: 'stack',
+  mediaSide: 'end',
+  metrics: undefined,
 })
+
+const slots = useSlots()
+
+const useSplit = computed(() =>
+  props.layout === 'split'
+  && !!props.paragraphs?.length
+  && !!slots.default,
+)
 
 function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[] {
   return Array.isArray(paragraph)
@@ -54,7 +70,44 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
     </h2>
     <div class="flex flex-col gap-4">
       <div
-        v-if="paragraphs?.length"
+        v-if="useSplit"
+        class="mt-6 grid items-start gap-8 lg:grid-cols-2"
+      >
+        <div
+          v-if="mediaSide === 'start'"
+          class="min-w-0"
+        >
+          <slot />
+        </div>
+        <div class="min-w-0 space-y-4 text-base leading-7 text-foreground/70">
+          <template v-for="(paragraph, pi) in paragraphs" :key="pi">
+            <p v-if="!isParts(paragraph)">{{ paragraph }}</p>
+            <p v-else>
+              <template v-for="(part, parti) in paragraph" :key="parti">
+                <template v-if="!part.type || part.type === 'text'">{{ part.text }}</template>
+                <strong v-else-if="part.type === 'bold'">{{ part.text }}</strong>
+                <code v-else-if="part.type === 'code'">{{ part.text }}</code>
+                <button
+                  v-else-if="part.type === 'link'"
+                  type="button"
+                  class="h-auto inline p-0 text-inherit underline decoration-[color:var(--lepsios-term-accent)] underline-offset-2 bg-transparent border-0 cursor-pointer font-inherit"
+                  @click="part.onClick"
+                >
+                  {{ part.text }}
+                </button>
+              </template>
+            </p>
+          </template>
+        </div>
+        <div
+          v-if="mediaSide === 'end'"
+          class="min-w-0"
+        >
+          <slot />
+        </div>
+      </div>
+      <div
+        v-else-if="paragraphs?.length"
         class="mt-4 max-w-3xl space-y-4 text-base leading-7 text-foreground/70"
       >
         <template v-for="(paragraph, pi) in paragraphs" :key="pi">
@@ -89,7 +142,24 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
           <p class="m-0 text-sm leading-6 text-foreground/60">{{ card.description }}</p>
         </article>
       </div>
-      <slot />
+      <dl
+        v-if="metrics?.length"
+        class="mt-8 grid gap-3 sm:grid-cols-2"
+      >
+        <div
+          v-for="(metric, mi) in metrics"
+          :key="mi"
+          class="rounded-[10px] border border-foreground/15 bg-foreground/[0.03] p-[18px] dark:bg-[#121212]"
+        >
+          <dt class="text-[11px] uppercase tracking-[0.18em] text-[color:var(--lepsios-term-accent,#2f6a14)]">
+            {{ metric.label }}
+          </dt>
+          <dd class="m-0 mt-2 text-sm leading-6 text-foreground/70">
+            {{ metric.value }}
+          </dd>
+        </div>
+      </dl>
+      <slot v-if="!useSplit" />
     </div>
   </section>
 </template>
