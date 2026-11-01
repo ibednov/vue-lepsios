@@ -20,6 +20,15 @@ export { default as CrmPagination } from './components/admin/crm-pagination.vue'
 export { default as CrmMaskedId } from './components/admin/crm-masked-id.vue'
 export { default as CrmNumberField } from './components/admin/crm-number-field.vue'
 export { default as Spinner } from './components/ui/spinner/spinner.vue'
+export {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperSeparator,
+  StepperTitle,
+  StepperTrigger,
+} from './components/ui/stepper'
 export { default as AdminTableFrame } from './components/admin/admin-table-frame.vue'
 export { default as AdminDataTable } from './components/admin/admin-table-frame.vue'
 export { default as AdminShell } from './components/admin/admin-shell.vue'

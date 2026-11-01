@@ -1,4 +1,14 @@
 <script setup lang="ts">
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperSeparator,
+  StepperTitle,
+  StepperTrigger,
+} from '../ui/stepper'
+
 export interface LandingStepItem {
   title: string
   description: string
@@ -10,7 +20,7 @@ withDefaults(defineProps<{
   description?: string
   id?: string
   tone?: 'light' | 'dark'
-  /** default = marketing cards; term = numbered case steps */
+  /** default = marketing cards; term = horizontal Stepper for case pages */
   variant?: 'default' | 'term'
 }>(), {
   id: 'steps',
@@ -26,20 +36,24 @@ withDefaults(defineProps<{
     class="py-20 sm:py-24"
     :class="[
       variant === 'term'
-        ? 'bg-transparent text-foreground'
+        ? 'bg-transparent p-0 text-foreground'
         : tone === 'light' ? 'bg-white text-zinc-950' : 'bg-[var(--gp-bg,#141414)] text-[var(--gp-ink,#f5f5fa)]',
     ]"
     :data-variant="variant"
   >
     <div
-      class="mx-auto w-full px-4 sm:px-6"
-      :class="variant === 'term' ? 'max-w-none' : 'max-w-6xl'"
+      class="mx-auto w-full"
+      :class="variant === 'term' ? 'max-w-none px-0' : 'max-w-6xl px-4 sm:px-6'"
     >
-      <header v-if="title || description || $slots.title || $slots.description || $slots.eyebrow" class="mb-10 max-w-2xl sm:mb-12">
+      <header
+        v-if="title || description || $slots.title || $slots.description || $slots.eyebrow || $slots.kicker"
+        class="mb-10 max-w-2xl sm:mb-12"
+        :class="variant === 'term' ? 'flex flex-col gap-3' : ''"
+      >
         <slot name="eyebrow" />
         <p
           v-if="variant === 'term' && $slots.kicker"
-          class="term-kicker mb-3"
+          class="text-[11px] font-medium uppercase tracking-[0.28em] text-[color:var(--lepsios-term-accent,#2f6a14)]"
         >
           <slot name="kicker" />
         </p>
@@ -47,31 +61,69 @@ withDefaults(defineProps<{
           v-if="title || $slots.title"
           :id="`${id}-title`"
           :class="variant === 'term'
-            ? 'term-section-title text-[clamp(1.75rem,4vw,2.5rem)]'
+            ? 'text-[clamp(1.75rem,4vw,2.5rem)] font-bold tracking-tight'
             : ['text-3xl font-semibold tracking-tight sm:text-4xl', tone === 'light' ? 'text-zinc-950' : 'text-[var(--gp-ink,#f5f5fa)]']"
         >
           <slot name="title">{{ title }}</slot>
         </h2>
         <p
           v-if="description || $slots.description"
-          class="mt-4 text-base leading-7 sm:text-lg"
+          class="text-base leading-7 sm:text-lg"
           :class="variant === 'term'
             ? 'text-foreground/60'
-            : tone === 'light' ? 'text-zinc-600' : 'text-[var(--gp-muted,#a4a7b9)]'"
+            : ['mt-4', tone === 'light' ? 'text-zinc-600' : 'text-[var(--gp-muted,#a4a7b9)]']"
         >
           <slot name="description">{{ description }}</slot>
         </p>
       </header>
 
-      <ol :class="variant === 'term' ? 'term-steps' : 'grid gap-4 sm:grid-cols-2 lg:grid-cols-4'">
+      <!-- Case / terminal: horizontal Stepper -->
+      <Stepper
+        v-if="variant === 'term'"
+        :default-value="1"
+        class="flex w-full flex-col items-stretch gap-6 sm:flex-row sm:items-start sm:gap-2"
+      >
+        <StepperItem
+          v-for="(item, index) in items"
+          :key="item.title"
+          :step="index + 1"
+          class="relative flex w-full flex-col items-start sm:items-center sm:justify-center"
+        >
+          <StepperTrigger class="w-full items-start gap-3 p-0 sm:items-center">
+            <StepperIndicator
+              v-slot="{ step }"
+              class="size-9 shrink-0 rounded-none border border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_45%,transparent)] bg-transparent text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--lepsios-term-accent,#2f6a14)] group-data-[state=active]:bg-[color:var(--lepsios-term-accent,#2f6a14)] group-data-[state=active]:text-[color:var(--lepsios-term-window,#f4f2ea)] group-data-[state=completed]:bg-[color:var(--lepsios-term-accent,#2f6a14)] group-data-[state=completed]:text-[color:var(--lepsios-term-window,#f4f2ea)]"
+            >
+              {{ String(step).padStart(2, '0') }}
+            </StepperIndicator>
+            <div class="flex min-w-0 flex-col gap-1 text-left sm:items-center sm:text-center">
+              <StepperTitle class="text-[15px] font-semibold whitespace-normal text-foreground">
+                <slot name="item-title" :item="item" :index="index">{{ item.title }}</slot>
+              </StepperTitle>
+              <StepperDescription class="text-sm leading-6 text-foreground/60 whitespace-normal">
+                <slot name="item-description" :item="item" :index="index">{{ item.description }}</slot>
+              </StepperDescription>
+            </div>
+          </StepperTrigger>
+          <StepperSeparator
+            v-if="index !== items.length - 1"
+            class="absolute left-[calc(50%+1.25rem)] right-[calc(-50%+0.75rem)] top-[1.125rem] hidden h-0.5 shrink-0 rounded-none bg-foreground/15 sm:block group-data-[state=completed]:bg-[color:var(--lepsios-term-accent,#2f6a14)]"
+          />
+          <slot name="item" :item="item" :index="index" />
+        </StepperItem>
+      </Stepper>
+
+      <!-- Marketing LP: card grid -->
+      <ol
+        v-else
+        class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+      >
         <li
           v-for="(item, index) in items"
           :key="item.title"
-          :class="variant === 'term'
-            ? 'flex min-w-0 flex-col gap-2'
-            : ['flex min-w-0 flex-col gap-3 rounded-2xl p-6 sm:p-7', tone === 'light' ? 'bg-zinc-100' : 'bg-[var(--gp-surface,#272727)]']"
+          :class="['flex min-w-0 flex-col gap-3 rounded-2xl p-6 sm:p-7', tone === 'light' ? 'bg-zinc-100' : 'bg-[var(--gp-surface,#272727)]']"
         >
-          <slot v-if="variant !== 'term'" name="marker" :item="item" :index="index">
+          <slot name="marker" :item="item" :index="index">
             <span
               class="grid size-9 place-items-center rounded-full text-sm font-semibold tabular-nums"
               :class="tone === 'light' ? 'bg-white text-zinc-800' : 'bg-[var(--gp-raised,#323232)] text-[var(--gp-accent,#ee8a61)]'"
@@ -81,16 +133,12 @@ withDefaults(defineProps<{
             </span>
           </slot>
           <h3
-            :class="variant === 'term'
-              ? 'text-[15px] font-semibold'
-              : ['mt-2 text-lg font-semibold', tone === 'light' ? 'text-zinc-950' : 'text-[var(--gp-ink,#f5f5fa)]']"
+            :class="['mt-2 text-lg font-semibold', tone === 'light' ? 'text-zinc-950' : 'text-[var(--gp-ink,#f5f5fa)]']"
           >
             <slot name="item-title" :item="item" :index="index">{{ item.title }}</slot>
           </h3>
           <p
-            :class="variant === 'term'
-              ? 'text-sm leading-6 text-foreground/60'
-              : ['text-sm leading-6 sm:text-base', tone === 'light' ? 'text-zinc-600' : 'text-[var(--gp-muted,#a4a7b9)]']"
+            :class="['text-sm leading-6 sm:text-base', tone === 'light' ? 'text-zinc-600' : 'text-[var(--gp-muted,#a4a7b9)]']"
           >
             <slot name="item-description" :item="item" :index="index">{{ item.description }}</slot>
           </p>

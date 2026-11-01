@@ -38,10 +38,12 @@ const resolvedVariant = computed<MediaFrameVariant>(() => {
 
   <div
     v-else-if="resolvedVariant === 'phone'"
-    class="term-phone-frame"
-    :class="props.class"
+    :class="[
+      'relative mx-auto w-full max-w-[300px] rounded-[42px] bg-[#111] p-[9px] shadow-[0_24px_80px_rgba(0,0,0,0.18),inset_0_0_0_2px_#2a2a2a]',
+      props.class,
+    ]"
   >
-    <div class="term-phone-frame__inner">
+    <div class="overflow-hidden rounded-[34px] [&_img]:block [&_img]:w-full [&_img]:rounded-[34px] [&_video]:block [&_video]:w-full [&_video]:rounded-[34px] [&_video]:bg-[#f2f1f6]">
       <slot />
     </div>
   </div>

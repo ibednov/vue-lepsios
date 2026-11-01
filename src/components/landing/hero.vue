@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
+import { computed } from 'vue'
 import { cn } from '../../lib/cn'
 
 export interface LandingHeroAction {
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<{
   actions?: LandingHeroAction[]
   highlights?: string[]
   tone?: 'light' | 'dark'
-  /** marketing = current LP look; term = mono case-page hero */
+  /** marketing = LP look (scoped CSS); term = case-page hero (Tailwind only) */
   variant?: LandingHeroVariant
   class?: HTMLAttributes['class']
 }>(), {
@@ -26,13 +27,102 @@ const props = withDefaults(defineProps<{
   tone: 'light',
   variant: 'marketing',
 })
+
+const isTerm = computed(() => props.variant === 'term')
 </script>
 
 <template>
+  <!-- Case pages: Tailwind only — same width as surrounding case sections. -->
   <section
-    :class="cn('lp-hero', variant === 'term' && 'lp-hero--term', props.class)"
+    v-if="isTerm"
+    :class="cn('w-full bg-transparent p-0 font-mono text-foreground', props.class)"
+    data-variant="term"
+  >
+    <div class="grid w-full grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-10">
+      <div class="min-w-0">
+        <div
+          v-if="eyebrow || $slots.eyebrow"
+          class="inline-flex min-h-[30px] items-center gap-2 border border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_35%,transparent)] px-2.5 py-1 text-[11px] font-medium uppercase tracking-[0.28em] text-[color:var(--lepsios-term-accent,#2f6a14)]"
+        >
+          <slot name="eyebrow">{{ eyebrow }}</slot>
+        </div>
+        <div
+          v-if="$slots.meta"
+          class="mt-3 text-[11px] uppercase tracking-[0.14em] text-foreground/55"
+        >
+          <slot name="meta" />
+        </div>
+        <h1 class="mt-4 text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl">
+          <slot name="title">{{ title }}</slot>
+        </h1>
+        <p
+          v-if="description || $slots.description"
+          class="mt-4 max-w-xl text-base leading-relaxed text-foreground/70 md:text-lg"
+        >
+          <slot name="description">{{ description }}</slot>
+        </p>
+        <div
+          v-if="$slots.stack"
+          class="mt-4 text-[11px] uppercase tracking-[0.14em] text-[color:var(--lepsios-term-accent,#2f6a14)]"
+        >
+          <slot name="stack" />
+        </div>
+
+        <div
+          v-if="actions.length || $slots.actions || $slots.ctas"
+          class="mt-6 grid max-w-lg grid-cols-2 gap-3 [&>*]:w-full"
+        >
+          <slot name="ctas">
+            <slot name="actions">
+              <a
+                v-for="(action, index) in actions"
+                :key="`${action.href}-${index}`"
+                :href="action.href"
+                :class="cn(
+                  'inline-flex min-h-10 items-center justify-center gap-2 border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] no-underline transition',
+                  action.variant === 'secondary'
+                    ? 'border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_55%,transparent)] bg-transparent text-foreground hover:bg-foreground/5'
+                    : 'border-transparent bg-[color:var(--lepsios-term-accent,#2f6a14)] text-[color:var(--lepsios-term-window,#f4f2ea)] hover:opacity-90',
+                )"
+              >
+                {{ action.label }}
+                <slot :name="`action-icon-${index}`" />
+              </a>
+            </slot>
+          </slot>
+        </div>
+
+        <ul
+          v-if="highlights.length || $slots.highlights"
+          class="mt-6 flex list-none flex-wrap items-center gap-2 p-0 text-foreground/55"
+        >
+          <slot name="highlights">
+            <li
+              v-for="highlight in highlights"
+              :key="highlight"
+              class="inline-flex min-h-[30px] items-center border border-foreground/15 px-2.5 py-1 text-[11px] uppercase tracking-[0.12em]"
+            >
+              {{ highlight }}
+            </li>
+          </slot>
+        </ul>
+      </div>
+
+      <div
+        v-if="$slots.media"
+        class="grid min-w-0 place-items-center overflow-visible"
+      >
+        <slot name="media" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Marketing LP: existing scoped CSS. -->
+  <section
+    v-else
+    :class="cn('lp-hero', props.class)"
     :data-tone="tone"
-    :data-variant="variant"
+    data-variant="marketing"
   >
     <div class="lp-hero__inner">
       <div class="lp-hero__copy">
@@ -104,25 +194,6 @@ const props = withDefaults(defineProps<{
   --lp-card: #141414;
   --lp-primary: #fff;
   --lp-primary-foreground: #09090b;
-}
-
-/* Case pages: follow site color-mode — never force white paper under dark UI tokens. */
-.lp-hero--term {
-  --lp-background: transparent;
-  --lp-foreground: var(--foreground);
-  --lp-muted: color-mix(in srgb, var(--foreground) 68%, transparent);
-  --lp-border: color-mix(in srgb, var(--foreground) 14%, transparent);
-  --lp-card: transparent;
-  --lp-primary: var(--foreground);
-  --lp-primary-foreground: var(--background);
-  background: transparent;
-  color: var(--foreground);
-}
-
-.lp-hero--term .lp-hero__media {
-  border-radius: 12px;
-  background: transparent;
-  overflow: visible;
 }
 
 .lp-hero__inner {
@@ -290,68 +361,5 @@ const props = withDefaults(defineProps<{
   .lp-hero__action {
     transition: none;
   }
-}
-
-.lp-hero--term {
-  --lp-primary: var(--lepsios-term-accent, #2f6a14);
-  --lp-primary-foreground: var(--lepsios-term-window, #f4f2ea);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  letter-spacing: -0.01em;
-}
-
-.lp-hero--term .lp-hero__eyebrow {
-  border-color: color-mix(in srgb, var(--lepsios-term-accent, #2f6a14) 35%, transparent);
-  border-radius: 4px;
-  color: var(--lepsios-term-accent, #2f6a14);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  text-shadow: 0 0 12px color-mix(in srgb, var(--lepsios-term-accent, #2f6a14) 35%, transparent);
-}
-
-.lp-hero--term .lp-hero__meta {
-  margin-top: 0.75rem;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--lp-muted);
-}
-
-.lp-hero--term .lp-hero__title {
-  max-width: none;
-  letter-spacing: -0.04em;
-}
-
-.lp-hero--term .lp-hero__stack {
-  margin-top: 1rem;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--lepsios-term-accent, #2f6a14);
-}
-
-.lp-hero--term .lp-hero__action {
-  border-radius: 0;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.lp-hero--term .lp-hero__action--secondary {
-  border-color: color-mix(in srgb, var(--lepsios-term-accent, #2f6a14) 55%, transparent);
-}
-
-.lp-hero--term .lp-hero__highlights li {
-  border-radius: 4px;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.lp-hero--term .lp-hero__media {
-  border-radius: 12px;
-  background: transparent;
 }
 </style>

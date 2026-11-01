@@ -115,7 +115,7 @@ const handleClick = () => {
         <template v-else-if="variant === 'case-term'">
             <div
                 v-if="slots.leading"
-                class="term-case-card__thumb"
+                class="aspect-video overflow-hidden rounded-lg border border-foreground/15 bg-foreground/5"
             >
                 <slot name="leading" />
             </div>
@@ -130,7 +130,7 @@ const handleClick = () => {
             <slot name="preview" />
             <div
                 v-if="slots.footer"
-                class="term-case-card__stackline"
+                class="mt-auto text-[11px] uppercase tracking-[0.14em] text-[color:var(--lepsios-term-accent,#2f6a14)]"
             >
                 <slot name="footer" />
             </div>

@@ -9,7 +9,7 @@ export const entityCardVariants = cva(
         'person': 'flex flex-col gap-4 rounded-3xl p-4',
         'inbox': 'flex w-full items-center gap-3 rounded-3xl p-4 text-left transition hover:bg-lepsios-field/60',
         'thumb-row': 'rounded-2xl p-3',
-        'case-term': 'term-case-card !bg-transparent',
+        'case-term': 'flex flex-col gap-3 rounded-xl border border-foreground/15 bg-foreground/[0.03] p-[22px] text-inherit no-underline transition hover:-translate-y-0.5 hover:border-[color:var(--lepsios-term-accent,#2f6a14)] dark:bg-[#121212]',
       },
       density: {
         cozy: '',
