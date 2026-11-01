@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { reactiveOmit } from '@vueuse/core'
 import type { VariantProps } from 'class-variance-authority'
 import type { TabsListProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { reactiveOmit } from '@vueuse/core'
 import type { TagsInputRootEmits, TagsInputRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { TagsInputRoot, useForwardPropsEmits } from 'reka-ui'

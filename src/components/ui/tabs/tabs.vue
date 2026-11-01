@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { reactiveOmit } from '@vueuse/core'
 import type { TabsRootEmits, TabsRootProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { TabsRoot, useForwardPropsEmits } from 'reka-ui'

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { reactiveOmit } from '@vueuse/core'
 import type { AccordionContentProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { AccordionContent } from 'reka-ui'
