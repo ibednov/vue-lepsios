@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { cn } from '../../../lib/cn'
+import SharedCaseTeaser from '../case-teaser/index.vue'
 import {
   Stepper,
   StepperDescription,
@@ -22,6 +23,14 @@ export type CaseSectionMetric = { label: string; value: string }
 
 export type CaseSectionStep = { title: string; description: string }
 
+export type CaseSectionTeaser = {
+  kicker?: string
+  title?: string
+  body?: string
+  cta?: string
+  onClick?: () => void
+}
+
 const props = withDefaults(defineProps<{
   kicker?: string
   title?: string
@@ -34,6 +43,7 @@ const props = withDefaults(defineProps<{
   mediaSide?: 'start' | 'end'
   metrics?: CaseSectionMetric[]
   steps?: CaseSectionStep[]
+  teaser?: CaseSectionTeaser
 }>(), {
   kicker: undefined,
   title: undefined,
@@ -45,6 +55,7 @@ const props = withDefaults(defineProps<{
   mediaSide: 'end',
   metrics: undefined,
   steps: undefined,
+  teaser: undefined,
 })
 
 const slots = useSlots()
@@ -213,6 +224,19 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
           </dd>
         </div>
       </dl>
+      <SharedCaseTeaser
+        v-if="teaser"
+        clickable
+        :kicker="teaser.kicker"
+        :title="teaser.title"
+        :body="teaser.body"
+        :cta="teaser.cta"
+        @click="teaser.onClick?.()"
+      >
+        <template v-if="$slots['teaser-media']" #media>
+          <slot name="teaser-media" />
+        </template>
+      </SharedCaseTeaser>
       <slot v-if="!useSplit" />
     </div>
   </section>

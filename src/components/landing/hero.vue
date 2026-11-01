@@ -9,6 +9,12 @@ export interface LandingHeroAction {
   variant?: 'primary' | 'secondary'
 }
 
+export type LandingHeroCta = {
+  label: string
+  disabled?: boolean
+  onClick?: () => void
+}
+
 export type LandingHeroVariant = 'marketing' | 'term'
 
 const props = withDefaults(defineProps<{
@@ -16,14 +22,20 @@ const props = withDefaults(defineProps<{
   description?: string
   eyebrow?: string
   actions?: LandingHeroAction[]
+  ctas?: LandingHeroCta[]
   highlights?: string[]
+  meta?: string
+  stackLabel?: string
+  stack?: string[]
   tone?: 'light' | 'dark'
   /** marketing = LP look (scoped CSS); term = case-page hero (Tailwind only) */
   variant?: LandingHeroVariant
   class?: HTMLAttributes['class']
 }>(), {
   actions: () => [],
+  ctas: () => [],
   highlights: () => [],
+  stack: () => [],
   tone: 'light',
   variant: 'marketing',
 })
@@ -47,10 +59,10 @@ const isTerm = computed(() => props.variant === 'term')
           <slot name="eyebrow">{{ eyebrow }}</slot>
         </div>
         <div
-          v-if="$slots.meta"
+          v-if="meta || $slots.meta"
           class="mt-3 text-[11px] uppercase tracking-[0.14em] text-foreground/55"
         >
-          <slot name="meta" />
+          <slot name="meta">{{ meta }}</slot>
         </div>
         <h1 class="mt-4 text-4xl font-bold tracking-tight text-balance sm:text-5xl md:text-6xl">
           <slot name="title">{{ title }}</slot>
@@ -62,32 +74,63 @@ const isTerm = computed(() => props.variant === 'term')
           <slot name="description">{{ description }}</slot>
         </p>
         <div
-          v-if="$slots.stack"
+          v-if="$slots.stack || stackLabel || stack.length"
           class="mt-4 text-[11px] uppercase tracking-[0.14em] text-[color:var(--lepsios-term-accent,#2f6a14)]"
         >
-          <slot name="stack" />
+          <slot name="stack">
+            <div v-if="stackLabel" class="mb-2">{{ stackLabel }}</div>
+            <div v-if="stack.length" class="flex flex-wrap gap-2">
+              <span
+                v-for="tech in stack"
+                :key="tech"
+                class="inline-flex shrink-0 border border-[color:color-mix(in_srgb,var(--lepsios-term-accent)_35%,transparent)] px-2.5 py-0.5 text-[11px] uppercase tracking-[0.12em] text-[color:var(--lepsios-term-accent)]"
+              >
+                {{ tech }}
+              </span>
+            </div>
+          </slot>
         </div>
 
         <div
-          v-if="actions.length || $slots.actions || $slots.ctas"
-          class="mt-6 grid max-w-lg grid-cols-2 gap-3 [&>*]:w-full"
+          v-if="actions.length || ctas.length || $slots.actions || $slots.ctas"
+          class="mt-6 grid max-w-lg grid-cols-2 auto-rows-fr gap-3 [&>*]:flex [&>*]:h-full [&>*]:min-h-12 [&>*]:min-w-0 [&>*]:w-full [&>*]:items-center [&>*]:justify-center"
         >
           <slot name="ctas">
             <slot name="actions">
-              <a
-                v-for="(action, index) in actions"
-                :key="`${action.href}-${index}`"
-                :href="action.href"
-                :class="cn(
-                  'inline-flex min-h-10 items-center justify-center gap-2 border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] no-underline transition',
-                  action.variant === 'secondary'
-                    ? 'border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_55%,transparent)] bg-transparent text-foreground hover:bg-foreground/5'
-                    : 'border-transparent bg-[color:var(--lepsios-term-accent,#2f6a14)] text-[color:var(--lepsios-term-window,#f4f2ea)] hover:opacity-90',
-                )"
-              >
-                {{ action.label }}
-                <slot :name="`action-icon-${index}`" />
-              </a>
+              <template v-if="ctas.length">
+                <template v-for="(cta, index) in ctas" :key="`${cta.label}-${index}`">
+                  <span
+                    v-if="cta.disabled"
+                    class="inline-flex min-h-10 items-center justify-center gap-2 border border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_55%,transparent)] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] opacity-50"
+                  >
+                    {{ cta.label }}
+                  </span>
+                  <button
+                    v-else
+                    type="button"
+                    class="inline-flex min-h-10 w-full cursor-pointer items-center justify-center gap-2 border border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_55%,transparent)] bg-transparent px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground transition hover:bg-foreground/5"
+                    @click="cta.onClick?.()"
+                  >
+                    {{ cta.label }}
+                  </button>
+                </template>
+              </template>
+              <template v-else>
+                <a
+                  v-for="(action, index) in actions"
+                  :key="`${action.href}-${index}`"
+                  :href="action.href"
+                  :class="cn(
+                    'inline-flex min-h-10 items-center justify-center gap-2 border px-4 py-2 text-[11px] font-medium uppercase tracking-[0.18em] no-underline transition',
+                    action.variant === 'secondary'
+                      ? 'border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_55%,transparent)] bg-transparent text-foreground hover:bg-foreground/5'
+                      : 'border-transparent bg-[color:var(--lepsios-term-accent,#2f6a14)] text-[color:var(--lepsios-term-window,#f4f2ea)] hover:opacity-90',
+                  )"
+                >
+                  {{ action.label }}
+                  <slot :name="`action-icon-${index}`" />
+                </a>
+              </template>
             </slot>
           </slot>
         </div>
@@ -129,8 +172,8 @@ const isTerm = computed(() => props.variant === 'term')
         <div v-if="eyebrow || $slots.eyebrow" class="lp-hero__eyebrow">
           <slot name="eyebrow">{{ eyebrow }}</slot>
         </div>
-        <div v-if="$slots.meta" class="lp-hero__meta">
-          <slot name="meta" />
+        <div v-if="meta || $slots.meta" class="lp-hero__meta">
+          <slot name="meta">{{ meta }}</slot>
         </div>
         <h1 class="lp-hero__title">
           <slot name="title">{{ title }}</slot>
@@ -138,22 +181,53 @@ const isTerm = computed(() => props.variant === 'term')
         <p v-if="description || $slots.description" class="lp-hero__description">
           <slot name="description">{{ description }}</slot>
         </p>
-        <div v-if="$slots.stack" class="lp-hero__stack">
-          <slot name="stack" />
+        <div v-if="$slots.stack || stackLabel || stack.length" class="lp-hero__stack">
+          <slot name="stack">
+            <div v-if="stackLabel" class="mb-2">{{ stackLabel }}</div>
+            <div v-if="stack.length" class="flex flex-wrap gap-2">
+              <span
+                v-for="tech in stack"
+                :key="tech"
+                class="inline-flex shrink-0 border border-[color:color-mix(in_srgb,var(--lepsios-term-accent)_35%,transparent)] px-2.5 py-0.5 text-[11px] uppercase tracking-[0.12em] text-[color:var(--lepsios-term-accent)]"
+              >
+                {{ tech }}
+              </span>
+            </div>
+          </slot>
         </div>
 
-        <div v-if="actions.length || $slots.actions || $slots.ctas" class="lp-hero__actions">
+        <div v-if="actions.length || ctas.length || $slots.actions || $slots.ctas" class="lp-hero__actions">
           <slot name="ctas">
             <slot name="actions">
-              <a
-                v-for="(action, index) in actions"
-                :key="`${action.href}-${index}`"
-                :class="['lp-hero__action', `lp-hero__action--${action.variant ?? 'primary'}`]"
-                :href="action.href"
-              >
-                {{ action.label }}
-                <slot :name="`action-icon-${index}`" />
-              </a>
+              <template v-if="ctas.length">
+                <template v-for="(cta, index) in ctas" :key="`${cta.label}-${index}`">
+                  <span
+                    v-if="cta.disabled"
+                    class="lp-hero__action lp-hero__action--secondary opacity-50"
+                  >
+                    {{ cta.label }}
+                  </span>
+                  <button
+                    v-else
+                    type="button"
+                    class="lp-hero__action lp-hero__action--secondary"
+                    @click="cta.onClick?.()"
+                  >
+                    {{ cta.label }}
+                  </button>
+                </template>
+              </template>
+              <template v-else>
+                <a
+                  v-for="(action, index) in actions"
+                  :key="`${action.href}-${index}`"
+                  :class="['lp-hero__action', `lp-hero__action--${action.variant ?? 'primary'}`]"
+                  :href="action.href"
+                >
+                  {{ action.label }}
+                  <slot :name="`action-icon-${index}`" />
+                </a>
+              </template>
             </slot>
           </slot>
         </div>
