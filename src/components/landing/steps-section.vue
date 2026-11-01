@@ -6,7 +6,6 @@ import {
   StepperItem,
   StepperSeparator,
   StepperTitle,
-  StepperTrigger,
 } from '../ui/stepper'
 
 export interface LandingStepItem {
@@ -77,26 +76,27 @@ withDefaults(defineProps<{
         </p>
       </header>
 
-      <!-- Case / terminal: horizontal Stepper -->
+      <!-- Case / terminal: display-only horizontal Stepper (no click / no activate) -->
       <Stepper
         v-if="variant === 'term'"
-        :default-value="1"
-        class="flex w-full flex-col items-stretch gap-6 sm:flex-row sm:items-start sm:gap-2"
+        :model-value="items.length"
+        class="pointer-events-none flex w-full flex-col items-stretch gap-6 sm:flex-row sm:items-stretch sm:gap-2"
       >
         <StepperItem
           v-for="(item, index) in items"
           :key="item.title"
           :step="index + 1"
-          class="relative flex w-full flex-col items-start sm:items-center sm:justify-center"
+          disabled
+          class="relative flex w-full flex-1 flex-col items-stretch sm:basis-0 sm:items-center"
         >
-          <StepperTrigger class="w-full items-start gap-3 p-0 sm:items-center">
+          <div class="flex h-full w-full flex-col items-start gap-3 p-0 sm:items-center">
             <StepperIndicator
               v-slot="{ step }"
-              class="size-9 shrink-0 rounded-none border border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_45%,transparent)] bg-transparent text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--lepsios-term-accent,#2f6a14)] group-data-[state=active]:bg-[color:var(--lepsios-term-accent,#2f6a14)] group-data-[state=active]:text-[color:var(--lepsios-term-window,#f4f2ea)] group-data-[state=completed]:bg-[color:var(--lepsios-term-accent,#2f6a14)] group-data-[state=completed]:text-[color:var(--lepsios-term-window,#f4f2ea)]"
+              class="size-9 shrink-0 rounded-none border border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_45%,transparent)] bg-[color:var(--lepsios-term-accent,#2f6a14)] text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--lepsios-term-window,#f4f2ea)]"
             >
               {{ String(step).padStart(2, '0') }}
             </StepperIndicator>
-            <div class="flex min-w-0 flex-col gap-1 text-left sm:items-center sm:text-center">
+            <div class="flex min-h-0 min-w-0 w-full flex-1 flex-col gap-1 text-left sm:items-center sm:text-center">
               <StepperTitle class="text-[15px] font-semibold whitespace-normal text-foreground">
                 <slot name="item-title" :item="item" :index="index">{{ item.title }}</slot>
               </StepperTitle>
@@ -104,10 +104,10 @@ withDefaults(defineProps<{
                 <slot name="item-description" :item="item" :index="index">{{ item.description }}</slot>
               </StepperDescription>
             </div>
-          </StepperTrigger>
+          </div>
           <StepperSeparator
             v-if="index !== items.length - 1"
-            class="absolute left-[calc(50%+1.25rem)] right-[calc(-50%+0.75rem)] top-[1.125rem] hidden h-0.5 shrink-0 rounded-none bg-foreground/15 sm:block group-data-[state=completed]:bg-[color:var(--lepsios-term-accent,#2f6a14)]"
+            class="absolute left-[calc(50%+1.25rem)] right-[calc(-50%+0.75rem)] top-[1.125rem] hidden h-0.5 shrink-0 rounded-none bg-[color:var(--lepsios-term-accent,#2f6a14)] sm:block"
           />
           <slot name="item" :item="item" :index="index" />
         </StepperItem>

@@ -38,6 +38,8 @@ export type CaseSectionTeaser = {
     variant?: 'phone' | 'surface' | 'browser'
     rounded?: string | number
     padding?: string | number
+    height?: string | number
+    width?: string | number
     class?: string
     loading?: 'lazy' | 'eager'
   }
@@ -247,12 +249,15 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
           :key="shot.src"
           class="m-0 mx-auto flex w-full max-w-[220px] flex-col gap-3"
         >
-          <SharedMediaFrame
-            variant="phone"
-            :img="shot.src"
-            :alt="shot.alt"
-            loading="lazy"
-          />
+          <div class="aspect-[9/19] w-full min-w-0">
+            <SharedMediaFrame
+              variant="phone"
+              class="h-full w-full"
+              :img="shot.src"
+              :alt="shot.alt"
+              loading="lazy"
+            />
+          </div>
           <figcaption
             v-if="shot.caption"
             class="text-sm text-foreground/55"
@@ -280,6 +285,8 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
             :alt="teaser.media.alt ?? ''"
             :rounded="teaser.media.rounded"
             :padding="teaser.media.padding"
+            :height="teaser.media.height"
+            :width="teaser.media.width"
             :loading="teaser.media.loading ?? 'lazy'"
             :class="teaser.media.class"
           />

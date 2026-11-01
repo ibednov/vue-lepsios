@@ -40,15 +40,15 @@ const rootTag = computed(() => {
     :href="rootTag === 'a' ? href : undefined"
     :type="rootTag === 'button' ? 'button' : undefined"
     :class="cn(
-      'mt-7 grid w-full cursor-pointer grid-cols-[64px_minmax(0,1fr)] items-center gap-4 border border-foreground/15 bg-foreground/[0.03] p-4 text-left text-inherit no-underline transition hover:-translate-y-0.5 hover:border-[color:var(--lepsios-term-accent,#2f6a14)] md:grid-cols-[88px_minmax(0,1fr)] md:gap-5 md:p-[22px_26px] dark:bg-[#121212]',
+      'mt-7 flex w-full cursor-pointer flex-col gap-4 border border-foreground/15 bg-foreground/[0.03] p-4 text-left text-inherit no-underline transition hover:-translate-y-0.5 hover:border-[color:var(--lepsios-term-accent,#2f6a14)] md:gap-5 md:p-[22px_26px] dark:bg-[#121212]',
       props.class,
     )"
     @click="emit('click', $event)"
   >
-    <div v-if="$slots.media" class="min-w-0">
+    <div v-if="$slots.media" class="min-w-0 w-full overflow-hidden">
       <slot name="media" />
     </div>
-    <div class="min-w-0">
+    <div class="min-w-0 w-full">
       <div
         v-if="kicker || $slots.kicker"
         class="text-[11px] uppercase tracking-[0.28em] text-[color:var(--lepsios-term-accent,#2f6a14)]"
