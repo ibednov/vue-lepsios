@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
 import { cn } from '../../../lib/cn'
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperSeparator,
+  StepperTitle,
+} from '../../ui/stepper'
 
 export type CaseSectionPart =
   | { type?: 'text'; text: string }
@@ -12,9 +20,12 @@ export type CaseSectionParagraph = string | CaseSectionPart[]
 
 export type CaseSectionMetric = { label: string; value: string }
 
+export type CaseSectionStep = { title: string; description: string }
+
 const props = withDefaults(defineProps<{
   kicker?: string
   title?: string
+  description?: string
   id?: string
   class?: HTMLAttributes['class']
   paragraphs?: CaseSectionParagraph[]
@@ -22,15 +33,18 @@ const props = withDefaults(defineProps<{
   layout?: 'stack' | 'split'
   mediaSide?: 'start' | 'end'
   metrics?: CaseSectionMetric[]
+  steps?: CaseSectionStep[]
 }>(), {
   kicker: undefined,
   title: undefined,
+  description: undefined,
   id: undefined,
   paragraphs: undefined,
   cards: undefined,
   layout: 'stack',
   mediaSide: 'end',
   metrics: undefined,
+  steps: undefined,
 })
 
 const slots = useSlots()
@@ -69,6 +83,46 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
       <slot name="title">{{ title }}</slot>
     </h2>
     <div class="flex flex-col gap-4">
+      <p
+        v-if="description"
+        class="text-base leading-7 text-foreground/60"
+      >
+        {{ description }}
+      </p>
+      <Stepper
+        v-if="steps?.length"
+        :model-value="steps.length"
+        class="pointer-events-none flex w-full flex-col items-stretch gap-6 sm:flex-row sm:items-stretch sm:gap-2"
+      >
+        <StepperItem
+          v-for="(item, index) in steps"
+          :key="item.title"
+          :step="index + 1"
+          disabled
+          class="relative flex w-full flex-1 flex-col items-stretch sm:basis-0 sm:items-center"
+        >
+          <div class="flex h-full w-full flex-col items-start gap-3 p-0 sm:items-center">
+            <StepperIndicator
+              v-slot="{ step }"
+              class="size-9 shrink-0 rounded-none border border-[color:color-mix(in_srgb,var(--lepsios-term-accent,#2f6a14)_45%,transparent)] bg-[color:var(--lepsios-term-accent,#2f6a14)] text-[11px] font-medium uppercase tracking-[0.18em] text-[color:var(--lepsios-term-window,#f4f2ea)]"
+            >
+              {{ String(step).padStart(2, '0') }}
+            </StepperIndicator>
+            <div class="flex min-h-0 min-w-0 w-full flex-1 flex-col gap-1 text-left sm:items-center sm:text-center">
+              <StepperTitle class="text-[15px] font-semibold whitespace-normal text-foreground">
+                {{ item.title }}
+              </StepperTitle>
+              <StepperDescription class="text-sm leading-6 text-foreground/60 whitespace-normal">
+                {{ item.description }}
+              </StepperDescription>
+            </div>
+          </div>
+          <StepperSeparator
+            v-if="index !== steps.length - 1"
+            class="absolute left-[calc(50%+1.25rem)] right-[calc(-50%+0.75rem)] top-[1.125rem] hidden h-0.5 shrink-0 rounded-none bg-[color:var(--lepsios-term-accent,#2f6a14)] sm:block"
+          />
+        </StepperItem>
+      </Stepper>
       <div
         v-if="useSplit"
         class="mt-6 grid items-start gap-8 lg:grid-cols-2"
