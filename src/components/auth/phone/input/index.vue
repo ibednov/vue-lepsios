@@ -11,7 +11,12 @@ interface Props extends FieldInputPhoneProps {
   label?: string
 }
 
+// Boolean props without defaults are cast to false when omitted — match FieldInputPhone.
 const props = withDefaults(defineProps<Props>(), {
+  hideFavorites: true,
+  dedupeFavorites: true,
+  enableSearch: true,
+  enableMask: true,
   disableCountryNameSelect: true,
   disableAutoParseNumber: false,
 })
