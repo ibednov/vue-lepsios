@@ -38,8 +38,29 @@ const fileSize = computed(() => {
   return `${sizeInMB} MB`
 })
 
+const matchesAccept = (file: File, accept: string): boolean => {
+  if (!accept || accept === '*') {
+    return true
+  }
+
+  const name = file.name.toLowerCase()
+  const type = (file.type || '').toLowerCase()
+  const tokens = accept.split(',').map(token => token.trim()).filter(Boolean)
+
+  return tokens.some((token) => {
+    const normalized = token.toLowerCase()
+    if (normalized.startsWith('.')) {
+      return name.endsWith(normalized)
+    }
+    if (normalized.endsWith('/*')) {
+      return type.startsWith(normalized.slice(0, -1))
+    }
+    return type === normalized
+  })
+}
+
 const isValidFile = (file: File): boolean => {
-  if (props.accept !== '*' && !file.type.match(props.accept.replace('*', '.*'))) {
+  if (!matchesAccept(file, props.accept)) {
     toast.error(t('ui.input.file.errors.invalid_type', { accept: props.accept }))
     return false
   }
