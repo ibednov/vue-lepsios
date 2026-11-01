@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
+import { computed, useSlots } from 'vue'
 import { cn } from '../../../lib/cn'
 import SharedCaseTeaser from '../case-teaser/index.vue'
 import SharedMediaFrame from '../media-frame/index.vue'

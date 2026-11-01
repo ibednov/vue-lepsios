@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 
 export interface TagCloudItem {

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 interface Props {
   /** Маленький лейбл над заголовком (например "Возможности") */
   label?: string

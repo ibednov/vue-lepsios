@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import type { FieldDataInterface } from '../../types/field'
-import { DateFormatter, getLocalTimeZone, parseDate } from '@internationalized/date'
-import { useCalendarLocale } from '../../composables/ui/use-calendar-locale'
 import { Label } from '../ui/label'
 import { Textarea } from '../ui/textarea'
 import { Badge } from '../ui/badge'
@@ -31,16 +29,21 @@ import {
 } from '../ui/number-field'
 import FieldThumbnail from './thumbnail.vue'
 import FieldInputText from './input/text.vue'
-import FieldInputEmoji from './input/emoji.vue'
 import FieldInputLink from './input/link.vue'
 import FieldInputPhone from './input/phone.vue'
 import FieldInputOtp from './input/otp.vue'
 import FieldInputPrice from './input/price.vue'
 import FieldInputFile from './input/file.vue'
-import Datepicker from '../shared/Datepicker.vue'
 import FieldPicker from './picker/index.vue'
-import FieldPickerDate from './picker/date.vue'
 import FieldToggle from './toggle.vue'
+
+// Heavy, conditionally-rendered field types are loaded lazily so their JS
+// (emoji picker, datepicker + @internationalized/date) leaves the eager chain.
+// Each async component only instantiates under its own v-if branch, so a plain
+// login form never requests these chunks.
+const FieldInputEmoji = defineAsyncComponent(() => import('./input/emoji.vue'))
+const Datepicker = defineAsyncComponent(() => import('../shared/Datepicker.vue'))
+const FieldPickerDateDrawer = defineAsyncComponent(() => import('./picker/date-drawer.vue'))
 
 interface Props {
   isShowLabel?: boolean
@@ -58,12 +61,6 @@ const emit = defineEmits<{
 
 const data = defineModel<FieldDataInterface | undefined>()
 
-const { locale: calendarLocale } = useCalendarLocale()
-
-const dateFormatter = computed(() => new DateFormatter(calendarLocale.value, {
-  dateStyle: 'long',
-}))
-
 const emitUpdate = (newValue: any) => {
   if (data.value) {
     data.value = { ...data.value, value: newValue }
@@ -75,23 +72,6 @@ const selectedOption = computed(() => {
     return null
   }
   return data.value.options.find(option => option.value === data.value?.value)
-})
-
-const formattedDate = computed(() => {
-  if (!data.value?.value) {
-    return ''
-  }
-
-  const isoDate = String(data.value.value).includes('T')
-    ? String(data.value.value).split('T')[0]!
-    : String(data.value.value)
-
-  try {
-    return dateFormatter.value.format(parseDate(isoDate).toDate(getLocalTimeZone()))
-  }
-  catch {
-    return String(data.value.value)
-  }
 })
 
 const tagsValue = computed({
@@ -209,22 +189,15 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
       </template>
     </FieldPicker>
 
-    <FieldPicker
+    <FieldPickerDateDrawer
       v-else-if="isDrawerAppearance && data.type === 'date'"
       :label="data.label || ''"
-      :value="formattedDate"
+      :model-value="data.value"
       :placeholder="data.placeholder"
       :drawer-title="data.label"
-    >
-      <template #default="{ close }">
-        <FieldPickerDate
-          :model-value="data.value"
-          :range="data.dateRange ?? 'future'"
-          @update:model-value="emitUpdate"
-          @select="close()"
-        />
-      </template>
-    </FieldPicker>
+      :range="data.dateRange ?? 'future'"
+      @update:model-value="emitUpdate"
+    />
 
     <FieldToggle
       v-else-if="isDrawerAppearance && data.type === 'switch'"

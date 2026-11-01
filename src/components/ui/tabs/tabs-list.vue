@@ -4,7 +4,7 @@ import type { VariantProps } from 'class-variance-authority'
 import type { TabsListProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
 import { TabsList } from 'reka-ui'
-import { nextTick, onMounted, onUnmounted, provide } from 'vue'
+import { nextTick, onMounted, onUnmounted, provide, ref } from 'vue'
 import { tabsListVariants } from './variants'
 import { cn } from '../../../lib/cn'
 

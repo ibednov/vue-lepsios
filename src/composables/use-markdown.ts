@@ -1,10 +1,10 @@
 import type MarkdownIt from 'markdown-it'
-import { fromHighlighter } from '@shikijs/markdown-it/core'
-import md from 'markdown-it'
 import { ref } from 'vue'
-import { createHighlighterCore } from 'shiki/core'
-import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 
+// markdown-it + shiki are heavy (~1 MB). They are imported dynamically inside
+// initMarkdown so that merely importing this composable (e.g. via the package
+// barrel) does not pull them into a consumer's eager chunk. They load on first
+// render() only. render() is already async, so behavior is unchanged.
 let mdInstance: MarkdownIt | null = null
 let initPromise: Promise<MarkdownIt> | null = null
 
@@ -18,6 +18,18 @@ const initMarkdown = async (): Promise<MarkdownIt> => {
   }
 
   initPromise = (async () => {
+    const [
+      { default: md },
+      { fromHighlighter },
+      { createHighlighterCore },
+      { createJavaScriptRegexEngine },
+    ] = await Promise.all([
+      import('markdown-it'),
+      import('@shikijs/markdown-it/core'),
+      import('shiki/core'),
+      import('shiki/engine/javascript'),
+    ])
+
     const instance = md({
       html: true,
       linkify: true,
