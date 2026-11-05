@@ -26,6 +26,8 @@ export interface FieldInputPhoneProps {
   inputPlaceholder?: string
   disableCountryNameSelect?: boolean
   disableAutoParseNumber?: boolean
+  /** Strip leading calling code when pasting full intl into national field (phone-select). */
+  stripCountryCode?: boolean
   invalid?: boolean
   errorMessage?: string | null
   testId?: string
@@ -46,6 +48,7 @@ const props = withDefaults(defineProps<FieldInputPhoneProps>(), {
   enableMask: true,
   disableCountryNameSelect: true,
   disableAutoParseNumber: false,
+  stripCountryCode: true,
 })
 
 const modelValue = defineModel<string | null>({ default: '' })
@@ -93,6 +96,7 @@ const resolvedInputClass = () => cn(
       :input-placeholder="props.inputPlaceholder"
       :disable-country-name-select="props.disableCountryNameSelect"
       :disable-auto-parse-number="props.disableAutoParseNumber"
+      :strip-country-code="props.stripCountryCode"
       :select-class="cn(defaultSelectClass, props.selectClass)"
       :select-trigger-class="resolvedSelectTriggerClass()"
       :select-value-class="props.selectValueClass"

@@ -265,6 +265,7 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
         :input-placeholder="data.inputPlaceholder ?? data.placeholder"
         :disable-country-name-select="data.disableCountryNameSelect"
         :disable-auto-parse-number="data.disableAutoParseNumber"
+        :strip-country-code="data.stripCountryCode"
         :invalid="Boolean(data.error)"
         :error-message="data.error"
         :test-id="data.testId"
