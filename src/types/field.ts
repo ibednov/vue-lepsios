@@ -57,6 +57,7 @@ export interface FieldInterface {
   disableCountryNameSelect?: boolean
   disableAutoParseNumber?: boolean
   stripCountryCode?: boolean
+  digitsOnly?: boolean
   selectClass?: string
   selectTriggerClass?: string
   selectValueClass?: string

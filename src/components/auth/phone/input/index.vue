@@ -20,6 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
   disableCountryNameSelect: true,
   disableAutoParseNumber: false,
   stripCountryCode: true,
+  digitsOnly: true,
 })
 
 const modelValue = defineModel<string | null>({ default: '' })
@@ -52,6 +53,7 @@ const emit = defineEmits<{
       :disable-country-name-select="props.disableCountryNameSelect"
       :disable-auto-parse-number="props.disableAutoParseNumber"
       :strip-country-code="props.stripCountryCode"
+      :digits-only="props.digitsOnly"
       :invalid="props.invalid"
       :error-message="props.errorMessage"
       :test-id="props.testId ?? props.dataTestid"
