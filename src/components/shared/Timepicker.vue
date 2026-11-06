@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<{
 
 const { t } = useI18n()
 const isOpen = ref(false)
+/** Two-step flow: hour first, then minutes (with back). */
+const step = ref<'hour' | 'minute'>('hour')
 const data = defineModel<string | null | undefined>('modelValue')
 
 const pad = (n: number) => String(n).padStart(2, '0')
@@ -36,27 +38,41 @@ const parseTime = (value: string | null | undefined) => {
 
 const hour = ref(parseTime(data.value).hour)
 const minute = ref(parseTime(data.value).minute)
+/** Draft hour while picking minutes (not committed until minute chosen). */
+const draftHour = ref(hour.value)
 
 watch(() => data.value, (value) => {
   const next = parseTime(value)
   hour.value = next.hour
   minute.value = next.minute
+  draftHour.value = next.hour
+})
+
+watch(isOpen, (open) => {
+  if (!open) {
+    return
+  }
+  const next = parseTime(data.value)
+  hour.value = next.hour
+  minute.value = next.minute
+  draftHour.value = next.hour
+  step.value = 'hour'
 })
 
 const commit = (nextHour: number, nextMinute: number) => {
   hour.value = nextHour
   minute.value = nextMinute
+  draftHour.value = nextHour
   data.value = `${pad(nextHour)}:${pad(nextMinute)}`
 }
 
 const hours = computed(() => Array.from({ length: 24 }, (_, i) => i))
 const minutes = computed(() => {
-  const step = Math.min(30, Math.max(1, props.minuteStep || 5))
+  const stepSize = Math.min(30, Math.max(1, props.minuteStep || 5))
   const list: number[] = []
-  for (let m = 0; m < 60; m += step) {
+  for (let m = 0; m < 60; m += stepSize) {
     list.push(m)
   }
-  // Keep current minute visible even if off-step (e.g. legacy 12:07).
   if (!list.includes(minute.value)) {
     list.push(minute.value)
     list.sort((a, b) => a - b)
@@ -70,6 +86,27 @@ const display = computed(() => {
   }
   return `${pad(hour.value)}:${pad(minute.value)}`
 })
+
+const pickHour = (h: number) => {
+  draftHour.value = h
+  step.value = 'minute'
+}
+
+const pickMinute = (m: number) => {
+  commit(draftHour.value, m)
+  isOpen.value = false
+}
+
+const goBack = () => {
+  step.value = 'hour'
+}
+
+const cellClass = (active: boolean) => cn(
+  'flex h-10 items-center justify-center rounded-xl text-sm transition-colors',
+  active
+    ? 'bg-background font-medium text-foreground shadow-sm'
+    : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground',
+)
 
 const triggerClass = computed(() => cn(
   'w-full justify-between gap-2 text-left font-normal shadow-none',
@@ -110,38 +147,62 @@ const triggerClass = computed(() => cn(
             </Button>
         </PopoverTrigger>
         <PopoverContent
-            class="z-[220] w-[16rem] max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border-0 bg-popover p-0 shadow-lg"
+            class="z-[220] w-[min(18rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border-0 bg-popover p-0 shadow-lg"
             align="start"
         >
-            <div class="grid grid-cols-2 divide-x divide-border/60">
-                <div class="flex max-h-56 flex-col overflow-y-auto p-1.5">
-                    <button
-                        v-for="h in hours"
-                        :key="`h-${h}`"
-                        type="button"
-                        class="rounded-xl px-3 py-2 text-center text-sm transition-colors"
-                        :class="h === hour
-                          ? 'bg-background font-medium text-foreground shadow-sm'
-                          : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'"
-                        @click="commit(h, minute)"
-                    >
-                        {{ pad(h) }}
-                    </button>
-                </div>
-                <div class="flex max-h-56 flex-col overflow-y-auto p-1.5">
-                    <button
-                        v-for="m in minutes"
-                        :key="`m-${m}`"
-                        type="button"
-                        class="rounded-xl px-3 py-2 text-center text-sm transition-colors"
-                        :class="m === minute
-                          ? 'bg-background font-medium text-foreground shadow-sm'
-                          : 'text-muted-foreground hover:bg-muted/60 hover:text-foreground'"
-                        @click="commit(hour, m); isOpen = false"
-                    >
-                        {{ pad(m) }}
-                    </button>
-                </div>
+            <div class="flex items-center gap-1 border-b border-border/50 px-2 py-1.5">
+                <button
+                    v-if="step === 'minute'"
+                    type="button"
+                    class="flex size-8 shrink-0 items-center justify-center rounded-full text-foreground hover:bg-muted/60"
+                    :aria-label="t('shared.ui.timepicker.back')"
+                    @click="goBack"
+                >
+                    <Icon
+                        icon="lucide:chevron-left"
+                        width="18"
+                    />
+                </button>
+                <p class="min-w-0 flex-1 truncate px-1 text-sm font-medium text-foreground">
+                    <template v-if="step === 'hour'">
+                        {{ t('shared.ui.timepicker.hour') }}
+                    </template>
+                    <template v-else>
+                        {{ t('shared.ui.timepicker.minute') }}
+                        <span class="text-muted-foreground">
+                            · {{ pad(draftHour) }}:__
+                        </span>
+                    </template>
+                </p>
+            </div>
+
+            <div
+                v-if="step === 'hour'"
+                class="grid grid-cols-4 gap-1 p-2"
+            >
+                <button
+                    v-for="h in hours"
+                    :key="`h-${h}`"
+                    type="button"
+                    :class="cellClass(h === draftHour)"
+                    @click="pickHour(h)"
+                >
+                    {{ pad(h) }}
+                </button>
+            </div>
+            <div
+                v-else
+                class="grid grid-cols-4 gap-1 p-2"
+            >
+                <button
+                    v-for="m in minutes"
+                    :key="`m-${m}`"
+                    type="button"
+                    :class="cellClass(m === minute && draftHour === hour)"
+                    @click="pickMinute(m)"
+                >
+                    {{ pad(m) }}
+                </button>
             </div>
         </PopoverContent>
     </Popover>
