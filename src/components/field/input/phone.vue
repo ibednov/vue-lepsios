@@ -59,14 +59,26 @@ const emit = defineEmits<{
   'input-overflow': [value: PhoneInputOverflow]
 }>()
 
+// Match wishimi/text fields: fill only, no border, no focus ring/outline.
+// phone-select ships shadcn defaults (border-input + focus-visible:ring-[3px]).
+// !important needed: utility order in the built sheet can beat class-string order.
+const fieldChromeOff = [
+  '!border-0 !shadow-none outline-none !ring-0',
+  'focus:!border-0 focus:!ring-0 focus:!shadow-none',
+  'focus-visible:!border-0 focus-visible:!ring-0 focus-visible:!shadow-none',
+  'dark:!bg-lepsios-field dark:hover:!bg-lepsios-field',
+].join(' ')
+
 const defaultSelectClass = 'w-[8.5rem] shrink-0'
 const selectTriggerClass = [
-  '!h-12 !min-h-12 !max-h-12 !w-[8.5rem] !min-w-[8.5rem] rounded-2xl border-0',
-  'bg-lepsios-field px-3 text-base shadow-none',
+  '!h-12 !min-h-12 !max-h-12 !w-[8.5rem] !min-w-[8.5rem] !rounded-2xl',
+  '!bg-lepsios-field px-3 text-base',
+  fieldChromeOff,
 ].join(' ')
 const inputClass = [
-  '!h-12 !min-h-12 !max-h-12 min-w-0 flex-1 rounded-2xl border-0',
-  'bg-lepsios-field px-4 text-base shadow-none',
+  '!h-12 !min-h-12 !max-h-12 min-w-0 flex-1 !rounded-2xl',
+  '!bg-lepsios-field px-4 text-base',
+  fieldChromeOff,
 ].join(' ')
 
 const resolvedSelectTriggerClass = () => cn(
@@ -114,7 +126,7 @@ const resolvedInputClass = () => cn(
     />
     <p
       v-if="props.errorMessage"
-      class="m-0 text-sm text-destructive"
+      class="m-0 text-sm font-medium text-destructive"
       role="alert"
     >
       {{ props.errorMessage }}

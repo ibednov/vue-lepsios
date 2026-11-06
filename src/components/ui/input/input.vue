@@ -24,8 +24,8 @@ if (modelValue.value === undefined && props.defaultValue !== undefined)
             'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
             'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
             props.variant === 'cosy' ? 'h-11 rounded-xl border-[#eadbd1] bg-[#fffaf7] focus-visible:border-[var(--waify-olive,#646E35)] focus-visible:ring-[var(--waify-olive,#646E35)]/15' : '',
-            props.variant === 'wishimi' ? 'h-[52px] rounded-2xl border-0 bg-[var(--wishimi-field,#3B3B3B)] px-4 pt-[10px] pb-3 text-[15px] leading-6 text-[var(--wishimi-tertiary,#BBBBBB)] shadow-none placeholder:text-[var(--wishimi-tertiary,#BBBBBB)]' : '',
-            props.variant === 'wishimi-search' ? 'h-[52px] rounded-full border-0 bg-[var(--wishimi-field,#3B3B3B)] py-[10px] pr-4 pl-[46px] text-[15px] leading-6 text-[var(--wishimi-tertiary,#BBBBBB)] shadow-none placeholder:text-[var(--wishimi-tertiary,#BBBBBB)]' : '',
+            props.variant === 'wishimi' ? 'h-[52px] rounded-2xl border-0 bg-lepsios-field px-4 pt-[10px] pb-3 text-[15px] leading-6 text-foreground shadow-none focus-visible:border-0 focus-visible:ring-0 placeholder:text-[var(--wishimi-tertiary,#BBBBBB)] [&::-ms-reveal]:hidden [&::-ms-clear]:hidden [&::-webkit-credentials-auto-fill-button]:hidden [&::-webkit-strong-password-auto-fill-button]:hidden' : '',
+            props.variant === 'wishimi-search' ? 'h-[52px] rounded-full border-0 bg-lepsios-field py-[10px] pr-4 pl-[46px] text-[15px] leading-6 text-foreground shadow-none focus-visible:border-0 focus-visible:ring-0 placeholder:text-[var(--wishimi-tertiary,#BBBBBB)] [&::-ms-reveal]:hidden [&::-ms-clear]:hidden' : '',
             props.class,
         )"
     >
