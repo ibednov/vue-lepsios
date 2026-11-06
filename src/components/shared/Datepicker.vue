@@ -125,26 +125,29 @@ watch(() => data.value, syncFromModel, { immediate: true })
                 :class="cn(
                     'w-full justify-between gap-2 text-left font-normal shadow-none',
                     props.variant === 'wishimi'
-                      ? 'h-[52px] rounded-2xl border-0 bg-lepsios-field px-4 pr-3.5 text-[15px] text-foreground hover:bg-lepsios-field/90'
+                      ? 'h-[52px] rounded-2xl border-0 bg-lepsios-field px-4 pr-3.5 text-[15px] text-foreground hover:bg-lepsios-field/90 hover:text-foreground'
                       : 'border-2 px-3',
                     !dateValue && 'text-muted-foreground',
                     props.class,
                 )"
             >
-                <span class="flex min-w-0 items-center gap-2">
+                <span class="flex min-w-0 items-center gap-2 text-foreground">
                     <Icon
                         icon="lucide:calendar"
                         width="18"
-                        class="shrink-0 opacity-80"
+                        class="shrink-0 text-foreground opacity-90"
                     />
-                    <span class="truncate">
+                    <span
+                        class="truncate"
+                        :class="dateValue ? 'text-foreground' : 'text-muted-foreground'"
+                    >
                         {{ dateValue ? dateFormatter.format(dateValue.toDate(getLocalTimeZone())) : t('shared.ui.datepicker.placeholder') }}
                     </span>
                 </span>
                 <Icon
                     icon="lucide:chevron-down"
                     width="16"
-                    class="mr-0.5 shrink-0 opacity-60"
+                    class="mr-0.5 shrink-0 text-foreground opacity-70"
                 />
             </Button>
         </PopoverTrigger>
