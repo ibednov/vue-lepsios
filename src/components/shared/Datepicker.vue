@@ -18,8 +18,11 @@ import { getCalendarRangeBounds, getCalendarYearOptions } from '../../utils/cale
 
 const props = withDefaults(defineProps<{
   range?: FieldDateRange
+  variant?: 'default' | 'wishimi'
+  class?: string
 }>(), {
   range: 'future',
+  variant: 'default',
 })
 
 const { t } = useI18n()
@@ -115,13 +118,17 @@ watch(() => data.value, syncFromModel, { immediate: true })
     >
         <PopoverTrigger as-child>
             <Button
-                variant="outline"
+                :variant="props.variant === 'wishimi' ? 'ghost' : 'outline'"
                 type="button"
                 :aria-haspopup="true"
                 :aria-expanded="isOpen"
                 :class="cn(
-                    'w-full justify-between gap-2 border-2 px-3 text-left font-normal shadow-none',
+                    'w-full justify-between gap-2 text-left font-normal shadow-none',
+                    props.variant === 'wishimi'
+                      ? 'h-[52px] rounded-2xl border-0 bg-lepsios-field px-4 pr-3.5 text-[15px] text-foreground hover:bg-lepsios-field/90'
+                      : 'border-2 px-3',
                     !dateValue && 'text-muted-foreground',
+                    props.class,
                 )"
             >
                 <span class="flex min-w-0 items-center gap-2">
@@ -137,7 +144,7 @@ watch(() => data.value, syncFromModel, { immediate: true })
                 <Icon
                     icon="lucide:chevron-down"
                     width="16"
-                    class="shrink-0 opacity-70"
+                    class="mr-0.5 shrink-0 opacity-60"
                 />
             </Button>
         </PopoverTrigger>
