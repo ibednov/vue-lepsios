@@ -240,6 +240,7 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
         :input-class="data.class"
         :label="data.label || data.placeholder"
         :aria-label="data.inputType === 'search' ? data.label || data.placeholder : undefined"
+        :test-id="data.testId"
         @update:model-value="emitUpdate"
       />
       <FieldInputLink

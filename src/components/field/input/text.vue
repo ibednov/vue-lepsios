@@ -16,6 +16,7 @@ interface Props {
   maxlength?: number
   inputClass?: HTMLAttributes['class']
   disabled?: boolean
+  testId?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -59,6 +60,7 @@ const togglePasswordVisible = () => {
         :placeholder="placeholder"
         :maxlength="maxlength"
         :disabled="disabled"
+        :data-testid="testId"
         :class="cn(
           'h-12 rounded-2xl border-0 bg-lepsios-field px-4 shadow-none focus-visible:border-0 focus-visible:ring-0',
           isPassword && 'pr-11',
@@ -133,6 +135,7 @@ const togglePasswordVisible = () => {
       :placeholder="placeholder"
       :maxlength="maxlength"
       :disabled="disabled"
+      :data-testid="testId"
       :class="cn('placeholder:text-[#BBBBBB]', inputClass)"
       variant="wishimi-search"
     />
@@ -148,6 +151,7 @@ const togglePasswordVisible = () => {
       :placeholder="placeholder"
       :maxlength="maxlength"
       :disabled="disabled"
+      :data-testid="testId"
       :class="cn(
         variant === 'inline'
           ? 'h-12 rounded-full border-0 bg-lepsios-field px-4'
@@ -212,6 +216,7 @@ const togglePasswordVisible = () => {
     :placeholder="placeholder"
     :maxlength="maxlength"
     :disabled="disabled"
+    :data-testid="testId"
     :class="cn(
       variant === 'inline'
         ? 'h-12 rounded-full border-0 bg-lepsios-field px-4'
