@@ -107,9 +107,12 @@ const isGroupActive = (group: CrmSidebarNavigationGroup) => group.items.some(ite
 const isGroupOpen = (group: CrmSidebarNavigationGroup) => {
   if (normalizedSearch.value)
     return true
+  // Current route's group must stay visible — stored collapse must not hide the active leaf.
+  if (isGroupActive(group))
+    return true
   if (Object.hasOwn(openGroups.value, group.id))
     return openGroups.value[group.id]
-  return props.defaultOpenGroupIds.includes(group.id) || isGroupActive(group)
+  return props.defaultOpenGroupIds.includes(group.id)
 }
 const menuButtonClass = sidebarMenuButtonVariants({ size: 'default' })
 const saveOpenGroups = () => {
