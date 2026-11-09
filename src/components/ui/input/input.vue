@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
+import { useAttrs } from 'vue'
 import { cn } from '../../../lib/cn'
 
 defineOptions({
@@ -13,6 +14,7 @@ const props = defineProps<{
   variant?: 'default' | 'cosy' | 'wishimi' | 'wishimi-search'
 }>()
 
+// Must import explicitly: host AutoImport does not transform package SFCs in node_modules.
 const attrs = useAttrs()
 
 const modelValue = defineModel<string | number | undefined>()
