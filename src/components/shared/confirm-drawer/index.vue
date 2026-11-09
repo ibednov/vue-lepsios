@@ -12,9 +12,11 @@ interface Props {
   confirmVariant?: ButtonVariants['variant']
   drawerHideFooter?: boolean
   surfaceClass?: string
+  confirmTestId?: string
+  cancelTestId?: string
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   confirmVariant: 'default',
   drawerHideFooter: true,
 })
@@ -59,6 +61,7 @@ const handleCancel = () => {
                     size="big"
                     text-align="center"
                     class="w-full"
+                    :data-testid="props.confirmTestId"
                     @click="handleConfirm"
                 >
                     {{ confirmText }}
@@ -67,6 +70,7 @@ const handleCancel = () => {
                 <button
                     type="button"
                     class="py-2 text-center text-base"
+                    :data-testid="props.cancelTestId"
                     @click="handleCancel"
                 >
                     {{ cancelText }}

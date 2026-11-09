@@ -2,12 +2,18 @@
 import type { HTMLAttributes } from 'vue'
 import { cn } from '../../../lib/cn'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   defaultValue?: string | number
   type?: string
   class?: HTMLAttributes['class']
   variant?: 'default' | 'cosy' | 'wishimi' | 'wishimi-search'
 }>()
+
+const attrs = useAttrs()
 
 const modelValue = defineModel<string | number | undefined>()
 if (modelValue.value === undefined && props.defaultValue !== undefined)
@@ -16,6 +22,7 @@ if (modelValue.value === undefined && props.defaultValue !== undefined)
 
 <template>
     <input
+        v-bind="attrs"
         v-model="modelValue"
         :type="props.type || 'text'"
         data-slot="input"

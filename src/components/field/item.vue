@@ -170,6 +170,7 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
       :maxlength="data.maxLength"
       :input-class="data.class"
       :disabled="data.disabled"
+      :test-id="data.testId"
       @update:model-value="emitUpdate"
     />
 
@@ -233,7 +234,7 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
       <FieldInputText
         v-if="data && data.type === 'input' && data.valueType !== 'number'"
         :model-value="data.value ?? ''"
-        :variant="data.inputType === 'search' ? 'search' : data.appearance === 'wishimi' ? 'wishimi' : 'default'"
+        :variant="data.inputType === 'search' ? 'search' : data.appearance === 'wishimi' ? 'wishimi' : data.appearance === 'drawer' ? 'drawer' : 'default'"
         :type="data.inputType || 'text'"
         :placeholder="data.placeholder"
         :maxlength="data.maxLength"
