@@ -321,6 +321,7 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
         :model-value="data.value ?? ''"
         :placeholder="data.placeholder"
         :class="data.class"
+        :variant="data.appearance === 'wishimi' ? 'wishimi' : 'default'"
         @update:model-value="emitUpdate"
       />
       <Label
@@ -341,7 +342,10 @@ const isDrawerAppearance = computed(() => data.value?.appearance === 'drawer')
         :class="data.class"
         @update:model-value="emitUpdate"
       >
-        <SelectTrigger class="w-full">
+        <SelectTrigger
+          class="w-full"
+          :variant="data.appearance === 'wishimi' ? 'wishimi' : 'default'"
+        >
           <SelectValue :placeholder="data.placeholder">
             <template v-if="selectedOption">
               <div class="flex items-center gap-2">
