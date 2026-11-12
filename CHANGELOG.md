@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.3
+
+- Preserve localized selection status and clear-selection controls.
+- Restore sortable table headers, sort indicators, and controlled sorting updates.
+
+## 0.7.2
+
+- Add localized selected-count and clear-selection labels to preserve table selection controls.
+
 ## 0.7.1
 
 - Keep shared table and confirmation dialog template bindings compatible with consumer Vue typechecks.

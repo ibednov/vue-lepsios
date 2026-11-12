@@ -7,9 +7,11 @@
 | Capability | Yarmarka `DataTable` | `CrmDataTable` |
 | --- | --- | --- |
 | Columns and data | `columns`, `data` | `columns`, `data` |
+| Sorting | Sortable headers and client-side sorting | Sortable headers; `manualSorting`, controlled `sorting`, and `sortingChange` remain host-configurable |
 | Server search | `serverSearch`, `v-model:search`, `searchChange` | Host search in `#toolbar`; host request is triggered by input update |
 | Multiple filters | `filterData`, `filterValues`, `filterChange` | Host filters in `#toolbar`; host keeps filters and applies/reset behavior |
 | Row selection | `selectable`, `rowIdKey`, `v-model:row-selection`, `createSelectColumn` | `v-model:row-selection`, `getRowId`, exported `createSelectColumn` |
+| Selection status | Localized selected count and clear-selection action | `selectedCountLabel`, `clearSelectionLabel` |
 | Bulk actions | `bulkActions` callbacks | `bulkActions`, selected IDs, optional shared confirmation, `bulkAction` event |
 | Row click | `rowClickable`; skips interactive controls | `rowClick`; skips interactive controls and `[data-no-row-click]` descendants |
 | Loading/error/empty/retry | Localized labels and `retry` event | `loadingText`, `error`, `emptyText`, optional `retryLabel` and `retry` event; error remains separate from empty |
@@ -50,4 +52,4 @@ Search and filters remain host-owned so URLs, server query parameters, and busin
 
 `labels.paginationSummary(from, to, total)` is the host's localized range string. When adapting an existing two-argument `showingRows(visible, total)` label, pass `from === 0 ? 0 : to - from + 1` as `visible`.
 
-Use `createSelectColumn({ selectAll, selectRow })` in the host column definition and bind `v-model:row-selection`. `selectRow` may be a localized string or a function of the selected row. Pass the selected IDs to `selectedIds` when the host needs custom selection scope; otherwise bulk actions use the table's current row selection.
+Use `createSelectColumn({ selectAll, selectRow })` in the host column definition and bind `v-model:row-selection`. `selectRow` may be a localized string or a function of the selected row. Pass `selectedCountLabel` and `clearSelectionLabel` to retain localized selection status and a clear action. Pass selected IDs to `selectedIds` when the host needs custom selection scope; otherwise bulk actions use the table's current row selection.

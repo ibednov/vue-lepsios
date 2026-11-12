@@ -1,7 +1,8 @@
 <script setup lang="ts" generic="TData">
 import { computed, ref, useSlots } from 'vue'
+import { Icon } from '@iconify/vue'
 import { FlexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useVueTable } from '@tanstack/vue-table'
-import type { ColumnDef, PaginationState, SortingState, RowSelectionState, VisibilityState } from '@tanstack/vue-table'
+import type { Column, ColumnDef, PaginationState, SortingState, RowSelectionState, VisibilityState } from '@tanstack/vue-table'
 import type { PaginationMeta } from '../../types/pagination'
 import type { CrmBulkAction } from './crm-bulk-action'
 import Spinner from '../ui/spinner/spinner.vue'
@@ -35,6 +36,8 @@ const props = withDefaults(defineProps<{
   getRowId?: (row: TData, index: number) => string
   bulkActions?: CrmBulkAction[]
   bulkActionsLabel?: string
+  selectedCountLabel?: (count: number) => string
+  clearSelectionLabel?: string
   hidePagination?: boolean
   paginationSummaryLabel?: (from: number, to: number, total: number) => string
 }>(), {
@@ -54,6 +57,8 @@ const props = withDefaults(defineProps<{
   bodyId: undefined,
   bulkActions: () => [],
   bulkActionsLabel: 'Actions',
+  selectedCountLabel: undefined,
+  clearSelectionLabel: undefined,
   hidePagination: false,
   paginationSummaryLabel: undefined,
 })
@@ -86,8 +91,11 @@ const table = useVueTable<TData>({
     get pagination() { return pagination.value },
   },
   onSortingChange: (updater) => {
-    sorting.value = typeof updater === 'function' ? updater(sorting.value) : updater
-    emit('sortingChange', sorting.value)
+    const current = props.sorting ?? sorting.value
+    const next = typeof updater === 'function' ? updater(current) : updater
+    if (!props.sorting)
+      sorting.value = next
+    emit('sortingChange', next)
   },
   onRowSelectionChange: (updater) => {
     rowSelection.value = typeof updater === 'function' ? updater(rowSelection.value) : updater
@@ -110,7 +118,8 @@ const table = useVueTable<TData>({
 const showEmpty = computed(() => !props.loading && !props.error && (props.empty ?? table.getRowModel().rows.length === 0))
 const currentSelectedIds = computed(() => props.selectedIds ?? Object.keys(rowSelection.value).filter(id => rowSelection.value[id]))
 const showBulk = computed(() => currentSelectedIds.value.length > 0 && props.bulkActions.length > 0)
-const showToolbar = computed(() => !!slots.toolbar || showBulk.value)
+const showSelectionStatus = computed(() => currentSelectedIds.value.length > 0 && (!!props.selectedCountLabel || !!props.clearSelectionLabel))
+const showToolbar = computed(() => !!slots.toolbar || showBulk.value || showSelectionStatus.value)
 const pending = ref<CrmBulkAction | null>(null)
 const confirmOpen = ref(false)
 function requestBulk(action: CrmBulkAction) {
@@ -129,6 +138,7 @@ function confirmBulk() {
   if (action) emit('bulkAction', { key: action.key, ids: [...currentSelectedIds.value] })
 }
 const selectedCount = () => currentSelectedIds.value.length
+const selectedCountText = () => props.selectedCountLabel?.(currentSelectedIds.value.length) ?? currentSelectedIds.value.length
 const isConfirmOpen = () => confirmOpen.value
 const getPendingAction = () => pending.value
 function closeConfirm() {
@@ -141,12 +151,24 @@ function onRowClick(event: MouseEvent, row: TData) {
     return
   emit('rowClick', { event, row })
 }
+function clearSelection() {
+  rowSelection.value = {}
+  emit('rowSelectionChange', {})
+}
+const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
+  const state = column.getIsSorted()
+  return state === 'asc' ? 'carbon:sort-ascending' : state === 'desc' ? 'carbon:sort-descending' : 'carbon:funnel-sort'
+}
 </script>
 
 <template>
   <div class="space-y-3">
     <div v-if="showToolbar" class="flex flex-wrap items-center gap-2">
       <div class="flex min-w-0 flex-1 flex-wrap items-center gap-2"><slot name="toolbar" /></div>
+      <div v-if="showSelectionStatus" class="flex shrink-0 items-center gap-2 text-muted-foreground text-sm" role="status" data-testid="table-selection-status">
+        <span>{{ selectedCountText() }}</span>
+        <Button v-if="clearSelectionLabel" variant="ghost" size="sm" data-testid="table-clear-selection" @click="clearSelection">{{ clearSelectionLabel }}</Button>
+      </div>
       <div v-if="showBulk" class="ml-auto flex shrink-0 items-center gap-2" data-testid="crm-data-table-bulk">
         <span class="text-muted-foreground text-sm tabular-nums">{{ selectedCount() }}</span>
         <DropdownMenu>
@@ -161,8 +183,12 @@ function onRowClick(event: MouseEvent, row: TData) {
         <Table>
           <TableHeader class="bg-muted/40">
             <TableRow v-for="group in table.getHeaderGroups()" :key="group.id">
-              <TableHead v-for="header in group.headers" :key="header.id" :class="(header.column.columnDef.meta as { columnClass?: string })?.columnClass">
-                <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
+              <TableHead v-for="header in group.headers" :key="header.id" :class="(header.column.columnDef.meta as { columnClass?: string })?.columnClass" :aria-sort="header.column.getCanSort() ? (header.column.getIsSorted() === 'asc' ? 'ascending' : header.column.getIsSorted() === 'desc' ? 'descending' : 'none') : undefined">
+                <Button v-if="!header.isPlaceholder && header.column.getCanSort()" variant="ghost" class="h-auto min-h-8 justify-start px-2 text-left" @click="header.column.getToggleSortingHandler()?.($event)">
+                  <FlexRender :render="header.column.columnDef.header" :props="header.getContext()" />
+                  <Icon :icon="sortIcon(header.column)" class="size-4 text-muted-foreground" aria-hidden="true" />
+                </Button>
+                <FlexRender v-else-if="!header.isPlaceholder" :render="header.column.columnDef.header" :props="header.getContext()" />
               </TableHead>
             </TableRow>
           </TableHeader>
