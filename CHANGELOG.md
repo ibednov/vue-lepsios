@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+
+- Keep shared table and confirmation dialog template bindings compatible with consumer Vue typechecks.
+
 ## 0.7.0
 
 - Add controlled `CrmDataTable` row selection and exported `createSelectColumn` helper.

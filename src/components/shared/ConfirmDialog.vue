@@ -10,12 +10,14 @@ interface Props {
   confirmText?: string
   cancelText?: string
   variant?: 'default' | 'destructive'
+  busy?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   confirmText: undefined,
   cancelText: undefined,
   variant: 'default',
+  busy: false,
 })
 
 const emit = defineEmits<{
@@ -65,11 +67,12 @@ const handleCancel = () => {
 
 const confirmButtonText = computed(() => props.confirmText || t('global.confirm.confirm'))
 const cancelButtonText = computed(() => props.cancelText || t('global.confirm.cancel'))
+const isOpen = () => isOpenModel.value
 </script>
 
 <template>
     <Dialog
-        :open="isOpenModel"
+        :open="isOpen()"
         @update:open="onOpenUpdate"
     >
         <DialogContent>
@@ -82,12 +85,14 @@ const cancelButtonText = computed(() => props.cancelText || t('global.confirm.ca
             <DialogFooter>
                 <Button
                     variant="outline"
+                    :disabled="busy"
                     @click="handleCancel"
                 >
                     {{ cancelButtonText }}
                 </Button>
                 <Button
                     :variant="variant === 'destructive' ? 'destructive' : 'default'"
+                    :disabled="busy"
                     @click="handleConfirm"
                 >
                     {{ confirmButtonText }}

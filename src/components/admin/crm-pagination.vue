@@ -36,6 +36,8 @@ const summary = computed(() => props.summaryLabel
 
 const canPrev = computed(() => page.value > 1)
 const canNext = computed(() => page.value < totalPages.value)
+const previousPage = () => page.value - 1
+const nextPage = () => page.value + 1
 
 const go = (p: number) => {
   if (p < 1 || p > totalPages.value || p === page.value)
@@ -58,7 +60,7 @@ const go = (p: number) => {
         class="border-border bg-background hover:bg-muted inline-flex items-center justify-center rounded-md border px-2.5 py-1.5 disabled:opacity-40"
         :disabled="!canPrev"
         :aria-label="prevLabel"
-        @click="go(page - 1)"
+        @click="go(previousPage())"
       >
         <Icon
           icon="ph:caret-left"
@@ -74,7 +76,7 @@ const go = (p: number) => {
         class="border-border bg-background hover:bg-muted inline-flex items-center justify-center rounded-md border px-2.5 py-1.5 disabled:opacity-40"
         :disabled="!canNext"
         :aria-label="nextLabel"
-        @click="go(page + 1)"
+        @click="go(nextPage())"
       >
         <Icon
           icon="ph:caret-right"
