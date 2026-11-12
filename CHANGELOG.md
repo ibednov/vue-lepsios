@@ -2,6 +2,7 @@
 
 ## 0.7.5
 
+- Use Lucide and Framework7 icons in shared components to reduce required icon collections.
 - Add labeled table/Kanban view toggle and a generic Kanban column shell with host-owned card and drop behavior.
 
 ## 0.7.4
