@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.4
+
+- Improve contrast and alignment for informational alerts.
+- Improve filled OTP field contrast and focus visibility.
+
 ## 0.7.3
 
 - Preserve localized selection status and clear-selection controls.
