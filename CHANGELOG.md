@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.2
+
+- Keep AdminShell content in a neutral layout container so page frames provide the single main landmark.
+
 ## 0.8.1
 
 - Avoid nesting the page frame's main landmark inside AdminShell.

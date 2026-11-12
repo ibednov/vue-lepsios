@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { SidebarInset, SidebarProvider } from '../ui/sidebar'
+import { SidebarProvider } from '../ui/sidebar'
 import { cn } from '../../lib/cn'
 
 const open = defineModel<boolean>('open')
@@ -25,7 +25,9 @@ const props = withDefaults(defineProps<{
     class="admin-shell"
   >
     <slot name="sidebar" />
-    <SidebarInset class="min-w-0 bg-background">
+    <div
+      class="relative flex min-h-svh min-w-0 flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow"
+    >
       <header class="flex h-[var(--header-height)] shrink-0 items-center gap-2 border-b bg-background px-4 sm:px-6">
         <slot name="header" />
       </header>
@@ -34,7 +36,7 @@ const props = withDefaults(defineProps<{
           <slot />
         </div>
       </div>
-    </SidebarInset>
+    </div>
   </SidebarProvider>
 </template>
 
