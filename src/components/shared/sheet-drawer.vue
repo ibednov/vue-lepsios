@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import { Button } from '../ui/button'
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription, DrawerFooter, DrawerClose } from '../ui/drawer'
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from '../ui/sheet'
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '../ui/drawer'
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '../ui/sheet'
 import { isMoreMdScreen } from '../../composables/ui/breakpoints'
 
 interface ComponentProps {

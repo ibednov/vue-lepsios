@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, shallowRef } from 'vue'
 import SharedUiCalendar from './calendar/index.vue'
 import { Button } from '../ui/button'
 import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover'
@@ -7,7 +7,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '.
 import { useI18n } from 'vue-i18n'
 import { Icon } from '@iconify/vue'
 import { DateFormatter, getLocalTimeZone, parseDate, today } from '@internationalized/date'
-import type { DateValue } from '@internationalized/date'
+import type { CalendarRootProps } from 'reka-ui'
 import dayjs from 'dayjs'
 import { useCalendarLocale } from '../../composables/ui/use-calendar-locale'
 import type { FieldDateRange } from '../../types/field'
@@ -34,8 +34,10 @@ const dateFormatter = computed(() => new DateFormatter(calendarLocale.value, {
   dateStyle: 'long',
 }))
 
-const dateValue = ref<DateValue>()
-const placeholder = ref<DateValue>(today(getLocalTimeZone()))
+type CalendarDateValue = NonNullable<CalendarRootProps['placeholder']>
+
+const dateValue = shallowRef<CalendarDateValue>()
+const placeholder = shallowRef<CalendarDateValue>(today(getLocalTimeZone()) as CalendarDateValue)
 
 const monthOptions = computed(() => {
   const formatter = new DateFormatter(calendarLocale.value, { month: 'long' })
@@ -49,7 +51,7 @@ const yearOptions = computed(() => getCalendarYearOptions(props.range))
 
 const data = defineModel<Date | string | null | undefined>('modelValue')
 
-const handleCalendarUpdate = (newValue: DateValue | undefined) => {
+const handleCalendarUpdate = (newValue: CalendarDateValue | undefined) => {
   if (newValue) {
     placeholder.value = newValue
     const year = String(newValue.year).padStart(4, '0')
@@ -63,11 +65,15 @@ const handleCalendarUpdate = (newValue: DateValue | undefined) => {
   isOpen.value = false
 }
 
-const updateMonth = (value: string | number | boolean | Record<string, any>) => {
+const updateMonth = (value: string | number | bigint | boolean | Record<string, any> | null) => {
+  if (value === null)
+    return
   placeholder.value = placeholder.value.set({ month: Number(value) })
 }
 
-const updateYear = (value: string | number | boolean | Record<string, any>) => {
+const updateYear = (value: string | number | bigint | boolean | Record<string, any> | null) => {
+  if (value === null)
+    return
   placeholder.value = placeholder.value.set({ year: Number(value) })
 }
 
@@ -100,7 +106,7 @@ const syncFromModel = (value: Date | string | null | undefined) => {
   }
 
   try {
-    dateValue.value = parseDate(isoDateString)
+    dateValue.value = parseDate(isoDateString) as CalendarDateValue
     placeholder.value = dateValue.value
   }
   catch (e) {

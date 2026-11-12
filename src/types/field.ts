@@ -18,7 +18,7 @@ export interface FieldInterface {
   placeholder?: string
   label?: string
   valueType?: 'text' | 'number'
-  inputType?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search'
+  inputType?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search' | 'number'
   options?: FieldOption[]
   thumbnailOptions?: FieldThumbnailOption[]
   emojiOptions?: FieldOption[]

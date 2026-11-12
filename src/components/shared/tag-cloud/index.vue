@@ -85,7 +85,7 @@ const itemsSignature = computed(() =>
   props.items.map(i => `${i.id}:${i.label}`).join('|'),
 )
 
-const setContainerRef = (el: Element | null) => {
+const setContainerRef = (el: unknown) => {
   containerRef.value = el instanceof HTMLElement ? el : null
   if (containerRef.value) {
     nextTick(layout)

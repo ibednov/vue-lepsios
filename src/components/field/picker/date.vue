@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import type { DateValue } from '@internationalized/date'
+import { computed, shallowRef } from 'vue'
+import type { CalendarRootProps } from 'reka-ui'
 import type { FieldPickerDateVariants } from './variants'
 import { DateFormatter, getLocalTimeZone, parseDate, today } from '@internationalized/date'
 import type { FieldDateRange } from '../../../types/field'
@@ -48,8 +48,10 @@ const monthOptions = computed(() => {
   })
 })
 
-const calendarValue = ref<DateValue>()
-const placeholder = ref<DateValue>(today(getLocalTimeZone()))
+type CalendarDateValue = NonNullable<CalendarRootProps['placeholder']>
+
+const calendarValue = shallowRef<CalendarDateValue>()
+const placeholder = shallowRef<CalendarDateValue>(today(getLocalTimeZone()) as CalendarDateValue)
 
 const rangeBounds = computed(() => getCalendarRangeBounds(props.range))
 const minValue = computed(() => rangeBounds.value.minValue)
@@ -68,7 +70,7 @@ const syncFromModel = () => {
     : props.modelValue
 
   try {
-    const parsed = parseDate(isoDate)
+    const parsed = parseDate(isoDate) as CalendarDateValue
     calendarValue.value = parsed
     placeholder.value = parsed
   }
@@ -78,15 +80,19 @@ const syncFromModel = () => {
   }
 }
 
-const updateMonth = (month: string | number | boolean | Record<string, any>) => {
+const updateMonth = (month: string | number | bigint | boolean | Record<string, any> | null) => {
+  if (month === null)
+    return
   placeholder.value = placeholder.value.set({ month: Number(month) })
 }
 
-const updateYear = (year: string | number | boolean | Record<string, any>) => {
+const updateYear = (year: string | number | bigint | boolean | Record<string, any> | null) => {
+  if (year === null)
+    return
   placeholder.value = placeholder.value.set({ year: Number(year) })
 }
 
-const handleCalendarUpdate = (value: DateValue | undefined) => {
+const handleCalendarUpdate = (value: CalendarDateValue | undefined) => {
   if (!value) {
     return
   }

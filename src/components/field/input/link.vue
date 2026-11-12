@@ -33,7 +33,7 @@ const displayValue = computed(() => {
   return url.replace(/^https?:\/\//i, '').trim()
 })
 
-const handleInput = (value: string | number) => {
+const handleInput = (value: string | number | undefined) => {
   const rawString = String(value || '').trim()
 
   if (!rawString) {

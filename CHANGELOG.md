@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.8
+- Align field, OTP, date picker, and tag cloud typings with current Vue and Reka UI APIs.
+- Declare MarkdownIt types and Typed.js used by exported shared components.
+
 ## 0.7.7
 - Fix entity navigation index display typing.
 

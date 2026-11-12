@@ -1,14 +1,16 @@
-import type MarkdownIt from 'markdown-it'
+import MarkdownIt from 'markdown-it'
 import { ref } from 'vue'
+
+type MarkdownItInstance = InstanceType<typeof MarkdownIt>
 
 // markdown-it + shiki are heavy (~1 MB). They are imported dynamically inside
 // initMarkdown so that merely importing this composable (e.g. via the package
 // barrel) does not pull them into a consumer's eager chunk. They load on first
 // render() only. render() is already async, so behavior is unchanged.
-let mdInstance: MarkdownIt | null = null
-let initPromise: Promise<MarkdownIt> | null = null
+let mdInstance: MarkdownItInstance | null = null
+let initPromise: Promise<MarkdownItInstance> | null = null
 
-const initMarkdown = async (): Promise<MarkdownIt> => {
+const initMarkdown = async (): Promise<MarkdownItInstance> => {
   if (mdInstance) {
     return mdInstance
   }
@@ -55,7 +57,7 @@ const initMarkdown = async (): Promise<MarkdownIt> => {
       engine: createJavaScriptRegexEngine(),
     })
 
-    instance.use(fromHighlighter(highlighter, {
+    instance.use(fromHighlighter(highlighter as Parameters<typeof fromHighlighter>[0], {
       themes: {
         light: 'github-light',
         dark: 'github-dark',

@@ -279,17 +279,17 @@ function isParts(paragraph: CaseSectionParagraph): paragraph is CaseSectionPart[
         <template v-if="$slots['teaser-media']" #media>
           <slot name="teaser-media" />
         </template>
-        <template v-else-if="teaser.media" #media>
+        <template v-else-if="teaser?.media" #media>
           <SharedMediaFrame
-            :variant="teaser.media.variant ?? 'phone'"
-            :img="teaser.media.img"
-            :alt="teaser.media.alt ?? ''"
-            :rounded="teaser.media.rounded"
-            :padding="teaser.media.padding"
-            :height="teaser.media.height"
-            :width="teaser.media.width"
-            :loading="teaser.media.loading ?? 'lazy'"
-            :class="teaser.media.class"
+            :variant="teaser?.media?.variant ?? 'phone'"
+            :img="teaser?.media?.img ?? ''"
+            :alt="teaser?.media?.alt ?? ''"
+            :rounded="teaser?.media?.rounded"
+            :padding="teaser?.media?.padding"
+            :height="teaser?.media?.height"
+            :width="teaser?.media?.width"
+            :loading="teaser?.media?.loading ?? 'lazy'"
+            :class="teaser?.media?.class"
           />
         </template>
       </SharedCaseTeaser>
