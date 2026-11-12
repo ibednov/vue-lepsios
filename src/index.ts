@@ -7,6 +7,8 @@ export { usePrivateFile } from './composables/files/use-private-file'
 export { useSortable, moveArrayElement } from './composables/collections/use-sortable'
 
 export { default as CrmDataTable } from './components/admin/crm-data-table.vue'
+export { createSelectColumn } from './components/admin/create-select-column'
+export type { CrmSelectColumnLabels } from './components/admin/create-select-column'
 export { default as CrmTeamMembersView } from './components/admin/crm-team-members-view.vue'
 export { default as CrmAccessControlView } from './components/admin/crm-access-control-view.vue'
 export { default as CrmServiceSwitcher } from './components/admin/crm-service-switcher.vue'

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.7.0
+
+- Add controlled `CrmDataTable` row selection and exported `createSelectColumn` helper.
+- Ignore clicks on row-interactive controls before emitting `rowClick`.
+- Add optional retry labels/events, hideable pagination, and a localized pagination summary formatter.
+- Document server-search and multi-filter toolbar recipes and parity with Yarmarka's table.
+
 ## 0.6.0
 
 - Add `CrmStateBlock` with distinct loading, error, and empty states, caller-provided labels, and retry/default slots.

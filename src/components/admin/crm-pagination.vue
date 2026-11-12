@@ -9,10 +9,12 @@ const props = withDefaults(defineProps<{
   minTotal?: number
   prevLabel?: string
   nextLabel?: string
+  summaryLabel?: (from: number, to: number, total: number) => string
 }>(), {
   minTotal: 3,
   prevLabel: 'Previous',
   nextLabel: 'Next',
+  summaryLabel: undefined,
 })
 
 const emit = defineEmits<{
@@ -28,6 +30,9 @@ const from = computed(() => {
   return (page.value - 1) * props.meta.perPage + 1
 })
 const to = computed(() => Math.min(page.value * props.meta.perPage, props.meta.totalCount))
+const summary = computed(() => props.summaryLabel
+  ? props.summaryLabel(from.value, to.value, props.meta.totalCount)
+  : `${from.value}–${to.value} / ${props.meta.totalCount}`)
 
 const canPrev = computed(() => page.value > 1)
 const canNext = computed(() => page.value < totalPages.value)
@@ -45,7 +50,7 @@ const go = (p: number) => {
     class="flex flex-wrap items-center justify-between gap-3 py-3 text-sm"
   >
     <p class="text-muted-foreground">
-      {{ from }}–{{ to }} / {{ meta.totalCount }}
+      {{ summary }}
     </p>
     <div class="flex items-center gap-2">
       <button
