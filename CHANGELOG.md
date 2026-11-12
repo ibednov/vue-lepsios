@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.6
+
+- Add shared entity navigation and tags input field components.
+- Export a shared bulk action helper for host-owned record operations.
+
 ## 0.7.5
 
 - Use Lucide and Framework7 icons in shared components to reduce required icon collections.
