@@ -179,7 +179,7 @@ const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
       </div>
     </div>
 
-    <div class="overflow-hidden rounded-xl border border-border bg-card">
+    <div :class="['overflow-hidden rounded-xl border border-border bg-card', hasCards && 'hidden sm:block']">
       <div class="overflow-x-auto">
         <Table>
           <TableHeader class="bg-muted/40">

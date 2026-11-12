@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.3
+
+- Hide the desktop table container when a consumer renders the responsive cards slot.
+
 ## 0.8.2
 
 - Keep AdminShell content in a neutral layout container so page frames provide the single main landmark.
