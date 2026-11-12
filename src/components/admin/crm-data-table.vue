@@ -157,7 +157,7 @@ function clearSelection() {
 }
 const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
   const state = column.getIsSorted()
-  return state === 'asc' ? 'carbon:sort-ascending' : state === 'desc' ? 'carbon:sort-descending' : 'carbon:funnel-sort'
+  return state === 'asc' ? 'lucide:arrow-up-wide-narrow' : state === 'desc' ? 'lucide:arrow-down-wide-narrow' : 'lucide:list-filter'
 }
 </script>
 

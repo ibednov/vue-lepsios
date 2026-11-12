@@ -36,7 +36,7 @@ const display = computed(() => {
       @click.stop="toggle"
     >
       <Icon
-        :icon="revealed ? 'ph:eye-slash' : 'ph:eye'"
+        :icon="revealed ? 'lucide:eye-off' : 'lucide:eye'"
         class="size-4"
         aria-hidden="true"
       />

@@ -63,7 +63,7 @@ const go = (p: number) => {
         @click="go(previousPage())"
       >
         <Icon
-          icon="ph:caret-left"
+          icon="lucide:chevron-left"
           class="size-4"
           aria-hidden="true"
         />
@@ -79,7 +79,7 @@ const go = (p: number) => {
         @click="go(nextPage())"
       >
         <Icon
-          icon="ph:caret-right"
+          icon="lucide:chevron-right"
           class="size-4"
           aria-hidden="true"
         />

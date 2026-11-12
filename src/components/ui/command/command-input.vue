@@ -32,7 +32,7 @@ const { filterState, setSearch } = useCommand()
         "
     >
         <Icon
-            icon="ph:magnifying-glass"
+            icon="lucide:search"
             size="20"
             class="shrink-0 opacity-50"
         />

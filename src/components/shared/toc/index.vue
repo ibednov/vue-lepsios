@@ -77,7 +77,7 @@ const scrollToAnchor = (id: string) => {
           class="w-fit h-fit p-2"
         >
           <Icon
-            icon="ri:list-check"
+            icon="lucide:list-check"
             width="20"
           />
         </Button>

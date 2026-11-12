@@ -123,7 +123,7 @@ const drawerFullscreenClass = [
                             :aria-label="props.closeLabel || 'Close'"
                         >
                             <Icon
-                                icon="akar-icons:cross"
+                                icon="lucide:x"
                                 width="12"
                             />
                         </button>

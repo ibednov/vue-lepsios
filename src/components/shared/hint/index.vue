@@ -5,7 +5,7 @@ withDefaults(defineProps<{
   icon?: string
 }>(), {
   text: undefined,
-  icon: 'solar:info-circle-bold',
+  icon: 'lucide:info',
 })
 </script>
 

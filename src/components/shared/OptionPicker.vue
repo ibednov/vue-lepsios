@@ -70,7 +70,7 @@ const markImageBroken = (option: Option) => { brokenImages.value[option.value] =
             @select="choose(option.value)"
           >
             <img v-if="imageAvailable(option)" :src="option.image" :alt="option.label" class="size-10 rounded-[var(--waify-button-radius,0.75rem)] object-cover" @error="markImageBroken(option)">
-            <span v-else class="grid size-10 shrink-0 place-items-center rounded-[var(--waify-button-radius,0.75rem)] bg-muted text-muted-foreground"><Icon icon="ph:image-square" width="20" /></span>
+            <span v-else class="grid size-10 shrink-0 place-items-center rounded-[var(--waify-button-radius,0.75rem)] bg-muted text-muted-foreground"><Icon icon="lucide:image" width="20" /></span>
             <span class="min-w-0">
               <span class="block truncate">{{ option.label }}</span>
               <span v-if="option.description" class="block truncate text-xs text-muted-foreground">{{ option.description }}</span>
@@ -107,7 +107,7 @@ const markImageBroken = (option: Option) => { brokenImages.value[option.value] =
               @click="choose(option.value)"
             >
               <img v-if="imageAvailable(option)" :src="option.image" :alt="option.label" class="size-12 shrink-0 rounded-[var(--waify-button-radius,0.75rem)] object-cover" @error="markImageBroken(option)">
-              <span v-else class="grid size-12 shrink-0 place-items-center rounded-[var(--waify-button-radius,0.75rem)] bg-muted text-muted-foreground"><Icon icon="ph:image-square" width="22" /></span>
+              <span v-else class="grid size-12 shrink-0 place-items-center rounded-[var(--waify-button-radius,0.75rem)] bg-muted text-muted-foreground"><Icon icon="lucide:image" width="22" /></span>
               <span class="min-w-0">
                 <span class="block truncate">{{ option.label }}</span>
                 <span v-if="option.description" class="mt-0.5 block line-clamp-2 text-xs font-normal text-muted-foreground">{{ option.description }}</span>
