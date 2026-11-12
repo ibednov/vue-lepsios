@@ -75,7 +75,7 @@ const isFilled = computed(() => props.variant === 'filled')
           :autofocus="props.autoFocus && index === 0"
           :class="[
             'rounded-md border w-14 h-14 text-xl',
-            isFilled ? 'h-16 w-auto min-w-0 flex-1 rounded-xl first:rounded-xl last:rounded-xl border-transparent bg-muted' : '',
+            isFilled ? 'h-16 w-auto min-w-0 flex-1 rounded-xl first:rounded-xl last:rounded-xl border-border/70 bg-lepsios-field text-foreground focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/50' : '',
             props.inputClass,
             props.hasError ? 'border-red-500' : '',
           ]"
