@@ -7,15 +7,21 @@ const props = withDefaults(defineProps<{
   loading?: boolean
   error?: string | null
   empty?: boolean
-  loadingLabel: string
-  errorLabel: string
-  emptyLabel: string
-  retryLabel: string
+  showRetry?: boolean
+  loadingLabel?: string
+  errorLabel?: string
+  emptyLabel?: string
+  retryLabel?: string
   class?: HTMLAttributes['class']
 }>(), {
   loading: false,
   error: null,
   empty: false,
+  showRetry: false,
+  loadingLabel: '',
+  errorLabel: '',
+  emptyLabel: '',
+  retryLabel: '',
 })
 
 const emit = defineEmits<{
@@ -29,9 +35,9 @@ const emit = defineEmits<{
   </div>
   <div v-else-if="error" :class="cn('rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive', props.class)" role="alert">
     <slot name="error" :error="error">
-      <p class="font-medium">{{ errorLabel }}</p>
+      <p v-if="errorLabel" class="font-medium">{{ errorLabel }}</p>
       <p class="mt-1">{{ error }}</p>
-      <Button type="button" variant="link" class="mt-1 h-auto p-0 text-destructive" @click="emit('retry')">
+      <Button v-if="showRetry" type="button" variant="link" class="mt-1 h-auto p-0 text-destructive" @click="emit('retry')">
         <slot name="retry">{{ retryLabel }}</slot>
       </Button>
     </slot>
