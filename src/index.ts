@@ -46,6 +46,8 @@ export { default as AdminFormDrawer } from './components/admin/admin-form-drawer
 export { default as AdminEmptyState } from './components/admin/admin-empty-state.vue'
 export { default as CrmStateBlock } from './components/admin/crm-state-block.vue'
 export { default as AdminRowActions } from './components/admin/admin-row-actions.vue'
+export { default as CrmViewToggle } from './components/admin/crm-view-toggle.vue'
+export { default as CrmKanbanBoard } from './components/admin/crm-kanban-board.vue'
 /** @deprecated Prefer AuthPhoneInput (auth/phone/input) */
 export { default as PhoneInput } from './components/auth/phone/input/index.vue'
 export { default as AuthPhoneInput } from './components/auth/phone/input/index.vue'

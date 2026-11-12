@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.5
+
+- Add labeled table/Kanban view toggle and a generic Kanban column shell with host-owned card and drop behavior.
+
 ## 0.7.4
 
 - Improve contrast and alignment for informational alerts.
