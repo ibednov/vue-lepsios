@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0
+
+- Add `CrmStateBlock` with distinct loading, error, and empty states, caller-provided labels, and retry/default slots.
+- Export the existing `AdminPageHeader` and `AdminPage` as the shared page header and frame.
+
 ## 0.5.0
 
 - Add `CrmSidebarNavigation` for shared searchable navigation, grouped routes, active states, saved group expansion, and collapsed sidebars.
