@@ -4,6 +4,7 @@
 
 - Add `CrmStateBlock` with distinct loading, error, and empty states, caller-provided labels, and retry/default slots.
 - Export the existing `AdminPageHeader` and `AdminPage` as the shared page header and frame.
+- Align `AdminPage` gutters and sizing with the extracted Wishimi page frame.
 
 ## 0.5.0
 
