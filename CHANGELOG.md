@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.7
+- Fix entity navigation index display typing.
+
 ## 0.7.6
 
 - Add shared entity navigation and tags input field components.

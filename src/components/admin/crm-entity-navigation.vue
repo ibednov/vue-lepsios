@@ -19,6 +19,7 @@ const emit = defineEmits<{
 }>()
 
 const currentIndex = defineModel<number>('currentIndex', { default: 0 })
+const displayIndex = computed(() => currentIndex.value + 1)
 const canGoPrevious = computed(() => currentIndex.value > 0)
 const canGoNext = computed(() => currentIndex.value < props.totalCount - 1)
 
@@ -52,7 +53,7 @@ const handleNext = () => {
     </Button>
 
     <div class="text-sm text-muted-foreground">
-      {{ currentIndex + 1 }} / {{ totalCount }}
+      {{ displayIndex }} / {{ totalCount }}
     </div>
 
     <Button
