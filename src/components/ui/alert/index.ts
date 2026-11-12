@@ -10,7 +10,7 @@ export const alertVariants = cva(
     variants: {
       variant: {
         default: 'bg-card text-card-foreground',
-        info: 'has-[>svg]:!grid-cols-[32px_minmax(0,1fr)] has-[>svg]:!gap-x-4 border-primary/20 bg-primary/5 text-foreground [&>svg]:size-8 [&>svg]:rounded-full [&>svg]:bg-primary [&>svg]:p-2 [&>svg]:text-primary-foreground',
+        info: 'has-[>svg]:!grid-cols-[40px_minmax(0,1fr)] has-[>svg]:!gap-x-4 items-center border-primary/20 bg-primary/5 text-foreground [&>svg]:size-10 [&>svg]:rounded-full [&>svg]:translate-y-0 [&>svg]:bg-primary [&>svg]:p-2 [&>svg]:text-primary-foreground',
         destructive:
           'text-destructive bg-card [&>svg]:text-current *:data-[slot=alert-description]:text-destructive/90',
       },
