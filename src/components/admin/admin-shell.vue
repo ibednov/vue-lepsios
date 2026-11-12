@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import type { HTMLAttributes } from 'vue'
 import { SidebarInset, SidebarProvider } from '../ui/sidebar'
+import { cn } from '../../lib/cn'
 
-withDefaults(defineProps<{
+const open = defineModel<boolean>('open')
+
+const props = withDefaults(defineProps<{
   sidebarWidth?: string
   headerHeight?: string
+  contentClass?: HTMLAttributes['class']
 }>(), {
   sidebarWidth: '16rem',
   headerHeight: '3.5rem',
@@ -12,6 +17,7 @@ withDefaults(defineProps<{
 
 <template>
   <SidebarProvider
+    v-model:open="open"
     :style="{
       '--sidebar-width': sidebarWidth,
       '--header-height': headerHeight,
@@ -20,9 +26,11 @@ withDefaults(defineProps<{
   >
     <slot name="sidebar" />
     <SidebarInset class="min-w-0 bg-background">
-      <slot name="header" />
+      <header class="flex h-[var(--header-height)] shrink-0 items-center gap-2 border-b bg-background px-4 sm:px-6">
+        <slot name="header" />
+      </header>
       <main class="flex min-w-0 flex-1 flex-col bg-background">
-        <div class="@container/main flex min-w-0 flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6">
+        <div :class="cn('@container/main flex min-w-0 flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6', props.contentClass)">
           <slot />
         </div>
       </main>

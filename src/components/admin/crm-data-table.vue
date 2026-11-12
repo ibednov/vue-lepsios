@@ -73,6 +73,7 @@ const emit = defineEmits<{
 }>()
 
 const slots = useSlots()
+const hasCards = computed(() => !!slots.cards)
 const sorting = ref<SortingState>([])
 const rowSelection = defineModel<RowSelectionState>('rowSelection', { default: () => ({}) })
 const columnVisibility = ref<VisibilityState>({})
@@ -197,7 +198,7 @@ const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
             <TableRow v-else-if="error"><TableCell :colspan="Math.max(1, table.getVisibleLeafColumns().length)" class="p-0"><div class="flex min-h-24 flex-wrap items-center justify-center gap-3 p-4 text-sm text-destructive" data-testid="crm-data-table-error" role="alert"><slot name="error" :error="error"><span>{{ error }}</span></slot><Button v-if="retryLabel" variant="outline" size="sm" @click="emit('retry')">{{ retryLabel }}</Button></div></TableCell></TableRow>
             <TableRow v-else-if="showEmpty"><TableCell :colspan="Math.max(1, table.getVisibleLeafColumns().length)" class="text-muted-foreground h-24 text-center" data-testid="crm-data-table-empty"><slot name="empty">{{ emptyText }}</slot></TableCell></TableRow>
             <template v-else>
-              <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :id="props.getRowId?.(row.original, row.index)" :class="props.rowClass?.(row.original)" :data-state="row.getIsSelected() && 'selected'" @click="onRowClick($event, row.original)">
+              <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :id="props.getRowId?.(row.original, row.index)" :class="[props.rowClass?.(row.original), hasCards && 'hidden sm:table-row']" :data-state="row.getIsSelected() && 'selected'" @click="onRowClick($event, row.original)">
                 <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" :class="(cell.column.columnDef.meta as { columnClass?: string })?.columnClass">
                   <slot :name="`cell:${cell.column.id}`" :row="row.original" :value="cell.getValue()" :cell="cell" :row-model="row">
                     <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
@@ -208,6 +209,13 @@ const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
           </TableBody>
         </Table>
       </div>
+    </div>
+
+    <div v-if="hasCards" class="grid gap-3 sm:hidden">
+      <div v-if="loading" class="flex items-center justify-center gap-2 rounded-xl border bg-card px-4 py-10 text-sm text-muted-foreground" role="status"><Spinner class="size-4" /><span>{{ loadingText }}</span></div>
+      <div v-else-if="error" class="rounded-xl border border-destructive/40 bg-card p-4 text-sm text-destructive" role="alert"><slot name="error" :error="error"><span>{{ error }}</span></slot><Button v-if="retryLabel" variant="outline" size="sm" class="ml-3" @click="emit('retry')">{{ retryLabel }}</Button></div>
+      <div v-else-if="showEmpty" class="rounded-xl border bg-card px-4 py-10 text-center text-sm text-muted-foreground"><slot name="empty">{{ emptyText }}</slot></div>
+      <slot v-else name="cards" :rows="table.getRowModel().rows.map(row => row.original)" />
     </div>
 
     <CrmPagination v-if="meta && !hidePagination" :meta="meta" :min-total="paginateAbove" :prev-label="previousLabel" :next-label="nextLabel" :summary-label="paginationSummaryLabel" @page-change="emit('pageChange', $event)" />

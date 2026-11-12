@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.8.0
+- Add shared CRM breadcrumbs and controlled sidebar state to AdminShell.
+
 ## 0.7.9
 - Fix forwarded drawer prop typing for consumer typechecks.
 
