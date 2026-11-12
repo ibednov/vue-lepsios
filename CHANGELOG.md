@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.7.9
+- Fix forwarded drawer prop typing for consumer typechecks.
+
 ## 0.7.8
 - Align field, OTP, date picker, and tag cloud typings with current Vue and Reka UI APIs.
 - Declare MarkdownIt types and Typed.js used by exported shared components.
