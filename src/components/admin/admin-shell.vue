@@ -29,11 +29,11 @@ const props = withDefaults(defineProps<{
       <header class="flex h-[var(--header-height)] shrink-0 items-center gap-2 border-b bg-background px-4 sm:px-6">
         <slot name="header" />
       </header>
-      <main class="flex min-w-0 flex-1 flex-col bg-background">
+      <div class="flex min-w-0 flex-1 flex-col bg-background">
         <div :class="cn('@container/main flex min-w-0 flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6', props.contentClass)">
           <slot />
         </div>
-      </main>
+      </div>
     </SidebarInset>
   </SidebarProvider>
 </template>

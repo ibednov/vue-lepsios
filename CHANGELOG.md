@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.1
+
+- Avoid nesting the page frame's main landmark inside AdminShell.
+
 ## 0.8.0
 - Add shared CRM breadcrumbs and controlled sidebar state to AdminShell.
 
