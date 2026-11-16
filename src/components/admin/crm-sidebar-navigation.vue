@@ -32,12 +32,16 @@ export interface CrmSidebarNavigationGroup {
   id: string
   label: string
   icon?: string | object | ((...args: any[]) => unknown)
+  /** Module hub route — label navigates here; chevron still toggles. */
+  to?: string
   items: CrmSidebarNavigationItem[]
 }
 
 export interface CrmSidebarNavigationSection {
   id: string
   label: string
+  /** Section hub route — section label becomes a link. */
+  to?: string
   items?: CrmSidebarNavigationItem[]
   groups?: CrmSidebarNavigationGroup[]
 }
@@ -159,7 +163,24 @@ const badgeClass = (item: CrmSidebarNavigationItem) => item.badgeVariant === 'de
     </div>
     <nav class="min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain px-2 py-3" :aria-label="navigationLabel ?? searchLabel">
       <SidebarGroup v-for="section in visibleSections" :key="section.id" class="gap-1 px-0 py-0">
-        <SidebarGroupLabel v-if="section.label" class="px-2 text-[11px] font-semibold uppercase tracking-[0.08em]">
+        <SidebarGroupLabel
+          v-if="section.label && section.to"
+          as-child
+          class="px-2 text-[11px] font-semibold uppercase tracking-[0.08em]"
+        >
+          <RouterLink
+            :to="section.to"
+            class="hover:text-sidebar-foreground"
+            :data-testid="`nav-section-${section.id}`"
+            @click="emit('navigate')"
+          >
+            {{ section.label }}
+          </RouterLink>
+        </SidebarGroupLabel>
+        <SidebarGroupLabel
+          v-else-if="section.label"
+          class="px-2 text-[11px] font-semibold uppercase tracking-[0.08em]"
+        >
           {{ section.label }}
         </SidebarGroupLabel>
         <SidebarMenu v-if="section.items.length" class="gap-0.5">
@@ -195,19 +216,44 @@ const badgeClass = (item: CrmSidebarNavigationItem) => item.badgeVariant === 'de
         </SidebarMenu>
         <SidebarMenu v-if="section.groups.length" class="gap-0.5">
           <SidebarMenuItem v-for="group in section.groups" :key="group.id">
-            <button
-              type="button"
-              :class="menuButtonClass"
-              :data-active="isGroupActive(group)"
-              :aria-expanded="isGroupOpen(group)"
-              :title="props.collapsed ? group.label : undefined"
-              @click="toggleGroup(group)"
+            <div
+              :class="[menuButtonClass, 'justify-between gap-1 pr-1']"
+              :data-active="isGroupActive(group) || (group.to && activeId === group.id)"
             >
-              <Icon v-if="typeof group.icon === 'string'" :icon="group.icon" class="size-4 shrink-0" aria-hidden="true" />
-              <component :is="asComponent(group.icon)" v-else-if="group.icon" :class="'size-4 shrink-0'" aria-hidden="true" />
-              <span class="min-w-0 flex-1 truncate">{{ group.label }}</span>
-              <Icon icon="lucide:chevron-down" class="size-3.5 shrink-0 transition-transform" :class="isGroupOpen(group) ? '' : '-rotate-90'" aria-hidden="true" />
-            </button>
+              <RouterLink
+                v-if="group.to"
+                :to="group.to"
+                class="flex min-w-0 flex-1 items-center gap-2 rounded-md outline-none"
+                :title="props.collapsed ? group.label : undefined"
+                :data-testid="`nav-group-${group.id}`"
+                :aria-current="activeId === group.id ? 'page' : undefined"
+                @click="setGroupOpen(group.id, true); emit('navigate')"
+              >
+                <Icon v-if="typeof group.icon === 'string'" :icon="group.icon" class="size-4 shrink-0" aria-hidden="true" />
+                <component :is="asComponent(group.icon)" v-else-if="group.icon" :class="'size-4 shrink-0'" aria-hidden="true" />
+                <span class="min-w-0 flex-1 truncate">{{ group.label }}</span>
+              </RouterLink>
+              <button
+                v-else
+                type="button"
+                class="flex min-w-0 flex-1 items-center gap-2 rounded-md text-left outline-none"
+                :title="props.collapsed ? group.label : undefined"
+                @click="toggleGroup(group)"
+              >
+                <Icon v-if="typeof group.icon === 'string'" :icon="group.icon" class="size-4 shrink-0" aria-hidden="true" />
+                <component :is="asComponent(group.icon)" v-else-if="group.icon" :class="'size-4 shrink-0'" aria-hidden="true" />
+                <span class="min-w-0 flex-1 truncate">{{ group.label }}</span>
+              </button>
+              <button
+                type="button"
+                class="grid size-7 shrink-0 place-items-center rounded-md hover:bg-sidebar-accent"
+                :aria-expanded="isGroupOpen(group)"
+                :aria-label="group.label"
+                @click.stop="toggleGroup(group)"
+              >
+                <Icon icon="lucide:chevron-down" class="size-3.5 transition-transform" :class="isGroupOpen(group) ? '' : '-rotate-90'" aria-hidden="true" />
+              </button>
+            </div>
             <SidebarMenuSub v-show="isGroupOpen(group)" class="mx-3.5 border-l border-sidebar-border px-2.5">
               <SidebarMenuSubItem v-for="item in group.items" :key="item.id">
                 <div

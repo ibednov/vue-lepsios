@@ -12,6 +12,8 @@ export type CrmNavBreadcrumbLink = {
 export type CrmNavBreadcrumbGroup = {
   id: string
   label: string
+  /** Module hub route when present (preferred over first leaf). */
+  to?: RouteLocationRaw
   links: CrmNavBreadcrumbLink[]
 }
 
@@ -19,12 +21,14 @@ export type CrmNavBreadcrumbGroup = {
 export type CrmNavBreadcrumbSection = {
   id: string
   label: string
+  /** Section hub route when present. */
+  to?: RouteLocationRaw
   groups: CrmNavBreadcrumbGroup[]
 }
 
 export type BuildCrmNavBreadcrumbsInput = {
   sections: CrmNavBreadcrumbSection[]
-  /** Active leaf id (nav link id or path key). */
+  /** Active leaf id, or section/group hub id. */
   activeId?: string | null
   /** Extra current-page label on detail routes (card / id screen). */
   detailLabel?: string | null
@@ -32,13 +36,35 @@ export type BuildCrmNavBreadcrumbsInput = {
 
 /**
  * Build section → module → item [→ detail] crumbs.
- * Ancestors always get `to` (first link in that node) so CrmBreadcrumbs can link them.
+ * Ancestors always get `to` (hub path if set, else first leaf) so crumbs stay clickable.
  * Current leaf has no `to` (rendered as the page crumb).
  */
 export function buildCrmNavBreadcrumbs(input: BuildCrmNavBreadcrumbsInput): CrmBreadcrumbItem[] {
   const { sections, activeId, detailLabel } = input
   if (!sections.length)
     return []
+
+  // Hub page: activeId is a section id
+  if (activeId) {
+    const hubSection = sections.find(s => s.id === activeId)
+    if (hubSection)
+      return [{ label: hubSection.label }]
+
+    // Hub page: activeId is a group id
+    for (const section of sections) {
+      const hubGroup = section.groups.find(g => g.id === activeId)
+      if (hubGroup) {
+        const sectionTo = section.to ?? section.groups.flatMap(g => g.links)[0]?.to
+        const crumbs: CrmBreadcrumbItem[] = []
+        if (sectionTo)
+          crumbs.push({ label: section.label, to: sectionTo })
+        else
+          crumbs.push({ label: section.label })
+        crumbs.push({ label: hubGroup.label })
+        return crumbs
+      }
+    }
+  }
 
   let section: CrmNavBreadcrumbSection | undefined
   let group: CrmNavBreadcrumbGroup | undefined
@@ -69,8 +95,8 @@ export function buildCrmNavBreadcrumbs(input: BuildCrmNavBreadcrumbsInput): CrmB
     link = fallbackLink
   }
 
-  const sectionTo = section.groups.flatMap(g => g.links)[0]?.to ?? link.to
-  const groupTo = group.links[0]?.to ?? link.to
+  const sectionTo = section.to ?? section.groups.flatMap(g => g.links)[0]?.to ?? link.to
+  const groupTo = group.to ?? group.links[0]?.to ?? link.to
   const crumbs: CrmBreadcrumbItem[] = [
     { label: section.label, to: sectionTo },
     { label: group.label, to: groupTo },

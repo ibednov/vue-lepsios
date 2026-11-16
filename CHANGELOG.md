@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.15
+
+- Add `CrmNavHub` + `resolveCrmNavHub` / `crmNavHubPath` — section/module landing cards.
+- `CrmSidebarNavigation`: optional `to` on section/group (label → hub; chevron toggles).
+- `buildCrmNavBreadcrumbs`: prefer hub `to` on section/group; hub activeId crumbs.
+
 ## 0.8.14
 
 - Add `CrmSidebarAccount` — one sidebar footer for all CRMs (avatar trigger, appearance icons, `#menu` slot, optional `CrmPoweredBy` props).

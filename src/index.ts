@@ -14,6 +14,8 @@ export { default as CrmAccessControlView } from './components/admin/crm-access-c
 export { default as CrmServiceSwitcher } from './components/admin/crm-service-switcher.vue'
 export { default as CrmPoweredBy } from './components/admin/crm-powered-by.vue'
 export { default as CrmSidebarAccount } from './components/admin/crm-sidebar-account.vue'
+export { default as CrmNavHub } from './components/admin/crm-nav-hub.vue'
+export type { CrmNavHubItem } from './components/admin/crm-nav-hub.vue'
 export { default as CrmSidebarNavigation } from './components/admin/crm-sidebar-navigation.vue'
 export type {
   CrmSidebarNavigationGroup,
@@ -50,6 +52,16 @@ export type {
   CrmNavBreadcrumbLink,
   CrmNavBreadcrumbSection,
 } from './utils/build-crm-nav-breadcrumbs'
+export {
+  crmNavHubPath,
+  resolveCrmNavHub,
+} from './utils/resolve-crm-nav-hub'
+export type {
+  CrmNavHubGroup,
+  CrmNavHubLink,
+  CrmNavHubSection,
+  ResolveCrmNavHubResult,
+} from './utils/resolve-crm-nav-hub'
 export { default as AdminPage } from './components/admin/admin-page.vue'
 export { default as CrmPageFrame } from './components/admin/admin-page.vue'
 export { default as AdminPageHeader } from './components/admin/admin-page-header.vue'
