@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.19
+
+- `CrmDataTable`: contain long cell content (min-width / overflow).
+
 ## 0.8.18
 
 - `CrmDataTable`: emit `clearSelection` when clearing selection (host-managed `selectedIds`).
