@@ -183,7 +183,7 @@ const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
 
     <div :class="['overflow-hidden rounded-xl border border-border bg-card', hasCards && 'hidden sm:block']">
       <div class="overflow-x-auto">
-        <Table class="w-full table-fixed">
+        <Table class="w-max min-w-full table-auto">
           <TableHeader class="bg-muted/40">
             <TableRow v-for="group in table.getHeaderGroups()" :key="group.id">
               <TableHead v-for="header in group.headers" :key="header.id" :class="(header.column.columnDef.meta as { columnClass?: string })?.columnClass" :aria-sort="header.column.getCanSort() ? (header.column.getIsSorted() === 'asc' ? 'ascending' : header.column.getIsSorted() === 'desc' ? 'descending' : 'none') : undefined">
@@ -201,7 +201,7 @@ const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
             <TableRow v-else-if="showEmpty"><TableCell :colspan="Math.max(1, table.getVisibleLeafColumns().length)" class="text-muted-foreground h-24 text-center" data-testid="crm-data-table-empty"><slot name="empty">{{ emptyText }}</slot></TableCell></TableRow>
             <template v-else>
               <TableRow v-for="row in table.getRowModel().rows" :key="row.id" :id="props.getRowId?.(row.original, row.index)" :class="[props.rowClass?.(row.original), hasCards && 'hidden sm:table-row']" :data-state="row.getIsSelected() && 'selected'" @click="onRowClick($event, row.original)">
-                <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" :class="['min-w-0 whitespace-normal [overflow-wrap:anywhere]', (cell.column.columnDef.meta as { columnClass?: string })?.columnClass]">
+                <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" :class="['whitespace-normal [overflow-wrap:anywhere]', (cell.column.columnDef.meta as { columnClass?: string })?.columnClass]">
                   <slot :name="`cell:${cell.column.id}`" :row="row.original" :value="cell.getValue()" :cell="cell" :row-model="row">
                     <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                   </slot>

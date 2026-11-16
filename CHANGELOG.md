@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.21
+
+- `CrmDataTable`: preserve natural column widths and scroll horizontally inside the table container.
+
 ## 0.8.20
 
 - `CrmDataTable`: constrain root width so intrinsic table content stays inside its parent layout.
