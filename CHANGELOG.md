@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.17
+
+- `CrmSidebarAccount`: language/theme as labeled menu items (not icon-only row).
+
 ## 0.8.16
 
 - `buildCrmNavBreadcrumbs`: optional `section.links` for flat section leaves (2-level crumbs, no module).

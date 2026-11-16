@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronsUpDown, LogOut } from 'lucide-vue-next'
+import { ChevronsUpDown, Languages, LogOut, Moon, Sun } from 'lucide-vue-next'
 import { Avatar, AvatarFallback } from '../ui/avatar'
 import {
   DropdownMenu,
@@ -16,7 +16,6 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '../ui/sidebar'
-import CrmHeaderAppearance from './crm-header-appearance.vue'
 import CrmPoweredBy from './crm-powered-by.vue'
 
 /**
@@ -104,18 +103,35 @@ const { isMobile } = useSidebar()
               </div>
             </DropdownMenuLabel>
 
-            <div
-              v-if="showAppearance !== false && languageLabel && themeLabel"
-              class="flex justify-end gap-1 px-2 py-1"
-            >
-              <CrmHeaderAppearance
-                :is-dark="Boolean(isDark)"
-                :language-label="languageLabel"
-                :theme-label="themeLabel"
-                @toggle-locale="emit('toggleLocale')"
-                @toggle-dark="emit('toggleDark')"
-              />
-            </div>
+            <template v-if="showAppearance !== false && (languageLabel || themeLabel)">
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                v-if="languageLabel"
+                @select="emit('toggleLocale')"
+              >
+                <Languages
+                  class="size-4"
+                  aria-hidden="true"
+                />
+                {{ languageLabel }}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                v-if="themeLabel"
+                @select="emit('toggleDark')"
+              >
+                <Moon
+                  v-if="isDark"
+                  class="size-4"
+                  aria-hidden="true"
+                />
+                <Sun
+                  v-else
+                  class="size-4"
+                  aria-hidden="true"
+                />
+                {{ themeLabel }}
+              </DropdownMenuItem>
+            </template>
 
             <slot name="menu" />
 
