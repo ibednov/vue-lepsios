@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.12
+
+- AdminShell constrain: drop `mx-auto` — max width caps from the leading edge so content shares the header/breadcrumb column (no centered island).
+- AdminPage: gutters match header (`px-4 sm:px-6`); no extra `lg:px-8`.
+
 ## 0.8.11
 
 - AdminPageHeader: title stays leading-edge (`w-full` / `text-start`); drop column `items-end` that pinned titles to the trailing edge.
