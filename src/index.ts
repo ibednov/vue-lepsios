@@ -38,7 +38,17 @@ export {
 export { default as AdminTableFrame } from './components/admin/admin-table-frame.vue'
 export { default as AdminShell } from './components/admin/admin-shell.vue'
 export { default as CrmBreadcrumbs } from './components/admin/crm-breadcrumbs.vue'
+export { default as CrmHeaderAppearance } from './components/admin/crm-header-appearance.vue'
 export type { CrmBreadcrumbItem } from './types/breadcrumb'
+export {
+  buildCrmNavBreadcrumbs,
+} from './utils/build-crm-nav-breadcrumbs'
+export type {
+  BuildCrmNavBreadcrumbsInput,
+  CrmNavBreadcrumbGroup,
+  CrmNavBreadcrumbLink,
+  CrmNavBreadcrumbSection,
+} from './utils/build-crm-nav-breadcrumbs'
 export { default as AdminPage } from './components/admin/admin-page.vue'
 export { default as CrmPageFrame } from './components/admin/admin-page.vue'
 export { default as AdminPageHeader } from './components/admin/admin-page-header.vue'

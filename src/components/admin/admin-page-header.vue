@@ -12,34 +12,34 @@ const props = defineProps<{
 
 <template>
   <!--
-    Title always starts at the content leading edge.
-    Avoid items-end on a column flex — it pins the block to the trailing edge.
+    Layout lives in non-utility CSS below — host Tailwind purge must not be
+    able to drop leading-edge alignment (sm:items-start etc. vanished on prod).
   -->
-  <header :class="cn('flex w-full min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between', props.class)">
-    <div class="flex w-full min-w-0 flex-1 items-start gap-3">
+  <header :class="cn('admin-page-header', props.class)">
+    <div class="admin-page-header__body">
       <div
         v-if="$slots.leading"
-        class="shrink-0 pt-1"
+        class="admin-page-header__leading"
       >
         <slot name="leading" />
       </div>
-      <div class="min-w-0 flex-1 space-y-1 text-start">
+      <div class="admin-page-header__copy">
         <p
           v-if="eyebrow || $slots.eyebrow"
-          class="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground"
+          class="admin-page-header__eyebrow"
         >
           <slot name="eyebrow">
             {{ eyebrow }}
           </slot>
         </p>
-        <h1 class="text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+        <h1 class="admin-page-header__title">
           <slot name="title">
             {{ title }}
           </slot>
         </h1>
         <p
           v-if="description || $slots.description"
-          class="max-w-3xl text-sm leading-6 text-muted-foreground"
+          class="admin-page-header__description"
         >
           <slot name="description">
             {{ description }}
@@ -49,9 +49,85 @@ const props = defineProps<{
     </div>
     <div
       v-if="$slots.actions"
-      class="flex w-full shrink-0 flex-wrap items-center gap-2 sm:w-auto sm:justify-end"
+      class="admin-page-header__actions"
     >
       <slot name="actions" />
     </div>
   </header>
 </template>
+
+<style>
+.admin-page-header {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: 1rem;
+  text-align: start;
+}
+.admin-page-header__body {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: flex-start;
+  gap: 0.75rem;
+  text-align: start;
+}
+.admin-page-header__leading {
+  flex-shrink: 0;
+  padding-top: 0.25rem;
+}
+.admin-page-header__copy {
+  min-width: 0;
+  flex: 1 1 auto;
+  text-align: start;
+}
+.admin-page-header__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground, var(--gp-muted, #52525b));
+}
+.admin-page-header__title {
+  margin: 0;
+  font-size: clamp(1.75rem, 2.4vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  text-align: start;
+  color: var(--foreground, var(--gp-ink, #09090b));
+}
+.admin-page-header__description {
+  margin: 0.25rem 0 0;
+  max-width: 48rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-align: start;
+  color: var(--muted-foreground, var(--gp-muted, #52525b));
+}
+.admin-page-header__actions {
+  display: flex;
+  width: 100%;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+@media (min-width: 640px) {
+  .admin-page-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .admin-page-header__actions {
+    width: auto;
+    justify-content: flex-end;
+  }
+}
+</style>

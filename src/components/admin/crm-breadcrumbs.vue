@@ -10,27 +10,43 @@ const props = defineProps<{
   class?: HTMLAttributes['class']
   separatorIcon?: string
 }>()
+
+/** Ancestors with `to` are links; the last crumb is always the current page. */
+const isLink = (item: CrmBreadcrumbItem, index: number) =>
+  Boolean(item.to) && index < props.items.length - 1
 </script>
 
 <template>
-  <Breadcrumb :aria-label="ariaLabel" :class="props.class">
+  <Breadcrumb
+    :aria-label="ariaLabel"
+    :class="props.class"
+  >
     <BreadcrumbList class="min-w-0 flex-nowrap gap-2">
-      <template v-for="(item, index) in items" :key="`${item.label}-${index}`">
+      <template
+        v-for="(item, index) in items"
+        :key="`${item.label}-${index}`"
+      >
         <BreadcrumbItem class="min-w-0">
           <BreadcrumbLink
-            v-if="item.to && index < items.length - 1"
+            v-if="isLink(item, index)"
             as-child
             class="truncate text-muted-foreground transition-colors hover:text-foreground"
           >
-            <RouterLink :to="item.to">
+            <RouterLink :to="item.to!">
               {{ item.label }}
             </RouterLink>
           </BreadcrumbLink>
-          <BreadcrumbPage v-else class="truncate font-medium">
+          <BreadcrumbPage
+            v-else
+            class="truncate font-medium"
+          >
             {{ item.label }}
           </BreadcrumbPage>
         </BreadcrumbItem>
-        <BreadcrumbSeparator v-if="index < items.length - 1" class="shrink-0">
+        <BreadcrumbSeparator
+          v-if="index < items.length - 1"
+          class="shrink-0"
+        >
           <Icon :icon="separatorIcon || 'lucide:chevron-right'" />
         </BreadcrumbSeparator>
       </template>

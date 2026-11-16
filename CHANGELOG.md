@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.13
+
+- AdminPageHeader / AdminPage / AdminShell: layout via stable CSS classes (not only Tailwind utilities) so host purge cannot pin titles trailing or re-center the content island.
+- Add `CrmHeaderAppearance` — header locale + theme icon toggles (props/emits only).
+- Export `buildCrmNavBreadcrumbs` for section → module → item clickable crumbs.
+
 ## 0.8.12
 
 - AdminShell constrain: drop `mx-auto` — max width caps from the leading edge so content shares the header/breadcrumb column (no centered island).

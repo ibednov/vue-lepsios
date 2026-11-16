@@ -9,11 +9,31 @@ const props = defineProps<{
 
 <template>
   <!--
-    Full-bleed of the shell content slot. Shell owns max-width + default gutter;
-    hosts that zero shell padding (content-class p-0) keep page gutters here.
-    Horizontal padding matches shell header (px-4 sm:px-6) — no second center.
+    Full-bleed of the shell content slot. Shell owns max-width;
+    page gutters stay even when hosts zero shell padding (content-class p-0).
+    Layout CSS is non-utility so host purge cannot drop alignment.
   -->
-  <main :class="cn('flex w-full min-w-0 flex-1 flex-col items-stretch gap-6 px-4 py-4 sm:px-6', props.class)">
+  <main :class="cn('admin-page', props.class)">
     <slot />
   </main>
 </template>
+
+<style>
+.admin-page {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.5rem;
+  padding: 1rem 1rem;
+  margin-inline: 0;
+  text-align: start;
+}
+@media (min-width: 640px) {
+  .admin-page {
+    padding-inline: 1.5rem;
+  }
+}
+</style>
