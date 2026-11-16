@@ -35,7 +35,6 @@ export {
   StepperTrigger,
 } from './components/ui/stepper'
 export { default as AdminTableFrame } from './components/admin/admin-table-frame.vue'
-export { default as AdminDataTable } from './components/admin/admin-table-frame.vue'
 export { default as AdminShell } from './components/admin/admin-shell.vue'
 export { default as CrmBreadcrumbs } from './components/admin/crm-breadcrumbs.vue'
 export type { CrmBreadcrumbItem } from './types/breadcrumb'

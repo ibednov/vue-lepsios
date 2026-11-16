@@ -21,7 +21,7 @@
 
 ## Extracted from `nuxt-lepsios`
 
-- `SharedUiAdminDataTable` table frame → `AdminTableFrame`.
+- Raw HTML table frame → `AdminTableFrame` (not a data table; lists use `CrmDataTable`).
 - `NumberField` primitive family → `components/number-field`.
 
 The original Nuxt files remain in place with TODO comments until Nuxt consumers are migrated independently.

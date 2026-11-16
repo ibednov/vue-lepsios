@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, nextTick } from 'vue'
+import { nextTick } from 'vue'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '../ui/dialog'
 import { Button } from '../ui/button'
-import { useI18n } from 'vue-i18n'
 
 interface Props {
   title: string
@@ -13,9 +12,9 @@ interface Props {
   busy?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  confirmText: undefined,
-  cancelText: undefined,
+withDefaults(defineProps<Props>(), {
+  confirmText: 'Confirm',
+  cancelText: 'Cancel',
   variant: 'default',
   busy: false,
 })
@@ -24,8 +23,6 @@ const emit = defineEmits<{
   confirm: []
   cancel: []
 }>()
-
-const { t } = useI18n()
 
 const isOpenModel = defineModel<boolean>('open', { default: false })
 
@@ -65,8 +62,6 @@ const handleCancel = () => {
   emit('cancel')
 }
 
-const confirmButtonText = computed(() => props.confirmText || t('global.confirm.confirm'))
-const cancelButtonText = computed(() => props.cancelText || t('global.confirm.cancel'))
 const isOpen = () => isOpenModel.value
 </script>
 
@@ -88,14 +83,14 @@ const isOpen = () => isOpenModel.value
                     :disabled="busy"
                     @click="handleCancel"
                 >
-                    {{ cancelButtonText }}
+                    {{ cancelText }}
                 </Button>
                 <Button
                     :variant="variant === 'destructive' ? 'destructive' : 'default'"
                     :disabled="busy"
                     @click="handleConfirm"
                 >
-                    {{ confirmButtonText }}
+                    {{ confirmText }}
                 </Button>
             </DialogFooter>
         </DialogContent>

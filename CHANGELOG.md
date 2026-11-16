@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.4
+
+- ConfirmDialog button labels are props only (`confirmText` / `cancelText`, defaults `Confirm` / `Cancel`); no `useI18n`.
+- Remove misleading `AdminDataTable` export alias (use `AdminTableFrame` or `CrmDataTable`).
+
 ## 0.8.3
 
 - Hide the desktop table container when a consumer renders the responsive cards slot.
