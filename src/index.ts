@@ -114,6 +114,7 @@ export {
   convertDateToUTC,
   formatDateOnly,
   formatDateOnlyBasedOnLocale,
+  formatDateTimeBasedOnLocale,
   formatToISO,
   getDate,
   getTenMinutesFromDate,

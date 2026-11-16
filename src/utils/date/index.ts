@@ -29,6 +29,30 @@ export const formatDateOnlyBasedOnLocale = (
   return dayjs(date).locale(localeStr).format('DD MMMM YYYY')
 }
 
+/** Locale-aware medium date+time via Intl. Pass i18n locale (`ru`→`ru-RU`, `en`→`en-GB`). */
+export const formatDateTimeBasedOnLocale = (
+  date: string | null | undefined,
+  locale: MaybeRef<string> = 'en',
+  options?: { timeZone?: string, empty?: string },
+) => {
+  if (!date)
+    return options?.empty ?? '—'
+  const parsed = new Date(date)
+  if (Number.isNaN(parsed.getTime()))
+    return date
+  const raw = unref(locale) || 'en'
+  const localeTag = raw === 'ru' || raw.startsWith('ru')
+    ? 'ru-RU'
+    : raw === 'en' || raw.startsWith('en')
+      ? 'en-GB'
+      : raw
+  return new Intl.DateTimeFormat(localeTag, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    ...(options?.timeZone ? { timeZone: options.timeZone } : {}),
+  }).format(parsed)
+}
+
 export const formatToISO = (
   date: string | Date | null | undefined,
 ): string | undefined => {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.5
+
+- Add `formatDateTimeBasedOnLocale` (Intl medium date+time, optional `timeZone` / `empty`).
+
 ## 0.8.4
 
 - ConfirmDialog button labels are props only (`confirmText` / `cancelText`, defaults `Confirm` / `Cancel`); no `useI18n`.
