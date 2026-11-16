@@ -69,6 +69,7 @@ const emit = defineEmits<{
   sortingChange: [sorting: SortingState]
   rowSelectionChange: [selection: RowSelectionState]
   bulkAction: [payload: { key: string, ids: string[] }]
+  clearSelection: []
   retry: []
 }>()
 
@@ -155,6 +156,7 @@ function onRowClick(event: MouseEvent, row: TData) {
 function clearSelection() {
   rowSelection.value = {}
   emit('rowSelectionChange', {})
+  emit('clearSelection')
 }
 const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
   const state = column.getIsSorted()

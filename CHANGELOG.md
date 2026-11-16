@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.18
+
+- `CrmDataTable`: emit `clearSelection` when clearing selection (host-managed `selectedIds`).
+
 ## 0.8.17
 
 - `CrmSidebarAccount`: language/theme as labeled menu items (not icon-only row).
