@@ -5,7 +5,7 @@ import { Button } from '../ui/button'
 /**
  * Header locale + theme toggles. Labels and state are host-owned (no i18n).
  */
-const props = defineProps<{
+defineProps<{
   isDark: boolean
   languageLabel: string
   themeLabel: string
