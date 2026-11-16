@@ -165,7 +165,7 @@ const sortIcon = <TValue,>(column: Column<TData, TValue>) => {
 </script>
 
 <template>
-  <div class="space-y-3">
+  <div class="w-full min-w-0 max-w-full space-y-3">
     <div v-if="showToolbar" class="flex flex-wrap items-center gap-2">
       <div class="flex min-w-0 flex-1 flex-wrap items-center gap-2"><slot name="toolbar" /></div>
       <div v-if="showSelectionStatus" class="flex shrink-0 items-center gap-2 text-muted-foreground text-sm" role="status" data-testid="table-selection-status">

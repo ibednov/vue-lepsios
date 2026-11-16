@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.20
+
+- `CrmDataTable`: constrain root width so intrinsic table content stays inside its parent layout.
+
 ## 0.8.19
 
 - `CrmDataTable`: contain long cell content (min-width / overflow).
