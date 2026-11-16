@@ -53,3 +53,30 @@ Search and filters remain host-owned so URLs, server query parameters, and busin
 `labels.paginationSummary(from, to, total)` is the host's localized range string. When adapting an existing two-argument `showingRows(visible, total)` label, pass `from === 0 ? 0 : to - from + 1` as `visible`.
 
 Use `createSelectColumn({ selectAll, selectRow })` in the host column definition and bind `v-model:row-selection`. `selectRow` may be a localized string or a function of the selected row. Pass `selectedCountLabel` and `clearSelectionLabel` to retain localized selection status and a clear action. Pass selected IDs to `selectedIds` when the host needs custom selection scope; otherwise bulk actions use the table's current row selection.
+
+## Host-managed bulk (`selectedIds`) recipe
+
+When the product owns the ID list (cross-page selection, bulk API payload, filter out stale ids):
+
+```vue
+<CrmDataTable
+  :columns="columns"
+  :data="items"
+  :selected-ids="selectedIds"
+  :bulk-actions="bulkActions"
+  :bulk-actions-label="t('…actions')"
+  :selected-count-label="(n) => t('…selectedCount', { count: n })"
+  :clear-selection-label="t('…clearSelection')"
+  @bulk-action="onBulkAction"
+  @clear-selection="selectedIds = []"
+/>
+```
+
+| Rule | Detail |
+| --- | --- |
+| Checkbox binding | reka-ui **`modelValue` + `onUpdate:modelValue`**. Never `checked` / `update:checked` — UI can paint toggled while host `selectedIds` stays `[]` and the bulk bar never opens. |
+| `columns` | Prefer **`computed`** so header/row checked state tracks `selectedIds`. |
+| `CrmBulkAction` | `{ key, label, variant?, confirmTitle?, confirmDescription?, confirmLabel?, cancelLabel? }`; host maps `key` → API. |
+| Clear | With host ids, listen **`@clear-selection`** (emitted since **0.8.18**). Clearing internal `rowSelection` alone does not wipe `selectedIds`. |
+| Row overflow | Put per-row moderate actions in **…** menu (`DropdownMenu`); do not leave a wide always-on Approve/Reject/Ban button strip. |
+| Working refs | go-product commercial-proposals; Spending `title-suggestions` |
