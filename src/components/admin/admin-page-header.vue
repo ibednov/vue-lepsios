@@ -11,12 +11,19 @@ const props = defineProps<{
 </script>
 
 <template>
-  <header :class="cn('flex flex-col gap-4 md:flex-row md:items-end md:justify-between', props.class)">
-    <div class="flex min-w-0 items-start gap-3">
-      <div v-if="$slots.leading" class="shrink-0 pt-1">
+  <!--
+    Title always starts at the content leading edge.
+    Avoid items-end on a column flex — it pins the block to the trailing edge.
+  -->
+  <header :class="cn('flex w-full min-w-0 flex-col gap-4 sm:flex-row sm:items-start sm:justify-between', props.class)">
+    <div class="flex w-full min-w-0 flex-1 items-start gap-3">
+      <div
+        v-if="$slots.leading"
+        class="shrink-0 pt-1"
+      >
         <slot name="leading" />
       </div>
-      <div class="min-w-0 space-y-1">
+      <div class="min-w-0 flex-1 space-y-1 text-start">
         <p
           v-if="eyebrow || $slots.eyebrow"
           class="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground"
@@ -42,7 +49,7 @@ const props = defineProps<{
     </div>
     <div
       v-if="$slots.actions"
-      class="flex shrink-0 flex-wrap items-center gap-2"
+      class="flex w-full shrink-0 flex-wrap items-center gap-2 sm:w-auto sm:justify-end"
     >
       <slot name="actions" />
     </div>

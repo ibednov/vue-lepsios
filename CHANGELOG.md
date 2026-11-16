@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.11
+
+- AdminPageHeader: title stays leading-edge (`w-full` / `text-start`); drop column `items-end` that pinned titles to the trailing edge.
+- AdminPage: full-bleed of shell content (no nested `mx-auto max-w-screen-2xl`) so title and body share one column.
+- AdminShell: constrain uses `max-w-[72rem]` + `items-stretch` (survives hosts that purge `max-w-6xl`).
+
 ## 0.8.10
 
 - Add `CrmPoweredBy` — optional sidebar footer strip (label / name / href / logo props only).

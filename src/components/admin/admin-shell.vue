@@ -78,8 +78,9 @@ const props = withDefaults(defineProps<{
       <div class="flex min-w-0 flex-1 flex-col bg-background">
         <div
           :class="cn(
-            '@container/main flex min-w-0 flex-1 flex-col gap-4 p-4 md:gap-6 md:p-6',
-            props.constrainContent && !wide && 'mx-auto w-full max-w-6xl',
+            '@container/main flex w-full min-w-0 flex-1 flex-col items-stretch gap-4 p-4 md:gap-6 md:p-6',
+            // max-w-[72rem] survives hosts that purge the max-w-6xl token
+            props.constrainContent && !wide && 'mx-auto w-full max-w-[72rem]',
             props.contentClass,
           )"
         >

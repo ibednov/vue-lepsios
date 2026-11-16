@@ -8,7 +8,11 @@ const props = defineProps<{
 </script>
 
 <template>
-  <main :class="cn('mx-auto flex w-full min-w-0 max-w-screen-2xl flex-1 flex-col gap-6 px-4 py-4 sm:px-6 lg:px-8', props.class)">
+  <!--
+    Full-bleed of the shell content slot. Shell owns max-width (constrainContent);
+    do not re-center or shrink here — that desyncs the title from the table column.
+  -->
+  <main :class="cn('flex w-full min-w-0 flex-1 flex-col items-stretch gap-6 px-4 py-4 sm:px-6 lg:px-8', props.class)">
     <slot />
   </main>
 </template>
