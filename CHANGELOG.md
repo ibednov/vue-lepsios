@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.16
+
+- `buildCrmNavBreadcrumbs`: optional `section.links` for flat section leaves (2-level crumbs, no module).
+
 ## 0.8.15
 
 - Add `CrmNavHub` + `resolveCrmNavHub` / `crmNavHubPath` — section/module landing cards.
