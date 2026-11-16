@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.7
+
+- MetricCard: explicit Card/Skeleton imports, min-width-safe layout (no clipped titles/values).
+- CrmSidebarNavigation: reactive group open state; expand-from-icon opens instead of toggle-close.
+- SidebarProvider: stop overwriting host `v-model:open` with cookie default on setup.
+
 ## 0.8.6
 
 - `formatDateTimeBasedOnLocale` accepts full `Intl.DateTimeFormatOptions` (not only timeZone).

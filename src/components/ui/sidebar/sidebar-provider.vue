@@ -17,8 +17,10 @@ const props = withDefaults(defineProps<{
 const isMobile = useMediaQuery('(max-width: 768px)')
 const openMobile = ref(false)
 
-const open = defineModel<boolean>('open', { default: true })
-open.value = props.defaultOpen ?? open.value
+const open = defineModel<boolean>('open', {
+  // Prefer host v-model (e.g. shell aside store). Cookie only seeds when unbound.
+  default: props.defaultOpen ?? true,
+})
 
 const setOpen = (value: boolean) => {
   open.value = value // emits('update:open', value)

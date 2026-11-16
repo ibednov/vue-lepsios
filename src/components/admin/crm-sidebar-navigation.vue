@@ -107,11 +107,12 @@ const isGroupActive = (group: CrmSidebarNavigationGroup) => group.items.some(ite
 const isGroupOpen = (group: CrmSidebarNavigationGroup) => {
   if (normalizedSearch.value)
     return true
-  // Current route's group must stay visible — stored collapse must not hide the active leaf.
-  if (isGroupActive(group))
-    return true
   if (Object.hasOwn(openGroups.value, group.id))
     return openGroups.value[group.id]
+  // Current route's group stays open by default so the active leaf is visible,
+  // but the user can still collapse it (stored false wins above).
+  if (isGroupActive(group))
+    return true
   return props.defaultOpenGroupIds.includes(group.id)
 }
 const menuButtonClass = sidebarMenuButtonVariants({ size: 'default' })
@@ -123,15 +124,18 @@ const saveOpenGroups = () => {
   }
   catch { /* Navigation remains usable when browser storage is unavailable. */ }
 }
+const setGroupOpen = (groupId: string, next: boolean) => {
+  openGroups.value = { ...openGroups.value, [groupId]: next }
+  saveOpenGroups()
+}
 const toggleGroup = (group: CrmSidebarNavigationGroup) => {
   if (props.collapsed && !props.mobile) {
+    // Expand the rail — never toggle closed. Parent should open, not flip.
     emit('expand')
-    openGroups.value[group.id] = true
+    setGroupOpen(group.id, true)
+    return
   }
-  else {
-    openGroups.value[group.id] = !isGroupOpen(group)
-  }
-  saveOpenGroups()
+  setGroupOpen(group.id, !isGroupOpen(group))
 }
 
 const badgeClass = (item: CrmSidebarNavigationItem) => item.badgeVariant === 'destructive'
