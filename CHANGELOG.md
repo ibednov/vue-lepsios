@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.14
+
+- Add `CrmSidebarAccount` — one sidebar footer for all CRMs (avatar trigger, appearance icons, `#menu` slot, optional `CrmPoweredBy` props).
+
 ## 0.8.13
 
 - AdminPageHeader / AdminPage / AdminShell: layout via stable CSS classes (not only Tailwind utilities) so host purge cannot pin titles trailing or re-center the content island.
