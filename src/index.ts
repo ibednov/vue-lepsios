@@ -12,6 +12,7 @@ export type { CrmSelectColumnLabels } from './components/admin/create-select-col
 export { default as CrmTeamMembersView } from './components/admin/crm-team-members-view.vue'
 export { default as CrmAccessControlView } from './components/admin/crm-access-control-view.vue'
 export { default as CrmServiceSwitcher } from './components/admin/crm-service-switcher.vue'
+export { default as CrmPoweredBy } from './components/admin/crm-powered-by.vue'
 export { default as CrmSidebarNavigation } from './components/admin/crm-sidebar-navigation.vue'
 export type {
   CrmSidebarNavigationGroup,

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.10
+
+- Add `CrmPoweredBy` — optional sidebar footer strip (label / name / href / logo props only).
+
 ## 0.8.9
 
 - SidebarProvider: `defineModel('open')` default is a constant (`true`) — referencing `props.defaultOpen` broke production vite builds (vue compiler-sfc hoist).
