@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { defaultDocument, useEventListener, useMediaQuery } from '@vueuse/core'
+import { useEventListener, useMediaQuery } from '@vueuse/core'
 import { TooltipProvider } from 'reka-ui'
 import { computed, ref } from 'vue'
 import { cn } from '../../../lib/cn'
@@ -10,22 +10,20 @@ const props = withDefaults(defineProps<{
   defaultOpen?: boolean
   class?: HTMLAttributes['class']
 }>(), {
-  defaultOpen: !defaultDocument?.cookie.includes(`${SIDEBAR_COOKIE_NAME}=false`),
+  defaultOpen: true,
 })
-
 
 const isMobile = useMediaQuery('(max-width: 768px)')
 const openMobile = ref(false)
 
+// defineModel default must be a constant (not props.*) — vue compiler-sfc hoist rule.
+// Hosts always bind v-model:open via AdminShell; cookie is written on setOpen only.
 const open = defineModel<boolean>('open', {
-  // Prefer host v-model (e.g. shell aside store). Cookie only seeds when unbound.
-  default: props.defaultOpen ?? true,
+  default: true,
 })
 
 const setOpen = (value: boolean) => {
-  open.value = value // emits('update:open', value)
-
-  // This sets the cookie to keep the sidebar state.
+  open.value = value
   document.cookie = `${SIDEBAR_COOKIE_NAME}=${open.value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
 }
 
@@ -33,7 +31,6 @@ const setOpenMobile = (value: boolean) => {
   openMobile.value = value
 }
 
-// Helper to toggle the sidebar.
 const toggleSidebar = () =>
   isMobile.value ? setOpenMobile(!openMobile.value) : setOpen(!open.value)
 
@@ -44,8 +41,6 @@ useEventListener('keydown', (event: KeyboardEvent) => {
   }
 })
 
-// We add a state so that we can do data-state="expanded" or "collapsed".
-// This makes it easier to style the sidebar with Tailwind classes.
 const state = computed(() => open.value ? 'expanded' : 'collapsed')
 
 provideSidebarContext({
