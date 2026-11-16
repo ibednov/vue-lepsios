@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.8
+
+- AdminShell: header start/actions layout (actions pin right); optional `v-model:wide` + `showWideToggle` / `constrainContent` for shared expand parity across CRMs.
+
+
 ## 0.8.7
 
 - MetricCard: explicit Card/Skeleton imports, min-width-safe layout (no clipped titles/values).
