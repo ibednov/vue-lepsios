@@ -29,11 +29,11 @@ export const formatDateOnlyBasedOnLocale = (
   return dayjs(date).locale(localeStr).format('DD MMMM YYYY')
 }
 
-/** Locale-aware medium date+time via Intl. Pass i18n locale (`ru`→`ru-RU`, `en`→`en-GB`). */
+/** Locale-aware date/time via Intl. Default medium+short; pass full DateTimeFormatOptions to override. */
 export const formatDateTimeBasedOnLocale = (
   date: string | null | undefined,
   locale: MaybeRef<string> = 'en',
-  options?: { timeZone?: string, empty?: string },
+  options?: Intl.DateTimeFormatOptions & { empty?: string },
 ) => {
   if (!date)
     return options?.empty ?? '—'
@@ -46,10 +46,11 @@ export const formatDateTimeBasedOnLocale = (
     : raw === 'en' || raw.startsWith('en')
       ? 'en-GB'
       : raw
+  const { empty: _empty, ...fmt } = options ?? {}
+  const hasParts = Object.keys(fmt).some(key => key !== 'timeZone')
   return new Intl.DateTimeFormat(localeTag, {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-    ...(options?.timeZone ? { timeZone: options.timeZone } : {}),
+    ...(hasParts ? {} : { dateStyle: 'medium' as const, timeStyle: 'short' as const }),
+    ...fmt,
   }).format(parsed)
 }
 

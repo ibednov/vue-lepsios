@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.8.6
+
+- `formatDateTimeBasedOnLocale` accepts full `Intl.DateTimeFormatOptions` (not only timeZone).
+
 ## 0.8.5
 
 - Add `formatDateTimeBasedOnLocale` (Intl medium date+time, optional `timeZone` / `empty`).
