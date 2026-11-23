@@ -87,6 +87,9 @@ export {
   normalizeAuthPhone,
   getAuthPhoneCountry,
   isAuthPhoneFilled,
+  normalizeAuthPhoneWithCountry,
+  formatAuthPhone,
+  getParsedAuthPhoneCountry,
 } from './utils/auth/phone'
 export { NumberField, NumberFieldContent, NumberFieldDecrement, NumberFieldIncrement, NumberFieldInput } from './components/ui/number-field'
 
