@@ -119,7 +119,11 @@ const isGroupOpen = (group: CrmSidebarNavigationGroup) => {
     return true
   return props.defaultOpenGroupIds.includes(group.id)
 }
-const menuButtonClass = sidebarMenuButtonVariants({ size: 'default' })
+// collapsed icon rail: hide labels so Iconify icon stays centered (flex-1 span otherwise shoves it left)
+const menuButtonClass = [
+  sidebarMenuButtonVariants({ size: 'default' }),
+  'group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:gap-0',
+].join(' ')
 const saveOpenGroups = () => {
   if (!props.storageKey || typeof localStorage === 'undefined')
     return
@@ -197,8 +201,8 @@ const badgeClass = (item: CrmSidebarNavigationItem) => item.badgeVariant === 'de
             >
               <Icon v-if="typeof item.icon === 'string'" :icon="item.icon" class="size-4 shrink-0" aria-hidden="true" />
               <component :is="asComponent(item.icon)" v-else-if="item.icon" :class="'size-4 shrink-0'" aria-hidden="true" />
-              <span class="min-w-0 flex-1 truncate">{{ item.label }}</span>
-              <span v-if="item.badge !== undefined && item.badge !== '' && item.badge !== 0" class="ml-auto rounded-full px-1.5 text-[10px] font-medium leading-5" :class="badgeClass(item)" :aria-label="item.badgeLabel">{{ item.badge }}</span>
+              <span class="min-w-0 flex-1 truncate group-data-[collapsible=icon]:hidden">{{ item.label }}</span>
+              <span v-if="item.badge !== undefined && item.badge !== '' && item.badge !== 0" class="ml-auto rounded-full px-1.5 text-[10px] font-medium leading-5 group-data-[collapsible=icon]:hidden" :class="badgeClass(item)" :aria-label="item.badgeLabel">{{ item.badge }}</span>
             </RouterLink>
             <button
               v-else
@@ -209,7 +213,7 @@ const badgeClass = (item: CrmSidebarNavigationItem) => item.badgeVariant === 'de
             >
               <Icon v-if="typeof item.icon === 'string'" :icon="item.icon" class="size-4 shrink-0" aria-hidden="true" />
               <component :is="item.icon" v-else-if="item.icon" :class="'size-4 shrink-0'" aria-hidden="true" />
-              <span class="min-w-0 flex-1 truncate">{{ item.label }}</span>
+              <span class="min-w-0 flex-1 truncate group-data-[collapsible=icon]:hidden">{{ item.label }}</span>
               <span v-if="item.soon && soonLabel" class="rounded bg-primary/80 px-1.5 py-0.5 text-[10px] font-medium text-primary-foreground group-data-[collapsible=icon]:hidden">{{ soonLabel }}</span>
             </button>
           </SidebarMenuItem>
@@ -231,22 +235,22 @@ const badgeClass = (item: CrmSidebarNavigationItem) => item.badgeVariant === 'de
               >
                 <Icon v-if="typeof group.icon === 'string'" :icon="group.icon" class="size-4 shrink-0" aria-hidden="true" />
                 <component :is="asComponent(group.icon)" v-else-if="group.icon" :class="'size-4 shrink-0'" aria-hidden="true" />
-                <span class="min-w-0 flex-1 truncate">{{ group.label }}</span>
+                <span class="min-w-0 flex-1 truncate group-data-[collapsible=icon]:hidden">{{ group.label }}</span>
               </RouterLink>
               <button
                 v-else
                 type="button"
-                class="flex min-w-0 flex-1 items-center gap-2 rounded-md text-left outline-none"
+                class="flex min-w-0 flex-1 items-center gap-2 rounded-md text-left outline-none group-data-[collapsible=icon]:flex-none group-data-[collapsible=icon]:justify-center"
                 :title="props.collapsed ? group.label : undefined"
                 @click="toggleGroup(group)"
               >
                 <Icon v-if="typeof group.icon === 'string'" :icon="group.icon" class="size-4 shrink-0" aria-hidden="true" />
                 <component :is="asComponent(group.icon)" v-else-if="group.icon" :class="'size-4 shrink-0'" aria-hidden="true" />
-                <span class="min-w-0 flex-1 truncate">{{ group.label }}</span>
+                <span class="min-w-0 flex-1 truncate group-data-[collapsible=icon]:hidden">{{ group.label }}</span>
               </button>
               <button
                 type="button"
-                class="grid size-7 shrink-0 place-items-center rounded-md hover:bg-sidebar-accent"
+                class="grid size-7 shrink-0 place-items-center rounded-md hover:bg-sidebar-accent group-data-[collapsible=icon]:hidden"
                 :aria-expanded="isGroupOpen(group)"
                 :aria-label="group.label"
                 @click.stop="toggleGroup(group)"
