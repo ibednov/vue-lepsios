@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue'
-import { PhoneSelect } from 'alexbednov-phone-select/vue'
+import { defineAsyncComponent } from 'vue'
 import { cn } from '../../../lib/cn'
 import type { FieldInputPhoneLanguage } from '../../../types/field'
-import 'alexbednov-phone-select/style.css'
+
+const PhoneSelect = defineAsyncComponent(async () => {
+  await import('alexbednov-phone-select/style.css')
+  const phoneSelect = await import('alexbednov-phone-select/vue')
+  return phoneSelect.PhoneSelect
+})
 
 type ClassValue = HTMLAttributes['class']
 
