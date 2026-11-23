@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.8.22
+
+- `FieldInputPhone`: lazy-load phone selector UI and styles.
+- Auth phone helpers: lazy-load country parsing and formatting when called.
+
 ## 0.8.21
 
 - `CrmDataTable`: preserve natural column widths and scroll horizontally inside the table container.
